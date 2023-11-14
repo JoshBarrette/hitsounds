@@ -1,11 +1,10 @@
-import { serverClient } from "~/app/_trpc/serverClient";
+import Upload from "./_components/Upload";
 
 export default async function Home() {
-    const hello = await serverClient.getHello();
-
     return (
         <div>
-            <p>{hello}</p>
+            <p>y0</p>
+            <Upload />
         </div>
     );
 }
