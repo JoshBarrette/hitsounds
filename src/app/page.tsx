@@ -1,10 +1,8 @@
 import SoundPlayer from "./_components/SoundPlayer";
-import Upload from "./_components/Upload";
 
 export default async function Home() {
     return (
-        <div>
-            <Upload />
+        <div className="h-screen bg-zinc-700">
             <SoundPlayer />
         </div>
     );

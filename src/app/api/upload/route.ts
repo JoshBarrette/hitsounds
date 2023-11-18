@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { s3Put } from "~/s3";
 
+// TODO: handle an array of files
 export async function POST(req: NextRequest) {
     let formData = await req.formData();
     let file = formData.get("file") as File;
