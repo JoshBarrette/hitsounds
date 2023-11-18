@@ -12,12 +12,13 @@ export default function Upload() {
 
         let formData = new FormData();
         formData.append("file", file);
-        let res = await fetch("/api/upload", {
+        await fetch("/api/upload", {
             method: "POST",
             body: formData,
+        }).catch((err) => {
+            // TODO: do something on upload fail
+            console.log(err);
         });
-
-        console.log((await res.json()).data);
     }
 
     function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
@@ -27,7 +28,7 @@ export default function Upload() {
         }
 
         setFile(e.target.files.item(0) ?? undefined);
-        console.log(e.target.files.item(0) ?? "file is undefined");
+        console.log(e.target.files.item(0)?.type ?? "file is undefined");
     }
 
     return (
