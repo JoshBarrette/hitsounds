@@ -1,11 +1,10 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, createRef, useState } from "react";
 import { trpc } from "../_trpc/client";
 
 export default function Upload() {
     const [file, setFile] = useState<File>();
-    let upload = trpc.files.upload.useMutation();
 
     async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -18,7 +17,7 @@ export default function Upload() {
             body: formData,
         });
 
-        console.log(res);
+        console.log((await res.json()).data);
     }
 
     function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
@@ -26,14 +25,15 @@ export default function Upload() {
             setFile(undefined);
             return;
         }
+
         setFile(e.target.files.item(0) ?? undefined);
+        console.log(e.target.files.item(0) ?? "file is undefined");
     }
 
     return (
         <div>
             <form onSubmit={handleFormSubmit}>
                 <input type="file" onChange={handleFileChange} />
-
                 <button type="submit">Submit</button>
             </form>
         </div>
