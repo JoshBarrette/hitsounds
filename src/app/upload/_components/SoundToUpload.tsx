@@ -1,10 +1,10 @@
-import { soundData } from "../page";
+import { fileData } from "../page";
 
-export default function SoundToUpload(props: { file: File; data: soundData }) {
+export default function SoundToUpload(props: { fileData: fileData }) {
     return (
         <div className="flex">
-            <p>{props.data.name}</p>
-            <p className="pl-10">{props.data.type}</p>
+            <p>{props.fileData.name}</p>
+            <p className="pl-10">{props.fileData.type}</p>
         </div>
     );
 }

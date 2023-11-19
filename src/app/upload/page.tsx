@@ -4,29 +4,23 @@ import { useState } from "react";
 import Uploader from "./_components/Uploader";
 import SoundToUpload from "./_components/SoundToUpload";
 
-export type soundData = {
+export type fileData = {
+    file: File;
     type: "hit" | "kill";
     name: string;
 };
 
 export default function Upload() {
-    // TODO: combine these arrays by adding file to soundData
-    const [files, setFiles] = useState<Array<File>>(new Array<File>(0));
-    const [data, setData] = useState<Array<soundData>>(new Array<soundData>(0));
+    const [files, setFiles] = useState<Array<fileData>>(new Array<fileData>());
 
     return (
         <div className="flex">
             <div className="mx-auto">
-                <Uploader
-                    files={files}
-                    setFiles={setFiles}
-                    data={data}
-                    setData={setData}
-                />
+                <Uploader files={files} setFiles={setFiles} />
 
                 <div>
-                    {files?.map((_, key) => (
-                        <SoundToUpload file={files[key]} data={data[key]} key={key} />
+                    {files?.map((fileData, key) => (
+                        <SoundToUpload fileData={fileData} key={key} />
                     ))}
                 </div>
             </div>

@@ -1,11 +1,9 @@
 import { ChangeEvent, FormEvent, createRef } from "react";
-import { soundData } from "../page";
+import { fileData } from "../page";
 
 export default function Uploader(props: {
-    files: Array<File>;
-    setFiles: (arr: Array<File>) => void;
-    data: Array<soundData>;
-    setData: (arr: Array<soundData>) => void;
+    files: Array<fileData>;
+    setFiles: (arr: Array<fileData>) => void;
 }) {
     const ref = createRef<HTMLInputElement>();
 
@@ -15,7 +13,7 @@ export default function Uploader(props: {
 
         let formData = new FormData();
         // TODO: pass all the files
-        formData.append("file", props.files[0]);
+        formData.append("file", props.files[0].file);
         await fetch("/api/upload", {
             method: "POST",
             body: formData,
@@ -27,18 +25,16 @@ export default function Uploader(props: {
 
     function handleFilesChange(e: ChangeEvent<HTMLInputElement>) {
         if (e.target.files === null) {
-            props.setFiles(new Array<File>(0));
-            props.setData(new Array<soundData>(0));
+            props.setFiles(new Array<fileData>());
             return;
         }
 
-        let newFiles = new Array<File>();
-        let newData = new Array<soundData>();
+        let newFiles = new Array<fileData>();
         for (let i = 0; i < e.target.files.length; i++) {
             // TODO: also need to check file size
             if (e.target.files.item(i)?.type === "audio/wav") {
-                newFiles.push(e.target.files.item(i) as File);
-                newData.push({
+                newFiles.push({
+                    file: e.target.files.item(i) as File,
                     type: "hit",
                     name: e.target.files
                         .item(i)
@@ -50,8 +46,7 @@ export default function Uploader(props: {
             }
         }
 
-        props.setFiles([...newFiles]);
-        props.setData([...newData]);
+        props.setFiles(newFiles);
         console.log(newFiles);
     }
 
