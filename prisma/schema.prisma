@@ -11,9 +11,45 @@ generator client {
     provider = "prisma-client-js"
 }
 
+model User {
+    id        Int      @id @default(autoincrement())
+    userID    String   @unique @db.VarChar(40)
+    isBanned  Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    uploads   Sound[]
+
+    @@index([userID])
+}
+
+model Sound {
+    id          Int      @id @default(autoincrement())
+    title       String   @db.VarChar(300)
+    description String?  @db.VarChar(300)
+    soundType   String   @db.VarChar(10)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    uploader    User?    @relation(fields: [uploaderId], references: [id])
+    uploaderId  Int?
+
+    @@index([uploaderId])
+}
+
+// -----------------------------------------------------------------------
+
 model Test {
     id        Int      @id @default(autoincrement())
     title     String   @db.VarChar(25)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    posts     Thing[]
+}
+
+model Thing {
+    id     Int    @id @default(autoincrement())
+    value  String @db.VarChar(25)
+    Test   Test?  @relation(fields: [testId], references: [id])
+    testId Int?
+
+    @@index([testId])
 }
