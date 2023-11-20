@@ -11,7 +11,7 @@ export const filesRouter = router({
                 soundUploader: z.string(),
             })
         )
-        .mutation(async (input) => {
+        .mutation(async () => {
             return "upload";
         }),
     update: publicProcedure.mutation(async () => "update"),

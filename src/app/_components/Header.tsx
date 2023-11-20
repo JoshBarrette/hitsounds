@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Header() {
-    const { isSignedIn } = useUser();
+    const user = useUser();
     const [showSignInWindow, setShowSignInWindow] = useState(false);
 
     useEffect(() => {
@@ -39,7 +39,7 @@ export default function Header() {
                     </div>
 
                     <div className="my-auto ml-20">
-                        {isSignedIn ? (
+                        {user.isSignedIn ? (
                             <div className="my-auto">
                                 <UserButton afterSignOutUrl="/" />
                             </div>

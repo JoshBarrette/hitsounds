@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { s3Put } from "~/s3";
+import { db } from "~/server/db";
 
 // TODO: handle an array of files
 export async function POST(req: NextRequest) {
