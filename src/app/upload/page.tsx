@@ -8,6 +8,7 @@ export type fileData = {
     file: File;
     type: "hit" | "kill";
     name: string;
+    description?: string
 };
 
 export default function Upload() {
@@ -19,8 +20,8 @@ export default function Upload() {
                 <Uploader files={files} setFiles={setFiles} />
 
                 <div>
-                    {files?.map((fileData, key) => (
-                        <SoundToUpload fileData={fileData} key={key} />
+                    {files?.map((_, key) => (
+                        <SoundToUpload files={files} index={key} key={key} />
                     ))}
                 </div>
             </div>

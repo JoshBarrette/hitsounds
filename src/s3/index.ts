@@ -17,8 +17,8 @@ const s3Client = new S3Client({
     },
 });
 
-export async function s3Put(key: string, file: File): Promise<any> {
-    new Promise<any>(async (resolve, reject) => {
+export async function s3Put(key: string, file: File): Promise<number | string> {
+    return new Promise<number | string>(async (resolve, reject) => {
         if (file.type !== "audio/wav") reject("Invalid file type."); // TODO: reject with real error
 
         const bucketParams: PutObjectCommandInput = {
@@ -33,7 +33,7 @@ export async function s3Put(key: string, file: File): Promise<any> {
             data = await s3Client.send(new PutObjectCommand(bucketParams));
             console.log(data);
             // TODO: resolve with real response
-            resolve(data.$metadata.httpStatusCode);
+            resolve(data.$metadata.httpStatusCode as number);
         } catch (err) {
             // TODO: reject with real error
             console.log("Error", err);
