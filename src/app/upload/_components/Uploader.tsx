@@ -58,7 +58,7 @@ export default function Uploader() {
 
     async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        return;
+        // return;
         if (files === undefined || files.length === 0) return;
 
         let formData = new FormData();
@@ -66,11 +66,11 @@ export default function Uploader() {
 
         let count = 0;
         for (let i = 0; i < files.length; i++) {
-            if (files.at(i)?.file.type === "audio/wav") {
-                formData.append(
-                    `file-${count}`,
-                    files.at(i)?.file as File
-                );
+            if (
+                files.at(i)?.file.type === "audio/wav" &&
+                files.at(i)?.file.name !== undefined
+            ) {
+                formData.append(`file-${count}`, files.at(i)?.file as File);
                 formData.append(
                     `file-${count}-name`,
                     files.at(i)?.name as string
@@ -102,7 +102,14 @@ export default function Uploader() {
 
     return (
         <div>
-            <form className="flex" onSubmit={handleFormSubmit}>
+            <div
+                className="mx-auto h-20 w-20 cursor-pointer bg-slate-400"
+                ref={dropZoneRef}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                onClick={clickInput}
+            ></div>
+            <form className="mx-auto flex" onSubmit={handleFormSubmit}>
                 <input
                     className="fixed scale-0 p-2"
                     ref={inputRef}
@@ -110,14 +117,10 @@ export default function Uploader() {
                     onChange={handleFilesChange}
                     multiple
                 />
-                <div
-                    className="h-20 w-20 cursor-pointer bg-slate-400"
-                    ref={dropZoneRef}
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                    onClick={clickInput}
-                ></div>
-                <button className="rounded-md bg-red-300 p-2" type="submit">
+                <button
+                    className="mx-auto rounded-md bg-red-300 p-2"
+                    type="submit"
+                >
                     upload
                 </button>
             </form>

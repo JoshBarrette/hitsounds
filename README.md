@@ -2,6 +2,7 @@
 
 ### TODO
 
+-   Standardize sound names. Convert names to all lowercase for db and s3 and check that the sound has a name when uploaded.
 -   Add proper resolves and rejects to s3put.
 -   Add inputs to SoundToUpload component for changing sound name, type, and description.
 -   Implement searching and filtering sounds.
