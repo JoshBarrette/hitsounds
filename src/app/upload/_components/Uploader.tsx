@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, createRef } from "react";
+import { ChangeEvent, DragEvent, FormEvent, createRef, useEffect } from "react";
 import { fileData } from "../page";
 import { useUser } from "@clerk/nextjs";
 
@@ -6,15 +6,63 @@ export default function Uploader(props: {
     files: Array<fileData>;
     setFiles: (arr: Array<fileData>) => void;
 }) {
-    const ref = createRef<HTMLInputElement>();
+    const inputRef = createRef<HTMLInputElement>();
+    const dropZoneRef = createRef<HTMLInputElement>();
     const user = useUser();
+
+    function clickInput() {
+        inputRef.current?.click();
+    }
+
+    function handleDragOver(e: DragEvent<HTMLDivElement>) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    function handleDrop(e: DragEvent<HTMLDivElement>) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.dataTransfer.files === null) return;
+
+        addNewFiles(e.dataTransfer.files);
+    }
+
+    function handleFilesChange(e: ChangeEvent<HTMLInputElement>) {
+        if (e.target.files === null) {
+            props.setFiles(new Array<fileData>());
+            return;
+        }
+
+        addNewFiles(e.target.files);
+    }
+
+    function addNewFiles(newFilesList: FileList) {
+        let newFiles = new Array<fileData>();
+        for (let i = 0; i < newFilesList.length; i++) {
+            // TODO: also need to check file size
+            if (newFilesList.item(i)?.type === "audio/wav") {
+                newFiles.push({
+                    file: newFilesList.item(i) as File,
+                    type: "hit",
+                    name: newFilesList
+                        .item(i)
+                        ?.name.substring(
+                            0,
+                            (newFilesList.item(i)?.name.length as number) - 4
+                        ) as string,
+                });
+            }
+        }
+
+        props.setFiles(newFiles);
+    }
 
     async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (props.files === undefined || props.files.length === 0) return;
 
         let formData = new FormData();
-        formData.append("userId", user.user?.id as string)
+        formData.append("userId", user.user?.id as string);
 
         let count = 0;
         for (let i = 0; i < props.files.length; i++) {
@@ -52,43 +100,23 @@ export default function Uploader(props: {
         });
     }
 
-    function handleFilesChange(e: ChangeEvent<HTMLInputElement>) {
-        if (e.target.files === null) {
-            props.setFiles(new Array<fileData>());
-            return;
-        }
-
-        let newFiles = new Array<fileData>();
-        for (let i = 0; i < e.target.files.length; i++) {
-            // TODO: also need to check file size
-            if (e.target.files.item(i)?.type === "audio/wav") {
-                newFiles.push({
-                    file: e.target.files.item(i) as File,
-                    type: "hit",
-                    name: e.target.files
-                        .item(i)
-                        ?.name.substring(
-                            0,
-                            (e.target.files.item(i)?.name.length as number) - 4
-                        ) as string,
-                });
-            }
-        }
-
-        props.setFiles(newFiles);
-        console.log(newFiles);
-    }
-
     return (
         <div>
             <form className="flex" onSubmit={handleFormSubmit}>
                 <input
-                    className="p-2"
+                    className="fixed scale-0 p-2"
                     type="file"
                     onChange={handleFilesChange}
-                    ref={ref}
+                    ref={inputRef}
                     multiple
                 />
+                <div
+                    className="h-20 w-20 cursor-pointer bg-slate-400"
+                    ref={dropZoneRef}
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
+                    onClick={clickInput}
+                ></div>
                 <button className="rounded-md bg-red-300 p-2" type="submit">
                     upload
                 </button>
