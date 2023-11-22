@@ -1,7 +1,10 @@
-import { fileData } from "../page";
+import { useFileContext } from "./FilesContext";
 
-export default function SoundToUpload(props: { files: fileData[], index: number  }) {
-    const file = props.files[props.index];
+export default function SoundToUpload(props: {
+    index: number;
+}) {
+    const { files, setFiles } = useFileContext();
+    const file = files[props.index];
 
     return (
         <div className="flex">

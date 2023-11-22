@@ -1,11 +1,10 @@
-import { ChangeEvent, DragEvent, FormEvent, createRef, useEffect } from "react";
+import { ChangeEvent, DragEvent, FormEvent, createRef } from "react";
 import { fileData } from "../page";
 import { useUser } from "@clerk/nextjs";
+import { useFileContext } from "./FilesContext";
 
-export default function Uploader(props: {
-    files: Array<fileData>;
-    setFiles: (arr: Array<fileData>) => void;
-}) {
+export default function Uploader() {
+    const { files, setFiles } = useFileContext();
     const inputRef = createRef<HTMLInputElement>();
     const dropZoneRef = createRef<HTMLInputElement>();
     const user = useUser();
@@ -29,7 +28,7 @@ export default function Uploader(props: {
 
     function handleFilesChange(e: ChangeEvent<HTMLInputElement>) {
         if (e.target.files === null) {
-            props.setFiles(new Array<fileData>());
+            setFiles(new Array<fileData>());
             return;
         }
 
@@ -54,35 +53,36 @@ export default function Uploader(props: {
             }
         }
 
-        props.setFiles(newFiles);
+        setFiles(newFiles);
     }
 
     async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        if (props.files === undefined || props.files.length === 0) return;
+        return;
+        if (files === undefined || files.length === 0) return;
 
         let formData = new FormData();
         formData.append("userId", user.user?.id as string);
 
         let count = 0;
-        for (let i = 0; i < props.files.length; i++) {
-            if (props.files.at(i)?.file.type === "audio/wav") {
+        for (let i = 0; i < files.length; i++) {
+            if (files.at(i)?.file.type === "audio/wav") {
                 formData.append(
                     `file-${count}`,
-                    props.files.at(i)?.file as File
+                    files.at(i)?.file as File
                 );
                 formData.append(
                     `file-${count}-name`,
-                    props.files.at(i)?.name as string
+                    files.at(i)?.name as string
                 );
                 formData.append(
                     `file-${count}-type`,
-                    props.files.at(i)?.type as string
+                    files.at(i)?.type as string
                 );
-                if ((props.files.at(i)?.description as string) !== undefined) {
+                if ((files.at(i)?.description as string) !== undefined) {
                     formData.append(
                         `file-${count}-description`,
-                        props.files.at(i)?.description as string
+                        files.at(i)?.description as string
                     );
                 }
 
@@ -105,9 +105,9 @@ export default function Uploader(props: {
             <form className="flex" onSubmit={handleFormSubmit}>
                 <input
                     className="fixed scale-0 p-2"
+                    ref={inputRef}
                     type="file"
                     onChange={handleFilesChange}
-                    ref={inputRef}
                     multiple
                 />
                 <div
@@ -120,7 +120,6 @@ export default function Uploader(props: {
                 <button className="rounded-md bg-red-300 p-2" type="submit">
                     upload
                 </button>
-                {/* <button onClick={() => ref.current?.click()}>y0</button> */}
             </form>
         </div>
     );
