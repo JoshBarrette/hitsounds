@@ -2,6 +2,7 @@
 
 ### TODO
 
+-   Figure out why ctx.db is undefined and how to get prisma schemas as types.
 -   Add tRPC queries for the homepage and searching.
 -   Standardize sound names. Convert names to all lowercase for db and s3 and check that the sound has a name when uploaded.
 -   Add proper resolves and rejects to s3put.
