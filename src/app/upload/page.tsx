@@ -2,7 +2,7 @@
 
 import Uploader from "./_components/Uploader";
 import FilesContextProvider from "./_components/FilesContext";
-import SoundsList from "./_components/SoundList";
+import SoundsUploadList from "./_components/SoundUploadList";
 
 export type fileData = {
     file: File;
@@ -17,7 +17,7 @@ export default function Upload() {
             <div className="mx-auto">
                 <FilesContextProvider>
                     <Uploader />
-                    <SoundsList />
+                    <SoundsUploadList />
                 </FilesContextProvider>
             </div>
         </div>

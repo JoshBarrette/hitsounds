@@ -32,7 +32,6 @@ export default function SoundToUpload(props: { index: number }) {
     function handleSoundRemove(i: number) {
         const newArr = [...files];
         newArr.splice(props.index, 1);
-        console.log(newArr);
         setFiles(newArr);
     }
 

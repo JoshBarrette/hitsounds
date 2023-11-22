@@ -1,4 +1,4 @@
-import { ChangeEvent, DragEvent, FormEvent, createRef } from "react";
+import { ChangeEvent, DragEvent, FormEvent, createRef, useState } from "react";
 import { fileData } from "../page";
 import { useUser } from "@clerk/nextjs";
 import { useFileContext } from "./FilesContext";
@@ -7,6 +7,7 @@ export default function Uploader() {
     const { files, setFiles } = useFileContext();
     const inputRef = createRef<HTMLInputElement>();
     const dropZoneRef = createRef<HTMLInputElement>();
+    const [submitted, setSubmitted] = useState(false);
     const user = useUser();
 
     function clickInput() {
@@ -61,6 +62,9 @@ export default function Uploader() {
         // return;
         if (files === undefined || files.length === 0) return;
 
+        // TODO: reenable submit button if upload gets cancelled
+        setSubmitted(true);
+
         let formData = new FormData();
         formData.append("userId", user.user?.id as string);
 
@@ -96,7 +100,7 @@ export default function Uploader() {
             body: formData,
         }).catch((err) => {
             // TODO: do something on upload fail
-            console.log(err);
+            console.error(err);
         });
     }
 
@@ -120,6 +124,7 @@ export default function Uploader() {
                 <button
                     className="mx-auto rounded-md bg-red-300 p-2"
                     type="submit"
+                    disabled={submitted}
                 >
                     upload
                 </button>

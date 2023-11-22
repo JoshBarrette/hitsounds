@@ -3,7 +3,7 @@
 import { useFileContext } from "./FilesContext";
 import SoundToUpload from "./SoundToUpload";
 
-export default function SoundsList() {
+export default function SoundsUploadList() {
     const { files, setFiles } = useFileContext();
 
     return (
