@@ -105,14 +105,20 @@ export default function Uploader() {
     }
 
     return (
-        <div>
+        <div className="w-screen">
             <div
-                className="mx-auto h-20 w-20 cursor-pointer bg-slate-400"
+                className="mx-auto flex h-36 w-1/3 cursor-pointer rounded-lg border-2 border-dashed border-neutral-600 bg-neutral-400 text-center"
                 ref={dropZoneRef}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={clickInput}
-            ></div>
+            >
+                <p className="m-auto text-xl">
+                    Browse or drop sounds
+                    <br />
+                    👶
+                </p>
+            </div>
             <form className="mx-auto flex" onSubmit={handleFormSubmit}>
                 <input
                     className="fixed scale-0 p-2"
@@ -122,7 +128,7 @@ export default function Uploader() {
                     multiple
                 />
                 <button
-                    className="mx-auto rounded-md bg-red-300 p-2"
+                    className="mx-auto rounded-md bg-red-300 p-2 text-lg"
                     type="submit"
                     disabled={submitted}
                 >

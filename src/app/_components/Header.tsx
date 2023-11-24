@@ -31,17 +31,18 @@ export default function Header() {
                     </button>
 
                     <div className="my-auto ml-20">
-                        <Link href="/upload">
-                            <p className="rounded-md bg-blue-300 px-3 py-1 text-2xl text-white">
-                                upload
-                            </p>
-                        </Link>
-                    </div>
-
-                    <div className="my-auto ml-20">
                         {user.isSignedIn ? (
-                            <div className="my-auto">
-                                <UserButton afterSignOutUrl="/" />
+                            <div className="flex">
+                                <div className="my-auto ml-20">
+                                    <Link href="/upload">
+                                        <p className="rounded-md bg-blue-300 px-3 py-1 text-2xl text-white">
+                                            upload
+                                        </p>
+                                    </Link>
+                                </div>
+                                <div className="my-auto ml-5">
+                                    <UserButton afterSignOutUrl="/" />
+                                </div>
                             </div>
                         ) : (
                             <div className="my-auto">
@@ -49,7 +50,7 @@ export default function Header() {
                                     onClick={() => setShowSignInWindow(true)}
                                 >
                                     <p className="cursor-pointer rounded-md bg-blue-300 px-3 py-1 text-2xl text-white">
-                                        sign in
+                                        sign in to upload
                                     </p>
                                 </button>
                             </div>
