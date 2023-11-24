@@ -36,18 +36,19 @@ export default function SoundToUpload(props: { index: number }) {
     }
 
     return (
-        <div className="my-2 flex">
-            <label htmlFor={`name-${props.index}`} className="my-auto mr-2">
+        <div className="my-2 flex bg-purple-400 py-1 px-2 rounded-md">
+            {/* <label htmlFor={`name-${props.index}`} className="my-auto mr-2">
                 name
-            </label>
+            </label> */}
             <input
-                className="w-96 rounded-sm bg-blue-300 text-center leading-8 text-black"
+                className="w-96 rounded-sm bg-blue-300 text-center leading-8 text-black placeholder:text-neutral-500"
                 type="text"
                 id={`name-${props.index}`}
                 defaultValue={file.name}
                 maxLength={120}
                 onChange={handleNameChange}
                 ref={nameRef}
+                placeholder="Please enter a name"
             />
             <div className="my-auto ml-4">
                 <input
