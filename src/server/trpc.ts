@@ -10,6 +10,8 @@ export const createContext = () => {
 };
 
 const t = initTRPC.context<typeof createContext>().create({
+    isServer: true,
+    allowOutsideOfServer: true,
     transformer: superjson,
     errorFormatter({ shape, error }) {
         return {
