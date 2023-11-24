@@ -2,27 +2,12 @@
 
 ### TODO
 
--   Figure out why ctx.db is undefined and how to get prisma schemas as types.
+-   Figure out how to get prisma schemas as types.
 -   Add tRPC queries for the homepage and searching.
--   Standardize sound names. Convert names to all lowercase for db and s3 and check that the sound has a name when uploaded.
--   Add proper resolves and rejects to s3put.
+-   Add proper resolves and rejects to s3put and implement s3delete.
 -   Add inputs to SoundToUpload component for changing sound name, type, and description.
--   Implement searching and filtering sounds.
 -   Have the homepage display the most recently uploaded hitsounds.
 -   Let users see their uploaded hitsounds and edit/delete them.
 -   Allow admins to delete sounds and ban users.
 
 ### Examples of random things
-
-find all sounds where the userID is "y0"
-
-```ts
-let sounds = await db.user.findUnique({
-    where: {
-        userID: "y0",
-    },
-    include: {
-        uploads: true,
-    },
-});
-```

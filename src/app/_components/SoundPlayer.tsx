@@ -1,10 +1,11 @@
 export default function SoundPlayer(props: {
     sound: {
+        id: number;
         title: string;
         description: string | null;
         url: string;
         soundType: string;
-        createdAt: Date;
+        createdAt: Date | string;
     };
 }) {
     return (
@@ -19,10 +20,10 @@ export default function SoundPlayer(props: {
                 {/* <source src={url} type="audio/x-pn-wav" /> */}
                 Your browser does not support the audio element.
             </audio>
-            <p className="mx-4 my-auto">{props.sound.soundType}</p>
+            <p className="mx-4 my-auto">{props.sound.soundType}sound</p>
             <a
                 href={props.sound.url}
-                className="flex mr-2 rounded-md bg-green-400 px-3 py-1"
+                className="mr-2 flex rounded-md bg-green-500 px-3 py-1"
             >
                 <p className="m-auto">download</p>
             </a>
