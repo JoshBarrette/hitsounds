@@ -1,12 +1,15 @@
 "use client";
-
 import { SignIn, UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { FormEvent, createRef, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Header() {
     const user = useUser();
     const [showSignInWindow, setShowSignInWindow] = useState(false);
+    const inputRef = createRef<HTMLInputElement>();
+    const router = useRouter();
+    const pathname = usePathname();
 
     useEffect(() => {
         if (showSignInWindow) {
@@ -17,6 +20,12 @@ export default function Header() {
             document.body.style.overflow = "visible";
         };
     }, [showSignInWindow]);
+
+    function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        router.push(`/search?keywords=${inputRef.current?.value}`);
+        router.refresh();
+    }
 
     return (
         <>
@@ -29,6 +38,26 @@ export default function Header() {
                             </h1>
                         </Link>
                     </button>
+
+                    {!pathname.startsWith("/search") ? (
+                        <form
+                            onSubmit={handleFormSubmit}
+                            className="ml-4 mt-1.5 text-center"
+                        >
+                            <input
+                                type="text"
+                                ref={inputRef}
+                                placeholder="...search"
+                                className="mb-2 w-32 rounded-sm bg-blue-300 text-center leading-8 text-black placeholder:text-neutral-500"
+                            />
+                            <button
+                                type="submit"
+                                className="ml-2 rounded-md bg-red-300 px-3 py-2"
+                            >
+                                Search
+                            </button>
+                        </form>
+                    ) : null}
 
                     <div className="my-auto ml-20">
                         {user.isSignedIn ? (
