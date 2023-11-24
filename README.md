@@ -2,6 +2,8 @@
 
 ### TODO
 
+-   Add sharing button to SoundPlayer.
+-   Add current pages/search terms to URL query for sharing.
 -   Figure out how to get prisma schemas as types.
 -   Add tRPC queries for the homepage and searching.
 -   Add proper resolves and rejects to s3put and implement s3delete.

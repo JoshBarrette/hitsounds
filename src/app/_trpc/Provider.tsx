@@ -1,17 +1,32 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { httpBatchLink } from "@trpc/client";
+import { unstable_httpBatchStreamLink } from "@trpc/client";
 import React, { useState } from "react";
 
 import { trpc } from "./client";
+import superjson from "superjson";
+import { getUrl } from "~/server";
 
-export default function Provider({ children }: { children: React.ReactNode }) {
+export default function Provider({
+    children,
+    cookies,
+}: {
+    children: React.ReactNode;
+    cookies: string;
+}) {
     const [queryClient] = useState(() => new QueryClient({}));
     const [trpcClient] = useState(() =>
         trpc.createClient({
+            transformer: superjson,
             links: [
-                httpBatchLink({
-                    url: "http://localhost:3000/api/trpc",
+                unstable_httpBatchStreamLink({
+                    url: getUrl(),
+                    headers() {
+                        return {
+                            cookie: cookies,
+                            "x-trpc-source": "react",
+                        };
+                    },
                 }),
             ],
         })
