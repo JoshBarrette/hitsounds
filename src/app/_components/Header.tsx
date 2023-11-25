@@ -23,7 +23,7 @@ export default function Header() {
 
     function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        router.push(`/search?keywords=${inputRef.current?.value}`);
+        router.push(`/Search?keywords=${inputRef.current?.value}`);
         router.refresh();
     }
 
@@ -63,7 +63,7 @@ export default function Header() {
                         {user.isSignedIn ? (
                             <div className="flex">
                                 <div className="my-auto ml-20">
-                                    <Link href="/upload">
+                                    <Link href="/Upload">
                                         <p className="rounded-md bg-blue-300 px-3 py-1 text-2xl text-white">
                                             upload
                                         </p>

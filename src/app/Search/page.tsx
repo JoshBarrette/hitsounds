@@ -18,7 +18,7 @@ export default function Search() {
     function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setTitle(inputRef.current?.value);
-        router.push(`/search?keywords=${inputRef.current?.value}`);
+        router.push(`/Search?keywords=${inputRef.current?.value}`);
     }
 
     return (
