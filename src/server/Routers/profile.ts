@@ -1,23 +1,24 @@
-import { publicProcedure, router } from "../trpc";
+import { protectedProcedure, router } from "../trpc";
 import { z } from "zod";
 
 const defaultPageSize = 20;
 
 export const profileRouter = router({
-    soundsByUploader: publicProcedure
+    myUploads: protectedProcedure
         .input(
-            z.object({
-                userID: z.string(),
-                count: z.number().nullish(),
-                page: z.number().nullish(),
-                isAscending: z.boolean().nullish(),
-            })
+            z
+                .object({
+                    count: z.number().nullish(),
+                    page: z.number().nullish(),
+                    isAscending: z.boolean().nullish(),
+                })
+                .optional()
         )
         .query(async ({ input, ctx }) => {
             return await ctx.db.user
                 .findMany({
                     where: {
-                        userID: input.userID,
+                        userID: ctx.user?.id,
                     },
                     include: {
                         uploads: {
