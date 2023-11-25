@@ -12,7 +12,7 @@ export default function Provider({
     cookies,
 }: {
     children: React.ReactNode;
-    cookies: string;
+    cookies?: string;
 }) {
     const [queryClient] = useState(() => new QueryClient({}));
     const [trpcClient] = useState(() =>
