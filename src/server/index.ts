@@ -1,12 +1,10 @@
-import { router } from "./trpc";
+import { createTRPCRouter } from "./trpc";
 import { filesRouter } from "./Routers/files";
 import { searchRouter } from "./Routers/search";
-import { profileRouter } from "./Routers/profile";
 
-export const appRouter = router({
+export const appRouter = createTRPCRouter({
     files: filesRouter,
     search: searchRouter,
-    profile: profileRouter,
 });
 
 export type AppRouter = typeof appRouter;

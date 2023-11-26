@@ -1,9 +1,9 @@
-import { publicProcedure, router } from "../trpc";
+import { publicProcedure, createTRPCRouter } from "../trpc";
 import { z } from "zod";
 
 const defaultPageSize = 20;
 
-export const searchRouter = router({
+export const searchRouter = createTRPCRouter({
     getNSounds: publicProcedure
         .input(
             z

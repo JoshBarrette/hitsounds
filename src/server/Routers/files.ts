@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { publicProcedure, router } from "../trpc";
+import { publicProcedure, createTRPCRouter } from "../trpc";
 
-export const filesRouter = router({
+export const filesRouter = createTRPCRouter({
     update: publicProcedure.mutation(async () => "update"),
     delete: publicProcedure.mutation(async () => "delete"),
 });

@@ -1,34 +1,27 @@
-import { TRPCError, initTRPC } from "@trpc/server";
-import { db } from "~/server/db";
+import { initTRPC } from "@trpc/server";
+import { type NextRequest } from "next/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
-import { getAuth, clerkClient } from "@clerk/nextjs/server";
-import type { User } from "@clerk/nextjs/server";
-import { NextRequest } from "next/server";
 
-interface UserProps {
-    user: User | null;
+import { db } from "~/server/db";
+
+interface CreateContextOptions {
+    headers: Headers;
 }
-
-export const createContextInner = ({ user }: UserProps) => {
+export const createInnerTRPCContext = (opts: CreateContextOptions) => {
     return {
-        user,
+        headers: opts.headers,
         db,
     };
 };
 
-export const createContext = async (req: NextRequest) => {
-    async function getUser() {
-        const { userId } = getAuth(req);
-        return userId ? await clerkClient.users.getUser(userId) : null;
-    }
-
-    return createContextInner({ user: await getUser() });
+export const createTRPCContext = (opts: { req: NextRequest }) => {
+    return createInnerTRPCContext({
+        headers: opts.req.headers,
+    });
 };
 
-const t = initTRPC.context<typeof createContext>().create({
-    isServer: true,
-    allowOutsideOfServer: true,
+const t = initTRPC.context<typeof createTRPCContext>().create({
     transformer: superjson,
     errorFormatter({ shape, error }) {
         return {
@@ -43,18 +36,5 @@ const t = initTRPC.context<typeof createContext>().create({
         };
     },
 });
-
-const isAuthorized = t.middleware(({ next, ctx }) => {
-    if (!ctx.user?.id) {
-      throw new TRPCError({ code: 'UNAUTHORIZED' })
-    }
-    return next({
-      ctx: {
-        auth: ctx.user,
-      },
-    })
-  })
-
-export const router = t.router;
+export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
-export const protectedProcedure = t.procedure.use(isAuthorized)

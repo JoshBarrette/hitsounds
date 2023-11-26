@@ -1,6 +1,6 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { trpc } from "../_trpc/client";
+import { api } from "~/trpc/react";
 import SoundPlayer from "../_components/SoundPlayer";
 import { FormEvent, createRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,7 @@ export default function Search() {
     const router = useRouter();
     const keywords = searchParams.get("keywords");
     const inputRef = createRef<HTMLInputElement>();
-    const searcher = trpc.search.search.useQuery({
+    const searcher = api.search.search.useQuery({
         title: title ?? keywords,
     }).data;
 

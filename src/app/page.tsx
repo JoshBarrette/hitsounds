@@ -1,9 +1,9 @@
 import SoundPlayer from "./_components/SoundPlayer";
-import { serverClient } from "./_trpc/serverClient";
+import { api } from "~/trpc/server";
 
 export default async function Home() {
-    const first20Sounds = await serverClient.search.getNSounds();
-    const searcher = await serverClient.search.search();
+    const first20Sounds = await api.search.getNSounds.query();
+    const searcher = await api.search.search.query();
 
     return (
         <div className="flex">
