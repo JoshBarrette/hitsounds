@@ -62,10 +62,17 @@ export default function Header() {
                     <div className="my-auto ml-20">
                         {user.isSignedIn ? (
                             <div className="flex">
-                                <div className="my-auto ml-20">
+                                <div className="my-auto ml-5">
                                     <Link href="/Upload">
                                         <p className="rounded-md bg-blue-300 px-3 py-1 text-2xl text-white">
                                             upload
+                                        </p>
+                                    </Link>
+                                </div>
+                                <div className="my-auto ml-5">
+                                    <Link href="/MyUploads">
+                                        <p className="rounded-md bg-blue-300 px-3 py-1 text-2xl text-white">
+                                            my uploads
                                         </p>
                                     </Link>
                                 </div>

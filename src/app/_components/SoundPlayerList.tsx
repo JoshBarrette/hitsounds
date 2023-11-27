@@ -10,9 +10,9 @@ export default function SoundPlayerList(props: {
 
     return (
         <>
-            {props.sounds.map((sound, key) => {
-                <SoundPlayer sound={sound} key={key} />;
-            })}
+            {props.sounds.map((sound, key) => (
+                <SoundPlayer sound={sound} key={key} />
+            ))}
         </>
     );
 }

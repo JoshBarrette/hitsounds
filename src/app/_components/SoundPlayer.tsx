@@ -5,7 +5,9 @@ export default function SoundPlayer(props: {
 }) {
     return (
         <div className="mb-1 flex bg-yellow-500 p-1">
-            <p className="mx-2 my-auto w-48 text-center">{props.sound.title}</p>
+            <p className="mx-2 my-auto w-96 truncate">
+                {props.sound.title}
+            </p>
             <audio
                 controls
                 className="h-10 rounded-lg text-white"

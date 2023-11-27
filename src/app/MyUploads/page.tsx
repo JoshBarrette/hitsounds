@@ -1,10 +1,16 @@
-import { api } from "~/trpc/server";
-import SoundPlayerList from "../_components/SoundPlayerList";
+"use client";
 
-export default function MyUploads() {
+import { api } from "~/trpc/react";
+import ProfileSoundPlayerList from "./_components/ProfileSoundPlayerList";
+
+export default function Test() {
+    const sounds = api.search.search.useQuery().data;
 
     return (
-        <div>
+        <div className="flex">
+            <div className="mx-auto">
+                <ProfileSoundPlayerList sounds={sounds} />
+            </div>
         </div>
     );
 }
