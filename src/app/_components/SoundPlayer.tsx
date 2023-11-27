@@ -1,12 +1,7 @@
+import { RouterOutputs } from "~/trpc/shared";
+
 export default function SoundPlayer(props: {
-    sound: {
-        id: number;
-        title: string;
-        description: string | null;
-        url: string;
-        soundType: string;
-        createdAt: Date | string;
-    };
+    sound: RouterOutputs["search"]["search"][0];
 }) {
     return (
         <div className="mb-1 flex bg-yellow-500 p-1">
