@@ -16,5 +16,4 @@ export function getUrl() {
 }
 
 export type RouterInputs = inferRouterInputs<AppRouter>;
-
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
