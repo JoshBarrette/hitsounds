@@ -1,9 +1,11 @@
-import { api } from "~/trpc/server";
+"use client";
+
+import { api } from "~/trpc/react";
 import ProfileSoundPlayerList from "./_components/ProfileSoundPlayerList";
 import { getBaseUrl } from "~/trpc/shared";
 
-export default async function Test() {
-    const sounds = await api.search.search.query();
+export default function MyUploads() {
+    const sounds = api.search.getMySounds.useQuery().data;
 
     return (
         <div className="flex">
