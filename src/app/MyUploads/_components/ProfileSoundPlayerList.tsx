@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
 import { api } from "~/trpc/react";
-import { RouterOutputs, getBaseUrl } from "~/trpc/shared";
+import { RouterOutputs } from "~/trpc/shared";
 
 export default function ProfileSoundPlayerList(props: {
     sounds: RouterOutputs["search"]["search"] | undefined;
+    url: string;
 }) {
     if (props.sounds === undefined) return null;
     const [sounds, setSounds] = useState([...props.sounds]);
@@ -50,7 +51,7 @@ export default function ProfileSoundPlayerList(props: {
                         className="my-auto mr-2 flex rounded-md bg-indigo-600 px-3 py-2 text-white"
                         onClick={() =>
                             navigator.clipboard.writeText(
-                                `${getBaseUrl()}/s/${sound.id}`
+                                `${props.url}/s/${sound.id}`
                             )
                         }
                     >
