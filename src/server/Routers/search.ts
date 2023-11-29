@@ -67,4 +67,21 @@ export const searchRouter = createTRPCRouter({
                 skip: (input?.page ?? 0) * (input?.count ?? defaultPageSize),
             });
         }),
+    getSoundByID: publicProcedure
+        .input(z.number())
+        .query(async ({ input, ctx }) => {
+            return await ctx.db.sound.findUnique({
+                select: {
+                    id: true,
+                    title: true,
+                    description: true,
+                    url: true,
+                    soundType: true,
+                    createdAt: true,
+                },
+                where: {
+                    id: input,
+                },
+            });
+        }),
 });

@@ -1,3 +1,4 @@
+import { getBaseUrl } from "~/trpc/shared";
 import SoundPlayer from "./_components/SoundPlayer";
 import { api } from "~/trpc/server";
 
@@ -10,11 +11,23 @@ export default async function Home() {
             <div className="mx-auto">
                 <p>first 20</p>
                 {first20Sounds.map((sound, key) => {
-                    return <SoundPlayer sound={sound} key={key} />;
+                    return (
+                        <SoundPlayer
+                            sound={sound}
+                            key={key}
+                            url={getBaseUrl()}
+                        />
+                    );
                 })}
                 <p>search</p>
                 {searcher.map((sound, key) => {
-                    return <SoundPlayer sound={sound} key={key} />;
+                    return (
+                        <SoundPlayer
+                            sound={sound}
+                            key={key}
+                            url={getBaseUrl()}
+                        />
+                    );
                 })}
             </div>
         </div>

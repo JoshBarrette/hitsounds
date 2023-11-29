@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 export default function Header() {
     const user = useUser();
-    const [showSignInWindow, setShowSignInWindow] = useState(false);
+    const [showSignInWindow, setShowSignInWindow] = useState<boolean>(false);
     const inputRef = createRef<HTMLInputElement>();
     const router = useRouter();
     const pathname = usePathname();
@@ -95,7 +95,7 @@ export default function Header() {
                 </nav>
             </div>
 
-            {showSignInWindow ? (
+            {showSignInWindow && (
                 <>
                     <div className="fixed flex h-screen w-screen bg-neutral-900 opacity-40" />
                     <div
@@ -107,7 +107,7 @@ export default function Header() {
                         </div>
                     </div>
                 </>
-            ) : null}
+            )}
         </>
     );
 }

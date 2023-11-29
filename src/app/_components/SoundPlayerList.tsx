@@ -1,4 +1,4 @@
-import { RouterOutputs } from "~/trpc/shared";
+import { RouterOutputs, getBaseUrl } from "~/trpc/shared";
 import SoundPlayer from "./SoundPlayer";
 
 export default function SoundPlayerList(props: {
@@ -11,7 +11,7 @@ export default function SoundPlayerList(props: {
     return (
         <>
             {props.sounds.map((sound, key) => (
-                <SoundPlayer sound={sound} key={key} />
+                <SoundPlayer sound={sound} key={key} url={getBaseUrl()} />
             ))}
         </>
     );
