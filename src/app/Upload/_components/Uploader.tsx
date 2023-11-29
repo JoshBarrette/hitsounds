@@ -11,7 +11,7 @@ export default function Uploader() {
     const user = useUser();
 
     function clickInput() {
-        inputRef.current?.click();
+        if (!submitting) inputRef.current?.click();
     }
 
     function handleDragOver(e: DragEvent<HTMLDivElement>) {
@@ -22,7 +22,7 @@ export default function Uploader() {
     function handleDrop(e: DragEvent<HTMLDivElement>) {
         e.preventDefault();
         e.stopPropagation();
-        if (e.dataTransfer.files === null) return;
+        if (e.dataTransfer.files === null || submitting) return;
 
         addNewFiles(e.dataTransfer.files);
     }

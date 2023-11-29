@@ -37,8 +37,8 @@ export default function SoundToUpload(props: { index: number }) {
     }
 
     return (
-        <div className="my-2 flex-box rounded-md bg-purple-400 px-2 py-1">
-            <div className="m-auto flex">
+        <div className="flex-box my-2 rounded-md bg-purple-400 px-3 pt-1">
+            <div className="text-md m-auto mt-1 flex">
                 <label htmlFor={`name-${props.index}`} className="my-auto mr-2">
                     {props.index + 1}:
                 </label>
@@ -90,9 +90,11 @@ export default function SoundToUpload(props: { index: number }) {
                 </button>
             </div>
 
-            <p className="w-full text-center p-1 text-md">
-                {files.at(props.index)?.response}
-            </p>
+            {files.at(props.index)?.response !== "" ? (
+                <p className="text-md w-full p-1 text-center">
+                    {files.at(props.index)?.response}
+                </p>
+            ) : null}
         </div>
     );
 }

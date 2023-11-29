@@ -3,6 +3,25 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 import { RouterOutputs } from "~/trpc/shared";
 
+function ProfileSoundPlayerListHeader() {
+    return (
+        <div className="flex text-center">
+            <div>
+                <p className="mx-3 w-96">name</p>
+            </div>
+            <div>
+                <p className="ml-0.5 w-72">preview</p>
+            </div>
+            <div>
+                <p className="ml-3.5 w-20">type</p>
+            </div>
+            <div>
+                <p className="ml-4 w-64">options</p>
+            </div>
+        </div>
+    );
+}
+
 export default function ProfileSoundPlayerList(props: {
     sounds: RouterOutputs["search"]["search"] | undefined;
     url: string;
@@ -27,9 +46,10 @@ export default function ProfileSoundPlayerList(props: {
 
     return (
         <>
+            {sounds.length > 0 ? <ProfileSoundPlayerListHeader /> : null}
             {sounds?.map((sound, key) => (
                 <div className="mb-1 flex bg-cyan-500 p-1" key={key}>
-                    <p className="mx-2 my-auto w-72 break-words text-center">
+                    <p className="mx-2 my-auto w-96 break-words text-center">
                         {sound.title}
                     </p>
                     <audio
@@ -57,12 +77,12 @@ export default function ProfileSoundPlayerList(props: {
                     >
                         copy link
                     </button>
-                    <button
+                    {/* <button
                         className="my-auto mr-2 flex rounded-md bg-yellow-500 px-3 py-2 disabled:bg-yellow-950 disabled:text-white"
                         disabled={isDisabled}
                     >
                         edit
-                    </button>
+                    </button> */}
                     <button
                         className="my-auto mr-2 flex rounded-md bg-red-500 px-3 py-2 text-white disabled:bg-red-950"
                         onClick={() => handleDelete(sound.id)}

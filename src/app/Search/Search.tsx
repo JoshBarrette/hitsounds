@@ -4,6 +4,7 @@ import { api } from "~/trpc/react";
 import SoundPlayer from "../_components/SoundPlayer";
 import { FormEvent, createRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import SoundPlayerHeader from "../_components/SoundPlayerHeader";
 
 export default function Search(props: { url: string }) {
     const [title, setTitle] = useState<string | undefined>(undefined);
@@ -40,6 +41,7 @@ export default function Search(props: { url: string }) {
             </form>
             <div className="flex">
                 <div className="m-auto">
+                    {searcher?.length as number > 0 ? <SoundPlayerHeader /> : null}
                     {searcher?.map((sound, key) => {
                         return (
                             <SoundPlayer

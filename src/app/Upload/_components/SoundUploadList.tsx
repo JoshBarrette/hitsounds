@@ -8,7 +8,17 @@ export default function SoundsUploadList() {
 
     return (
         <div className="flex">
-            <div className="m-auto">
+            <div className="mx-auto mt-2">
+                {files.length > 0 ? (
+                    <div className="flex text-center">
+                        <div>
+                            <p className="mx-8 w-96">name</p>
+                        </div>
+                        <div>
+                            <p className="ml-4 w-32">type</p>
+                        </div>
+                    </div>
+                ) : null}
                 {files?.map((_, key) => (
                     <SoundToUpload index={key} key={key} />
                 ))}

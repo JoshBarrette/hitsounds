@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FormEvent, createRef, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-export default function Header() {
+export default function SiteHeader() {
     const user = useUser();
     const [showSignInWindow, setShowSignInWindow] = useState<boolean>(false);
     const inputRef = createRef<HTMLInputElement>();

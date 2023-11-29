@@ -1,6 +1,7 @@
 import { getBaseUrl } from "~/trpc/shared";
 import SoundPlayer from "./_components/SoundPlayer";
 import { api } from "~/trpc/server";
+import SoundPlayerHeader from "./_components/SoundPlayerHeader";
 
 export default async function Home() {
     const first20Sounds = await api.search.getNSounds.query();
@@ -10,6 +11,7 @@ export default async function Home() {
         <div className="flex">
             <div className="mx-auto">
                 <p>first 20</p>
+                <SoundPlayerHeader />
                 {first20Sounds.map((sound, key) => {
                     return (
                         <SoundPlayer
@@ -20,6 +22,7 @@ export default async function Home() {
                     );
                 })}
                 <p>search</p>
+                <SoundPlayerHeader />
                 {searcher.map((sound, key) => {
                     return (
                         <SoundPlayer

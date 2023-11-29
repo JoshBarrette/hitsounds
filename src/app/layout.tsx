@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import Header from "./_components/Header";
+import SiteHeader from "./_components/SiteHeader";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { cookies } from "next/headers";
@@ -11,7 +11,7 @@ import { cookies } from "next/headers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Hitsounds",
+    title: "...hitsounds",
     description: "TF2 Hitsounds",
 };
 
@@ -30,7 +30,7 @@ export default function RootLayout({
                     }}
                 >
                     <TRPCReactProvider cookies={cookies().toString()}>
-                        <Header />
+                        <SiteHeader />
                         {children}
                     </TRPCReactProvider>
                 </ClerkProvider>
