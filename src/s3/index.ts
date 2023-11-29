@@ -22,8 +22,8 @@ const s3Client = new S3Client({
 
 export function generateKey() {}
 
-export async function s3Put(key: string, file: File): Promise<number | string> {
-    return new Promise<number | string>(async (resolve, reject) => {
+export async function s3Put(key: string, file: File): Promise<boolean> {
+    return new Promise<boolean>(async (resolve, reject) => {
         if (file.type !== "audio/wav") reject("Invalid file type."); // TODO: reject with real error
 
         const bucketParams: PutObjectCommandInput = {
@@ -38,17 +38,17 @@ export async function s3Put(key: string, file: File): Promise<number | string> {
             data = await s3Client.send(new PutObjectCommand(bucketParams));
             console.log(data);
             // TODO: resolve with real response
-            resolve(data.$metadata.httpStatusCode as number);
+            resolve(true);
         } catch (err) {
             // TODO: reject with real error
             console.log("Error", err);
-            reject(data?.$metadata.httpStatusCode ?? "error in s3");
+            reject(false);
         }
     });
 }
 
-export async function s3Delete(sound: SoundType): Promise<number | string> {
-    return new Promise<number | string>(async (resolve, reject) => {
+export async function s3Delete(sound: SoundType): Promise<boolean> {
+    return new Promise<boolean>(async (resolve, reject) => {
         const bucketParams: DeleteObjectCommandInput = {
             Bucket: BUCKET_NAME,
             Key: sound.url.split(".com/")[1],
@@ -59,11 +59,11 @@ export async function s3Delete(sound: SoundType): Promise<number | string> {
             data = await s3Client.send(new DeleteObjectCommand(bucketParams));
             console.log(data);
             // TODO: resolve with real response
-            resolve(data.$metadata.httpStatusCode as number);
+            resolve(true);
         } catch (err) {
             // TODO: reject with real error
             console.log("Error", err);
-            reject(data?.$metadata.httpStatusCode ?? "error in s3");
+            reject(false);
         }
     });
 }

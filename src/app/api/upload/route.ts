@@ -2,15 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { s3Put } from "~/s3";
 import { db } from "~/server/db";
 
-type uploadSuccess = {};
-
-type uploadFail = {};
+export const MAX_FILE_SIZE = 100000; // 100 kilobytes
+export const MAX_NAME_SIZE = 300;
+export const MAX_DESCRIPTION_SIZE = 300;
 
 export async function POST(req: NextRequest) {
     const formData = await req.formData();
     const fileCount = parseInt(formData.get("fileCount") as string);
     const userId = formData.get("userId") as string;
-    const responses = new Array<uploadSuccess | uploadFail>();
+    const responses = new Array<string>();
 
     // Check if the user exists in the db. If not, add them
     let user = await db.user.findUnique({
@@ -36,12 +36,32 @@ export async function POST(req: NextRequest) {
         ) as string; // = null if no description
         const currentURLNameExtension = currentFileName.replaceAll(" ", "_");
 
-        // TODO: Verify everything in request and err for each of them
         if (
-            currentFileData.type !== "audio/wav" ||
-            (currentFileType !== "hit" && currentFileType !== "kill")
+            currentFileName === null ||
+            currentFileData === null ||
+            currentFileType === null
         ) {
-            continue;
+            responses.push(
+                "Make sure you providing a name, type, and file when uploading."
+            );
+        } else if (currentFileData.type !== "audio/wav") {
+            responses.push(`${currentFileName}: Invalid file type.`);
+        } else if (currentFileType !== "hit" && currentFileType !== "kill") {
+            responses.push(`${currentFileName}: Invalid sound type.`);
+        } else if (currentFileData.size > MAX_FILE_SIZE) {
+            responses.push(
+                `${currentFileName}: File too large. Must be less than ${MAX_FILE_SIZE} bytes.`
+            );
+        } else if (currentFileName.length > MAX_NAME_SIZE) {
+            responses.push(
+                `${currentFileName}: File name too long. Must be less than or equal to ${MAX_NAME_SIZE} characters.`
+            );
+        } else if (currentFileDescription !== null) {
+            if (currentFileDescription.length > MAX_DESCRIPTION_SIZE) {
+                responses.push(
+                    `${currentFileName}: File description too long. Must be less than or equal to ${MAX_NAME_SIZE} characters.`
+                );
+            }
         }
 
         // Check if the user has a sound with the given name already and err if so
@@ -52,8 +72,10 @@ export async function POST(req: NextRequest) {
             },
         });
         if (uniqueSound.length > 0) {
-            // TODO: err correctly
-            return;
+            responses.push(
+                `${currentFileName}: You have already uploaded a sound with that name.`
+            );
+            continue;
         }
 
         // Add the sound to the db
@@ -66,18 +88,23 @@ export async function POST(req: NextRequest) {
                 uploaderId: user?.id,
             },
         });
-        // TODO: verify that the db succeeded
 
         // Upload file to s3. S3 key: `https://hitsounds-tf.s3.amazonaws.com/${User.id}-${currentFile.name}`
         const s3Response = await s3Put(
             `${user?.id}-${currentURLNameExtension}`,
             currentFileData
         );
-        // TODO: verify that s3 succeeded and remove from db if so
-
-        // Add success to responses array
+        if (!s3Response) {
+            await db.sound.delete({
+                where: {
+                    id: soundCreateResponse.id,
+                },
+            });
+            responses.push("Error when uploading file.");
+        }
+        responses.push(`${currentFileName}: Successfully uploaded.`);
     }
 
     // Return the sound objects (or maybe part of them) to update the upload page
-    return NextResponse.json(responses);
+    return NextResponse.json({ responses: responses });
 }

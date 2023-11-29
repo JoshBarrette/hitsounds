@@ -2,11 +2,12 @@ import { ChangeEvent, createRef, useEffect } from "react";
 import { useFileContext } from "./FilesContext";
 
 export default function SoundToUpload(props: { index: number }) {
-    const { files, setFiles } = useFileContext();
+    const { files, setFiles, submitting } = useFileContext();
     const nameRef = createRef<HTMLInputElement>();
     const typeHitRef = createRef<HTMLInputElement>();
     const typeKillRef = createRef<HTMLInputElement>();
     const file = files[props.index];
+    const shouldDisable = submitting || file.disabled;
 
     useEffect(() => {
         if (nameRef.current !== null) {
@@ -36,52 +37,62 @@ export default function SoundToUpload(props: { index: number }) {
     }
 
     return (
-        <div className="my-2 flex bg-purple-400 py-1 px-2 rounded-md">
-            {/* <label htmlFor={`name-${props.index}`} className="my-auto mr-2">
-                name
-            </label> */}
-            <input
-                className="w-96 rounded-sm bg-blue-300 text-center leading-8 text-black placeholder:text-neutral-500"
-                type="text"
-                id={`name-${props.index}`}
-                defaultValue={file.name}
-                maxLength={120}
-                onChange={handleNameChange}
-                ref={nameRef}
-                placeholder="Please enter a name"
-            />
-            <div className="my-auto ml-4">
-                <input
-                    type="radio"
-                    id={`hit-${props.index}`}
-                    name={`soundType-${props.index}`}
-                    value="hit"
-                    onChange={handleRadioChange}
-                    defaultChecked={true}
-                    ref={typeHitRef}
-                />
-                <label htmlFor={`hit-${props.index}`} className="ml-2">
-                    hitsound
+        <div className="my-2 flex-box rounded-md bg-purple-400 px-2 py-1">
+            <div className="m-auto flex">
+                <label htmlFor={`name-${props.index}`} className="my-auto mr-2">
+                    {props.index + 1}:
                 </label>
                 <input
-                    type="radio"
-                    id={`kill-${props.index}`}
-                    name={`soundType-${props.index}`}
-                    value="kill"
-                    className="ml-2"
-                    onChange={handleRadioChange}
-                    ref={typeKillRef}
+                    className="w-96 rounded-sm bg-blue-300 text-center leading-8 text-black placeholder:text-neutral-500"
+                    type="text"
+                    id={`name-${props.index}`}
+                    defaultValue={file.name}
+                    maxLength={120}
+                    onChange={handleNameChange}
+                    ref={nameRef}
+                    placeholder="Please enter a name"
+                    disabled={shouldDisable}
                 />
-                <label htmlFor={`kill-${props.index}`} className="ml-2">
-                    killsound
-                </label>
+                <div className="my-auto ml-4">
+                    <input
+                        type="radio"
+                        id={`hit-${props.index}`}
+                        name={`soundType-${props.index}`}
+                        value="hit"
+                        onChange={handleRadioChange}
+                        defaultChecked={true}
+                        ref={typeHitRef}
+                        disabled={shouldDisable}
+                    />
+                    <label htmlFor={`hit-${props.index}`} className="ml-2">
+                        hitsound
+                    </label>
+                    <input
+                        type="radio"
+                        id={`kill-${props.index}`}
+                        name={`soundType-${props.index}`}
+                        value="kill"
+                        className="ml-2"
+                        onChange={handleRadioChange}
+                        ref={typeKillRef}
+                        disabled={shouldDisable}
+                    />
+                    <label htmlFor={`kill-${props.index}`} className="ml-2">
+                        killsound
+                    </label>
+                </div>
+                <button
+                    className="ml-4 rounded-md bg-red-600 px-3 py-1 text-white disabled:bg-red-950"
+                    onClick={() => handleSoundRemove(props.index)}
+                    disabled={shouldDisable}
+                >
+                    remove
+                </button>
             </div>
-            <button
-                className="ml-4 rounded-md bg-red-600 px-3 py-1 text-white"
-                onClick={() => handleSoundRemove(props.index)}
-            >
-                remove
-            </button>
+
+            <p className="w-full text-center p-1 text-md">
+                {files.at(props.index)?.response}
+            </p>
         </div>
     );
 }

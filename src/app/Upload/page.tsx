@@ -9,6 +9,8 @@ export type fileData = {
     type: "hit" | "kill";
     name: string;
     description?: string;
+    response?: string;
+    disabled: boolean;
 };
 
 export default function Upload() {
