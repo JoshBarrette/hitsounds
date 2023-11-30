@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { publicProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
 import { z } from "zod";
+import { Prisma } from "@prisma/client";
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -13,7 +14,7 @@ export const searchRouter = createTRPCRouter({
                     soundType: z.string().nullish(),
                     count: z.number().nullish(),
                     page: z.number().nullish(),
-                    isAscending: z.boolean().nullish(),
+                    sortBy: z.string(),
                 })
                 .optional()
         )
@@ -27,6 +28,29 @@ export const searchRouter = createTRPCRouter({
                 (input?.page ?? 1) < 0
             ) {
                 throw new TRPCError({ code: "BAD_REQUEST" });
+            }
+
+            let orderBy: Prisma.SoundOrderByWithRelationInput;
+            switch (input?.sortBy) {
+                case "az":
+                    orderBy = {
+                        title: "asc",
+                    };
+                    break;
+                case "za":
+                    orderBy = {
+                        title: "desc",
+                    };
+                    break;
+                case "old":
+                    orderBy = {
+                        createdAt: "asc",
+                    };
+                    break;
+                default:
+                    orderBy = {
+                        createdAt: "desc",
+                    };
             }
 
             return await ctx.db.sound.findMany({
@@ -44,9 +68,7 @@ export const searchRouter = createTRPCRouter({
                     },
                     soundType: input?.soundType ?? undefined,
                 },
-                orderBy: {
-                    createdAt: input?.isAscending ? "asc" : "desc",
-                },
+                orderBy: orderBy,
                 take: input?.count ?? DEFAULT_PAGE_SIZE,
                 skip: (input?.page ?? 0) * (input?.count ?? DEFAULT_PAGE_SIZE),
             });
@@ -79,7 +101,9 @@ export const searchRouter = createTRPCRouter({
                 },
             });
 
-            const floor = Math.floor(total / (input.count ?? DEFAULT_PAGE_SIZE));
+            const floor = Math.floor(
+                total / (input.count ?? DEFAULT_PAGE_SIZE)
+            );
             if (floor % (input.count ?? DEFAULT_PAGE_SIZE) === 0) {
                 return floor;
             } else {
