@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import { RouterOutputs } from "~/trpc/shared";
@@ -16,7 +17,7 @@ function ProfileSoundPlayerListHeader() {
                 <p className="ml-3.5 w-20">type</p>
             </div>
             <div>
-                <p className="ml-4 w-64">options</p>
+                <p className="ml-4 w-52">options</p>
             </div>
         </div>
     );
@@ -67,16 +68,21 @@ export default function ProfileSoundPlayerList(props: {
                     >
                         <p className="m-auto">download</p>
                     </a>
-                    <button // TODO: replace with share icon
-                        className="my-auto mr-2 flex rounded-md bg-indigo-600 px-3 py-2 text-white"
+                    <div
+                        className="hover:cursor-pointer mr-1"
                         onClick={() =>
                             navigator.clipboard.writeText(
                                 `${props.url}/s/${sound.id}`
                             )
                         }
                     >
-                        copy link
-                    </button>
+                        <Image
+                            src={"/copy.png"}
+                            width="40"
+                            height="1"
+                            alt="Copy link to sound"
+                        />
+                    </div>
                     {/* <button
                         className="my-auto mr-2 flex rounded-md bg-yellow-500 px-3 py-2 disabled:bg-yellow-950 disabled:text-white"
                         disabled={isDisabled}

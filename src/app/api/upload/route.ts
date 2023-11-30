@@ -90,19 +90,23 @@ export async function POST(req: NextRequest) {
         });
 
         // Upload file to s3. S3 key: `https://hitsounds-tf.s3.amazonaws.com/${User.id}-${currentFile.name}`
-        const s3Response = await s3Put(
+        let success = true;
+        await s3Put(
             `${user?.id}-${currentURLNameExtension}`,
             currentFileData
-        );
-        if (!s3Response) {
+        ).catch(async (err) => {
             await db.sound.delete({
                 where: {
                     id: soundCreateResponse.id,
                 },
             });
             responses.push("Error when uploading file.");
+            success = false;
+        });
+
+        if (success){
+            responses.push(`${currentFileName}: Successfully uploaded.`);
         }
-        responses.push(`${currentFileName}: Successfully uploaded.`);
     }
 
     // Return the sound objects (or maybe part of them) to update the upload page

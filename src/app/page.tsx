@@ -4,12 +4,14 @@ import { api } from "~/trpc/server";
 import SoundPlayerHeader from "./_components/SoundPlayerHeader";
 
 export default async function Home() {
-    const searcher = await api.search.search.query();
+    const searcher = await api.search.search.query({ sortBy: "new" });
 
     return (
         <div className="flex">
             <div className="mx-auto">
-                <p>first 20</p>
+                <p className="w-full p-4 text-center text-3xl font-medium">
+                    Most Recent Uploads
+                </p>
                 <SoundPlayerHeader />
                 {searcher.map((sound, key) => {
                     return (

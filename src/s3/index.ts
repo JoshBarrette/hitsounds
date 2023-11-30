@@ -5,6 +5,7 @@ import {
     DeleteObjectCommand,
     DeleteObjectCommandInput,
 } from "@aws-sdk/client-s3";
+import { MAX_FILE_SIZE } from "~/app/api/upload/route";
 import { SoundType } from "~/server/db";
 
 const ACCESS_KEY = process.env.AWS_ACCESS_KEY_ID as string;
@@ -20,11 +21,10 @@ const s3Client = new S3Client({
     },
 });
 
-export function generateKey() {}
-
 export async function s3Put(key: string, file: File): Promise<boolean> {
     return new Promise<boolean>(async (resolve, reject) => {
-        if (file.type !== "audio/wav") reject("Invalid file type."); // TODO: reject with real error
+        if (file.type !== "audio/wav") reject("Invalid file type.");
+        else if (file.size > MAX_FILE_SIZE) reject("File too large.");
 
         const bucketParams: PutObjectCommandInput = {
             Body: new Uint8Array(await file.arrayBuffer()),
@@ -36,11 +36,8 @@ export async function s3Put(key: string, file: File): Promise<boolean> {
         let data;
         try {
             data = await s3Client.send(new PutObjectCommand(bucketParams));
-            console.log(data);
-            // TODO: resolve with real response
             resolve(true);
         } catch (err) {
-            // TODO: reject with real error
             console.log("Error", err);
             reject(false);
         }
@@ -57,11 +54,8 @@ export async function s3Delete(sound: SoundType): Promise<boolean> {
         let data;
         try {
             data = await s3Client.send(new DeleteObjectCommand(bucketParams));
-            console.log(data);
-            // TODO: resolve with real response
             resolve(true);
         } catch (err) {
-            // TODO: reject with real error
             console.log("Error", err);
             reject(false);
         }

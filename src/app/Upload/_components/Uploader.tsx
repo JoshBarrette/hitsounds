@@ -170,14 +170,15 @@ export default function Uploader() {
     return (
         <div className="w-screen">
             <div
-                className="mx-auto flex h-36 w-1/3 cursor-pointer rounded-lg border-2 border-dashed border-neutral-600 bg-neutral-400 text-center"
+                className="mx-auto mt-10 flex h-48 w-1/2 cursor-pointer rounded-lg border-2 border-dashed border-neutral-600 bg-neutral-400 text-center"
                 ref={dropZoneRef}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={clickInput}
             >
                 <p className="m-auto text-xl">
-                    Browse or drop sounds
+                    CLick to browse files or drop sounds
+                    <br />
                     <br />
                     👶
                 </p>
@@ -190,13 +191,15 @@ export default function Uploader() {
                     onChange={handleFilesChange}
                     multiple
                 />
-                <button
-                    className="mx-auto rounded-md bg-red-300 p-2 text-lg disabled:bg-red-950 disabled:text-white"
-                    type="submit"
-                    disabled={submitting}
-                >
-                    upload
-                </button>
+                {files.length > 0 && (
+                    <button
+                        className="mx-auto mt-4 rounded-md bg-red-300 p-2 text-lg disabled:bg-red-950 disabled:text-white"
+                        type="submit"
+                        disabled={submitting}
+                    >
+                        upload
+                    </button>
+                )}
             </form>
         </div>
     );

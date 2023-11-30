@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { RouterOutputs } from "~/trpc/shared";
 
 export default function SoundPlayer(props: {
@@ -19,23 +20,30 @@ export default function SoundPlayer(props: {
                 {/* <source src={url} type="audio/x-pn-wav" /> */}
                 Your browser does not support the audio element.
             </audio>
-            <p className="mx-4 my-auto">{props.sound.soundType}sound</p>
-            <a
-                href={props.sound.url}
-                className="my-auto mr-2 flex h-10 rounded-md bg-green-500 px-3"
-            >
-                <p className="m-auto">download</p>
-            </a>
-            <button // TODO: replace with share icon
-                className="my-auto mr-2 flex rounded-md bg-indigo-600 px-3 py-2 text-white"
-                onClick={() =>
-                    navigator.clipboard.writeText(
-                        `${props.url}/s/${props.sound.id}`
-                    )
-                }
-            >
-                copy link
-            </button>
+            <p className="ml-auto my-auto">{props.sound.soundType}sound</p>
+            <div className="flex ml-auto">
+                <a
+                    href={props.sound.url}
+                    className="my-auto mr-2 flex h-10 rounded-md bg-green-500 px-3"
+                >
+                    <p className="m-auto">download</p>
+                </a>
+                <div
+                    className="hover:cursor-pointer"
+                    onClick={() =>
+                        navigator.clipboard.writeText(
+                            `${props.url}/s/${props.sound.id}`
+                        )
+                    }
+                >
+                    <Image
+                        src={"/copy.png"}
+                        width="40"
+                        height="1"
+                        alt="Copy link to sound"
+                    />
+                </div>
+            </div>
         </div>
     );
 }

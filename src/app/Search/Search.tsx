@@ -52,13 +52,13 @@ export default function Search(props: { url: string }) {
 
     return (
         <div>
-            <form onSubmit={handleFormSubmit} className="mt-1 text-center">
+            <form onSubmit={handleFormSubmit} className="my-2 text-center">
                 <input
                     type="text"
                     ref={inputRef}
                     placeholder="...search"
                     defaultValue={keywords ?? ""}
-                    className="mb-2 w-96 rounded-sm bg-blue-300 text-center leading-8 text-black placeholder:text-neutral-500"
+                    className="w-96 rounded-sm bg-blue-300 text-center leading-8 text-black placeholder:text-neutral-500"
                 />
                 <label htmlFor="type" className="ml-2">sound type:</label>
                 <select
