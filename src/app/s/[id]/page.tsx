@@ -1,23 +1,34 @@
 import SoundPlayer from "~/app/_components/SoundPlayer";
+import SoundPlayerHeader from "~/app/_components/SoundPlayerHeader";
 import { api } from "~/trpc/server";
 import { getBaseUrl } from "~/trpc/shared";
+
+function SoundNotFound() {
+    return (
+        <div className="mt-10 flex">
+            <div className="m-auto">
+                <p className="text-2xl font-semibold">Sound Not Found.</p>
+            </div>
+        </div>
+    );
+}
 
 export default async function SoundLink({
     params,
 }: {
     params: { id: string | number };
 }) {
-    if (isNaN(params.id as number)) return null; // TODO: return an invalid query response
+    if (isNaN(params.id as number)) return <SoundNotFound />;
 
     const sound = await api.search.getSoundByID.query(
         parseInt(params.id as string)
     );
 
-    if (sound === null) return null; // TODO: return sound not found
-
+    if (sound === null) return <SoundNotFound />;
     return (
-        <div className="flex mt-10">
+        <div className="mt-10 flex">
             <div className="m-auto">
+                <SoundPlayerHeader />
                 <SoundPlayer sound={sound} url={getBaseUrl()} />
             </div>
         </div>
