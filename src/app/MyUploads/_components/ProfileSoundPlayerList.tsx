@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image";
 import { useState } from "react";
+import CopyLinkButton from "~/app/_components/CopyLinkButton";
 import { api } from "~/trpc/react";
 import { RouterOutputs } from "~/trpc/shared";
 
@@ -68,21 +68,7 @@ export default function ProfileSoundPlayerList(props: {
                     >
                         <p className="m-auto">download</p>
                     </a>
-                    <div
-                        className="hover:cursor-pointer mr-1"
-                        onClick={() =>
-                            navigator.clipboard.writeText(
-                                `${props.url}/s/${sound.id}`
-                            )
-                        }
-                    >
-                        <Image
-                            src={"/copy.png"}
-                            width="40"
-                            height="1"
-                            alt="Copy link to sound"
-                        />
-                    </div>
+                    <CopyLinkButton url={props.url} soundID={sound.id} />
                     {/* <button
                         className="my-auto mr-2 flex rounded-md bg-yellow-500 px-3 py-2 disabled:bg-yellow-950 disabled:text-white"
                         disabled={isDisabled}
@@ -90,7 +76,7 @@ export default function ProfileSoundPlayerList(props: {
                         edit
                     </button> */}
                     <button
-                        className="my-auto mr-2 flex rounded-md bg-red-500 px-3 py-2 text-white disabled:bg-red-950"
+                        className="my-auto ml-1 mr-2 flex rounded-md bg-red-500 px-3 py-2 text-white disabled:bg-red-950"
                         onClick={() => handleDelete(sound.id)}
                         disabled={isDisabled}
                     >

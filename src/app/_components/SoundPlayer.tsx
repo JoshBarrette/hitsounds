@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image";
 import { RouterOutputs } from "~/trpc/shared";
+import CopyLinkButton from "./CopyLinkButton";
 
 export default function SoundPlayer(props: {
     sound: RouterOutputs["search"]["search"][0];
@@ -28,21 +28,7 @@ export default function SoundPlayer(props: {
                 >
                     <p className="m-auto">download</p>
                 </a>
-                <div
-                    className="hover:cursor-pointer"
-                    onClick={() =>
-                        navigator.clipboard.writeText(
-                            `${props.url}/s/${props.sound.id}`
-                        )
-                    }
-                >
-                    <Image
-                        src={"/copy.png"}
-                        width="40"
-                        height="1"
-                        alt="Copy link to sound"
-                    />
-                </div>
+                <CopyLinkButton url={props.url} soundID={props.sound.id} />
             </div>
         </div>
     );
