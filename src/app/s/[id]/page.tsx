@@ -26,8 +26,8 @@ export default async function SoundLink({
 
     if (sound === null) return <SoundNotFound />;
     return (
-        <div className="mt-10 flex">
-            <div className="m-auto">
+        <div className="min-h-screen flex">
+            <div className="mx-auto mt-10">
                 <SoundPlayerHeader />
                 <SoundPlayer sound={sound} url={getBaseUrl()} />
             </div>

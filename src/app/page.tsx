@@ -11,7 +11,7 @@ export default async function Home() {
     });
 
     return (
-        <div className="flex">
+        <div className="flex min-h-screen">
             <div className="mx-auto">
                 <p className="w-full p-4 text-center text-3xl font-medium text-white">
                     Most Recent Uploads

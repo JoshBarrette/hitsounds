@@ -168,9 +168,9 @@ export default function Uploader() {
     }
 
     return (
-        <div className="w-screen">
+        <div className="w-full">
             <div
-                className="mx-auto mt-10 flex h-48 w-1/2 cursor-pointer rounded-lg border-2 border-dashed border-neutral-900 bg-cyan-500 text-center transition-all hover:bg-cyan-600 active:bg-cyan-400"
+                className="mx-auto mt-5 flex cursor-pointer rounded-lg border-2 border-dashed border-neutral-900 bg-cyan-500 px-48 py-16 text-center transition-all hover:bg-cyan-600 active:bg-cyan-400"
                 ref={dropZoneRef}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
@@ -180,7 +180,7 @@ export default function Uploader() {
                     Click to browse files or drop sounds
                     <br />
                     <br />
-                    👶🏿
+                    👶
                 </p>
             </div>
             <form className="mx-auto flex" onSubmit={handleFormSubmit}>

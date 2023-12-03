@@ -7,6 +7,7 @@ import SiteHeader from "./_components/SiteHeader";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { cookies } from "next/headers";
+import Footer from "./_components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ export default function RootLayout({
                     <TRPCReactProvider cookies={cookies().toString()}>
                         <SiteHeader />
                         {children}
+                        <Footer />
                     </TRPCReactProvider>
                 </ClerkProvider>
             </body>

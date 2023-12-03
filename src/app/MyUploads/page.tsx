@@ -8,7 +8,7 @@ export default function MyUploads() {
     const sounds = api.search.getMySounds.useQuery().data;
 
     return (
-        <div className="flex">
+        <div className="flex min-h-screen">
             <div className="mx-auto">
                 <p className="w-full p-4 text-center text-3xl font-medium text-white">
                     My Uploads

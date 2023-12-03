@@ -37,7 +37,7 @@ export default function SoundToUpload(props: { index: number }) {
     }
 
     return (
-        <div className="flex-box my-2 rounded-md bg-neutral-500 px-3 pt-1">
+        <div className="flex-box my-2 rounded-md bg-cyan-950 px-3 pt-1">
             <div className="text-md m-auto mt-1 flex">
                 <label htmlFor={`name-${props.index}`} className="my-auto mr-2">
                     {props.index + 1}:

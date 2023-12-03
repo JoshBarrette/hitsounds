@@ -74,7 +74,7 @@ export default function Search(props: { url: string }) {
     }
 
     return (
-        <div>
+        <div className="min-h-screen">
             <form
                 onSubmit={handleFormSubmit}
                 className="my-2 text-center text-white"

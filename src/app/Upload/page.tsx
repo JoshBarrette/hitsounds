@@ -15,8 +15,9 @@ export type fileData = {
 
 export default function Upload() {
     return (
-        <div className="flex">
+        <div className="flex min-h-screen w-full">
             <div className="mx-auto">
+                <p className="text-center text-3xl mt-4 text-white">Upload</p>
                 <FilesContextProvider>
                     <Uploader />
                     <SoundsUploadList />
