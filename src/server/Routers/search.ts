@@ -25,9 +25,18 @@ export const searchRouter = createTRPCRouter({
                     input?.soundType !== null &&
                     input?.soundType !== undefined) ||
                 (input?.count ?? 1) < 0 ||
-                (input?.page ?? 1) < 0
+                (input?.page ?? 1) <= 0
             ) {
                 throw new TRPCError({ code: "BAD_REQUEST" });
+            }
+
+            let page = 0;
+            if (
+                input?.page !== null &&
+                input?.page !== undefined &&
+                !isNaN(input?.page)
+            ) {
+                page = (input?.page as number) - 1;
             }
 
             let orderBy: Prisma.SoundOrderByWithRelationInput;
@@ -70,7 +79,7 @@ export const searchRouter = createTRPCRouter({
                 },
                 orderBy: orderBy,
                 take: input?.count ?? DEFAULT_PAGE_SIZE,
-                skip: (input?.page ?? 0) * (input?.count ?? DEFAULT_PAGE_SIZE),
+                skip: page * (input?.count ?? DEFAULT_PAGE_SIZE),
             });
         }),
 
@@ -85,13 +94,6 @@ export const searchRouter = createTRPCRouter({
                 .optional()
         )
         .query(async ({ input, ctx }) => {
-            if (
-                (input?.soundType !== "hit" && input?.soundType !== "kill") ||
-                (input.count ?? 1) < 0
-            ) {
-                throw new TRPCError({ code: "BAD_REQUEST" });
-            }
-
             const total = await ctx.db.sound.count({
                 where: {
                     title: {
@@ -102,9 +104,12 @@ export const searchRouter = createTRPCRouter({
             });
 
             const floor = Math.floor(
-                total / (input.count ?? DEFAULT_PAGE_SIZE)
+                total / (input?.count ?? DEFAULT_PAGE_SIZE)
             );
-            if (floor % (input.count ?? DEFAULT_PAGE_SIZE) === 0) {
+            const mod = total % (input?.count ?? DEFAULT_PAGE_SIZE);
+            if (mod === 0 && floor === 0) {
+                return 1;
+            } else if (total % (input?.count ?? DEFAULT_PAGE_SIZE) === 0) {
                 return floor;
             } else {
                 return floor + 1;

@@ -10,28 +10,49 @@ export default function Search(props: { url: string }) {
     const [title, setTitle] = useState<string | undefined>(undefined);
     const [soundType, setSoundType] = useState<string | undefined>(undefined);
     const [sortBy, setSortBy] = useState<string | undefined>(undefined);
+    const [page, setPage] = useState<number | undefined>(undefined);
     const searchParams = useSearchParams();
     const router = useRouter();
-    const keywords = searchParams.get("k");
+    const keywordsParam = searchParams.get("k");
+    const typeParam = searchParams.get("type");
+    const sortParam = searchParams.get("sortBy");
+    const pageParam = searchParams.get("p");
     const inputRef = createRef<HTMLInputElement>();
     const typeRef = createRef<HTMLSelectElement>();
     const sortRef = createRef<HTMLSelectElement>();
+    const pager =
+        api.search.searchPageCount.useQuery({
+            title: title ?? keywordsParam,
+            soundType: typeParam ?? soundType !== "any" ? soundType : undefined,
+        }).data ?? 1;
     const searcher = api.search.search.useQuery({
-        title: title ?? keywords,
-        soundType: soundType !== "any" ? soundType : undefined,
-        sortBy: sortBy ?? "new",
+        title: title ?? keywordsParam,
+        soundType: typeParam ?? soundType !== "any" ? soundType : undefined,
+        sortBy: sortBy ?? sortParam ?? "new",
+        page: page ?? (pageParam !== null ? parseInt(pageParam) : undefined),
     }).data;
 
     function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        updateURL();
+    }
+
+    function updateURL(newPage?: number) {
         setTitle(inputRef.current?.value);
         setSoundType(typeRef.current?.value);
         setSortBy(sortRef.current?.value);
+        if (newPage !== undefined) setPage(newPage);
 
         const keywordsString =
             inputRef.current?.value !== ""
                 ? `k=${inputRef.current?.value}`
                 : null;
+        const pageString =
+            newPage !== undefined
+                ? `&p=${newPage}`
+                : page !== undefined
+                  ? `&p=${page}`
+                  : null;
         const soundTypeString =
             typeRef.current?.value !== "any"
                 ? `&type=${typeRef.current?.value}`
@@ -43,10 +64,12 @@ export default function Search(props: { url: string }) {
 
         router.push(
             `/Search${
-                keywordsString || soundTypeString || sortString ? "?" : ""
+                keywordsString || soundTypeString || sortString || pageString
+                    ? "?"
+                    : ""
             }` +
                 `${keywordsString ?? ""}${soundTypeString ?? ""}` +
-                `${sortString ?? ""}`
+                `${sortString ?? ""}${pageString ?? ""}`
         );
     }
 
@@ -60,7 +83,7 @@ export default function Search(props: { url: string }) {
                     type="text"
                     ref={inputRef}
                     placeholder="...search"
-                    defaultValue={keywords ?? ""}
+                    defaultValue={keywordsParam ?? ""}
                     className="w-96 rounded-sm bg-cyan-500 text-center leading-8 text-black placeholder:text-black"
                 />
                 <label htmlFor="type" className="ml-2">
@@ -71,6 +94,7 @@ export default function Search(props: { url: string }) {
                     name="type"
                     className="text-md mx-2 my-auto w-28 rounded-md bg-cyan-900 p-1 font-sans font-medium"
                     ref={typeRef}
+                    defaultValue={typeParam ?? "any"}
                 >
                     <option value="any" className="font-sans font-medium">
                         all sounds
@@ -90,6 +114,7 @@ export default function Search(props: { url: string }) {
                     name="sortByInput"
                     className="text-md my-auto mr-2 w-24 rounded-md bg-cyan-900 p-1 font-sans font-medium text-white"
                     ref={sortRef}
+                    defaultValue={sortParam ?? "new"}
                 >
                     <option value="new" className="font-sans font-medium">
                         new
@@ -127,6 +152,26 @@ export default function Search(props: { url: string }) {
                     })}
                 </div>
             </div>
+            <div className="flex w-full mt-2">
+                <PageSelector size={pager} callback={updateURL} />
+            </div>
+        </div>
+    );
+}
+
+function PageSelector(props: { size: number; callback: (n?: number) => void }) {
+    const thingToMapOver = new Array<number>(props.size).fill(1);
+    return (
+        <div className="m-auto flex">
+            {thingToMapOver.map((_, key) => (
+                <button
+                    className="mx-1 rounded-md bg-cyan-500 px-3 py-1 text-lg transition-all hover:bg-cyan-600 active:bg-cyan-400"
+                    key={key}
+                    onClick={() => props.callback(key + 1)}
+                >
+                    {key + 1}
+                </button>
+            ))}
         </div>
     );
 }
