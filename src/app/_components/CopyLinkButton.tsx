@@ -7,7 +7,7 @@ export default function CopyLinkButton(props: {
     return (
         <div className="group">
             <div
-                className="hover:cursor-pointer"
+                className="hover:cursor-pointer bg-neutral-500 transition-all rounded-md hover:bg-neutral-600 active:bg-neutral-400"
                 onClick={() =>
                     navigator.clipboard.writeText(
                         `${props.url}/s/${props.soundID}`

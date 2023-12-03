@@ -12,7 +12,7 @@ export default function Search(props: { url: string }) {
     const [sortBy, setSortBy] = useState<string | undefined>(undefined);
     const searchParams = useSearchParams();
     const router = useRouter();
-    const keywords = searchParams.get("keywords");
+    const keywords = searchParams.get("k");
     const inputRef = createRef<HTMLInputElement>();
     const typeRef = createRef<HTMLSelectElement>();
     const sortRef = createRef<HTMLSelectElement>();
@@ -30,7 +30,7 @@ export default function Search(props: { url: string }) {
 
         const keywordsString =
             inputRef.current?.value !== ""
-                ? `keywords=${inputRef.current?.value}`
+                ? `k=${inputRef.current?.value}`
                 : null;
         const soundTypeString =
             typeRef.current?.value !== "any"
@@ -52,19 +52,24 @@ export default function Search(props: { url: string }) {
 
     return (
         <div>
-            <form onSubmit={handleFormSubmit} className="my-2 text-center">
+            <form
+                onSubmit={handleFormSubmit}
+                className="my-2 text-center text-white"
+            >
                 <input
                     type="text"
                     ref={inputRef}
                     placeholder="...search"
                     defaultValue={keywords ?? ""}
-                    className="w-96 rounded-sm bg-blue-300 text-center leading-8 text-black placeholder:text-neutral-500"
+                    className="w-96 rounded-sm bg-cyan-500 text-center leading-8 text-black placeholder:text-black"
                 />
-                <label htmlFor="type" className="ml-2">sound type:</label>
+                <label htmlFor="type" className="ml-2">
+                    sound type:
+                </label>
                 <select
                     id="type"
                     name="type"
-                    className="text-md mx-2 my-auto w-28 rounded-md border-2 border-cyan-100 bg-gray-700 p-1 font-sans font-medium text-white focus:border-2 focus:border-blue-400 focus:ring-blue-400"
+                    className="text-md mx-2 my-auto w-28 rounded-md bg-cyan-900 p-1 font-sans font-medium"
                     ref={typeRef}
                 >
                     <option value="any" className="font-sans font-medium">
@@ -77,11 +82,13 @@ export default function Search(props: { url: string }) {
                         killsound
                     </option>
                 </select>
-                <label htmlFor="sortByInput" className="mr-2">sort by:</label>
+                <label htmlFor="sortByInput" className="mr-2">
+                    sort by:
+                </label>
                 <select
                     id="sortByInput"
                     name="sortByInput"
-                    className="text-md my-auto mr-2 w-24 rounded-md border-2 border-cyan-100 bg-gray-700 p-1 font-sans font-medium text-white focus:border-2 focus:border-blue-400 focus:ring-blue-400"
+                    className="text-md my-auto mr-2 w-24 rounded-md bg-cyan-900 p-1 font-sans font-medium text-white"
                     ref={sortRef}
                 >
                     <option value="new" className="font-sans font-medium">
@@ -99,7 +106,7 @@ export default function Search(props: { url: string }) {
                 </select>
                 <button
                     type="submit"
-                    className="rounded-md bg-red-300 px-3 py-2"
+                    className="rounded-md bg-cyan-500 px-3 py-2 text-black transition-all hover:bg-cyan-600 active:bg-cyan-400"
                 >
                     Search
                 </button>

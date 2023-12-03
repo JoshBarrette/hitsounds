@@ -7,8 +7,8 @@ export default function SoundPlayer(props: {
     url: string;
 }) {
     return (
-        <div className="mb-1 flex bg-yellow-500 p-1">
-            <p className="mx-2 my-auto w-96 break-words text-center">
+        <div className="mb-1 flex bg-neutral-500 p-1">
+            <p className="mx-2 my-auto w-96 break-words text-center font-medium text-lg">
                 {props.sound.title}
             </p>
             <audio
@@ -20,13 +20,15 @@ export default function SoundPlayer(props: {
                 {/* <source src={url} type="audio/x-pn-wav" /> */}
                 Your browser does not support the audio element.
             </audio>
-            <p className="ml-auto my-auto">{props.sound.soundType}sound</p>
-            <div className="flex ml-auto">
+            <p className="my-auto ml-auto font-medium">
+                {props.sound.soundType}sound
+            </p>
+            <div className="ml-auto flex">
                 <a
                     href={props.sound.url}
-                    className="my-auto mr-2 flex h-10 rounded-md bg-green-500 px-3"
+                    className="my-auto mr-2 flex h-10 rounded-md bg-cyan-500 px-3 transition-all hover:bg-cyan-600 active:bg-cyan-400"
                 >
-                    <p className="m-auto">download</p>
+                    <p className="m-auto font-medium">download</p>
                 </a>
                 <CopyLinkButton url={props.url} soundID={props.sound.id} />
             </div>

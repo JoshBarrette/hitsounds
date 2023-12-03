@@ -1,6 +1,6 @@
 export default function SoundPlayerHeader() {
     return (
-        <div className="flex text-center">
+        <div className="flex text-center text-white">
             <div>
                 <p className="mx-3 w-96">name</p>
             </div>

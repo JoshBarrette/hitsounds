@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
         });
 
         if (success){
-            responses.push(`${currentFileName}: Successfully uploaded.`);
+            responses.push(`Successfully uploaded: ${currentFileName}.`);
         }
     }
 

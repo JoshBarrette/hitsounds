@@ -22,24 +22,22 @@ export default function SiteHeader() {
 
     function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        router.push(`/Search?keywords=${inputRef.current?.value}`);
+        router.push(`/Search?k=${inputRef.current?.value}`);
         router.refresh();
     }
 
     return (
         <>
-            <div className="z-30 flex w-full bg-indigo-900">
+            <div className="z-30 flex w-full bg-neutral-800">
                 <nav className=" mx-auto flex w-3/5 sm:w-full xl:w-3/5">
                     <div className="my-auto flex w-80 text-left">
                         <div
-                            className={`mr-auto ${
+                            className={`mr-auto text-white transition-all hover:bg-cyan-500 hover:text-black ${
                                 showSignInWindow ? "pointer-events-none" : ""
                             }`}
                         >
                             <Link href="/">
-                                <h1 className="p-2 text-3xl text-white">
-                                    ...hitsounds
-                                </h1>
+                                <h1 className="p-2 text-3xl">...hitsounds</h1>
                             </Link>
                         </div>
                     </div>
@@ -52,7 +50,7 @@ export default function SiteHeader() {
                             type="text"
                             ref={inputRef}
                             placeholder="...search"
-                            className="my-auto mb-2 w-full rounded-sm bg-blue-300 text-center leading-8 text-black placeholder:text-neutral-500"
+                            className="my-auto mb-2 w-full rounded-sm bg-cyan-500 text-center leading-8 placeholder:text-black"
                             disabled={showSignInWindow}
                         />
                         {/* <button
@@ -68,14 +66,14 @@ export default function SiteHeader() {
                             <div className="flex sm:ml-5">
                                 <div className="my-auto ml-auto">
                                     <Link href="/Upload">
-                                        <p className="rounded-md bg-blue-300 px-3 py-1 text-2xl text-white">
+                                        <p className="rounded-md bg-cyan-500 px-3 py-1 text-2xl transition-all hover:bg-cyan-600 active:bg-cyan-400">
                                             upload
                                         </p>
                                     </Link>
                                 </div>
                                 <div className="my-auto ml-auto">
                                     <Link href="/MyUploads">
-                                        <p className="rounded-md bg-blue-300 px-3 py-1 text-2xl text-white">
+                                        <p className="rounded-md bg-cyan-500 px-3 py-1 text-2xl transition-all hover:bg-cyan-600 active:bg-cyan-400">
                                             uploads
                                         </p>
                                     </Link>
@@ -92,7 +90,7 @@ export default function SiteHeader() {
                                     className="ml-auto"
                                     disabled={showSignInWindow}
                                 >
-                                    <p className="rounded-md bg-blue-300 px-3 py-1 text-2xl text-white">
+                                    <p className="rounded-md bg-cyan-500 px-3 py-1 text-2xl">
                                         sign in
                                     </p>
                                 </button>

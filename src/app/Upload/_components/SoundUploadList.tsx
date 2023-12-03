@@ -10,7 +10,7 @@ export default function SoundsUploadList() {
         <div className="flex">
             <div className="mx-auto mt-2">
                 {files.length > 0 ? (
-                    <div className="flex text-center">
+                    <div className="flex text-center text-white">
                         <div>
                             <p className="mx-8 w-96">name</p>
                         </div>
