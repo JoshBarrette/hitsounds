@@ -4,7 +4,10 @@ import { api } from "~/trpc/server";
 import SoundPlayerHeader from "./_components/SoundPlayerHeader";
 
 export default async function Home() {
-    const searcher = await api.search.search.query({ sortBy: "new" });
+    const searcher = await api.search.search.query({
+        sortBy: "new",
+        count: 50,
+    });
 
     return (
         <div className="flex">
