@@ -44,23 +44,29 @@ export async function POST(req: NextRequest) {
             responses.push(
                 "Make sure you providing a name, type, and file when uploading."
             );
+            continue;
         } else if (currentFileData.type !== "audio/wav") {
             responses.push(`${currentFileName}: Invalid file type.`);
+            continue;
         } else if (currentFileType !== "hit" && currentFileType !== "kill") {
             responses.push(`${currentFileName}: Invalid sound type.`);
+            continue;
         } else if (currentFileData.size > MAX_FILE_SIZE) {
             responses.push(
                 `${currentFileName}: File too large. Must be less than ${MAX_FILE_SIZE} bytes.`
             );
+            continue;
         } else if (currentFileName.length > MAX_NAME_SIZE) {
             responses.push(
                 `${currentFileName}: File name too long. Must be less than or equal to ${MAX_NAME_SIZE} characters.`
             );
+            continue;
         } else if (currentFileDescription !== null) {
             if (currentFileDescription.length > MAX_DESCRIPTION_SIZE) {
                 responses.push(
                     `${currentFileName}: File description too long. Must be less than or equal to ${MAX_NAME_SIZE} characters.`
                 );
+                continue;
             }
         }
 
