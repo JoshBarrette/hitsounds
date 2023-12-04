@@ -23,11 +23,11 @@ export default function Search(props: { url: string }) {
     const pager =
         api.search.searchPageCount.useQuery({
             title: title ?? keywordsParam,
-            soundType: typeParam ?? soundType !== "any" ? soundType : undefined,
+            soundType: typeParam ?? (soundType !== "any" ? soundType : undefined),
         }).data ?? 1;
     const searcher = api.search.search.useQuery({
         title: title ?? keywordsParam,
-        soundType: typeParam ?? soundType !== "any" ? soundType : undefined,
+        soundType: typeParam ?? (soundType !== "any" ? soundType : undefined),
         sortBy: sortBy ?? sortParam ?? "new",
         page: page ?? (pageParam !== null ? parseInt(pageParam) : undefined),
     }).data;
@@ -152,7 +152,7 @@ export default function Search(props: { url: string }) {
                     })}
                 </div>
             </div>
-            <div className="flex w-full mt-2">
+            <div className="mt-2 flex w-full">
                 <PageSelector size={pager} callback={updateURL} />
             </div>
         </div>
