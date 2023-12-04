@@ -2,7 +2,6 @@
 import { useState } from "react";
 import CopyLinkButton from "~/app/_components/CopyLinkButton";
 import { api } from "~/trpc/react";
-import { RouterOutputs } from "~/trpc/shared";
 
 function ProfileSoundPlayerListHeader() {
     return (
@@ -23,19 +22,13 @@ function ProfileSoundPlayerListHeader() {
     );
 }
 
-export default function ProfileSoundPlayerList(props: {
-    sounds: RouterOutputs["search"]["search"];
-    url: string;
-}) {
-    const [sounds, setSounds] = useState([...props.sounds]);
+export default function ProfileSoundPlayerList(props: { url: string }) {
+    const soundsQuery = api.search.getMySounds.useQuery();
     const [isDisabled, setIsDisabled] = useState(false);
     const deleteSound = api.files.delete.useMutation({
-        onSuccess(data) {
-            let newSounds = sounds.filter((sound) => sound.id !== data.id);
-            setSounds(newSounds);
-        },
         onSettled() {
             setIsDisabled(false);
+            soundsQuery.refetch();
         },
     });
 
@@ -46,8 +39,10 @@ export default function ProfileSoundPlayerList(props: {
 
     return (
         <>
-            {sounds.length > 0 ? <ProfileSoundPlayerListHeader /> : null}
-            {sounds?.map((sound, key) => (
+            {(soundsQuery.data?.length ?? 0) > 0 ? (
+                <ProfileSoundPlayerListHeader />
+            ) : null}
+            {soundsQuery.data?.map((sound, key) => (
                 <div
                     className="mb-1 flex bg-neutral-500 p-1 font-medium"
                     key={key}
