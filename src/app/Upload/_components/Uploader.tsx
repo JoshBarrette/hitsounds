@@ -1,8 +1,8 @@
-import { ChangeEvent, DragEvent, FormEvent, createRef, useState } from "react";
+import { ChangeEvent, DragEvent, FormEvent, createRef } from "react";
 import { fileData } from "../page";
 import { useUser } from "@clerk/nextjs";
 import { useFileContext } from "./FilesContext";
-import { MAX_FILE_SIZE, MAX_NAME_SIZE } from "~/app/api/upload/route";
+import { MAX_FILE_SIZE, MAX_NAME_SIZE } from "~/app/api/upload/constants";
 
 export default function Uploader() {
     const { files, setFiles, submitting, setSubmitting } = useFileContext();

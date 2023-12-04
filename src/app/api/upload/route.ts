@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { s3Put } from "~/s3";
 import { db } from "~/server/db";
-
-export const MAX_FILE_SIZE = 1000000; // 1000 kilobytes/1000000 bytes/1 mb
-export const MAX_NAME_SIZE = 300;
-export const MAX_DESCRIPTION_SIZE = 300;
+import { MAX_DESCRIPTION_SIZE, MAX_FILE_SIZE, MAX_NAME_SIZE } from "./constants";
 
 export async function POST(req: NextRequest) {
     const formData = await req.formData();

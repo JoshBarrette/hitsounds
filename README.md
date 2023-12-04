@@ -12,6 +12,7 @@ See `.env.example` for required variables.
 
 ### TODO
 
+-   Add filtering to MyUploads page.
 -   Allow admins to delete sounds and ban users. Might just make a different site for this.
 -   Test in different browsers and window sizes.
 -   Documentation :c

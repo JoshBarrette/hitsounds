@@ -5,7 +5,7 @@ import {
     DeleteObjectCommand,
     DeleteObjectCommandInput,
 } from "@aws-sdk/client-s3";
-import { MAX_FILE_SIZE } from "~/app/api/upload/route";
+import { MAX_FILE_SIZE } from "~/app/api/upload/constants";
 import { SoundType } from "~/server/db";
 
 const ACCESS_KEY = process.env.AWS_ACCESS_KEY_ID as string;

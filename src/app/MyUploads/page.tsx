@@ -13,7 +13,12 @@ export default function MyUploads() {
                 <p className="w-full p-4 text-center text-3xl font-medium text-white">
                     My Uploads
                 </p>
-                <ProfileSoundPlayerList sounds={sounds} url={getBaseUrl()} />
+                {sounds !== undefined ? (
+                    <ProfileSoundPlayerList
+                        sounds={sounds}
+                        url={getBaseUrl()}
+                    />
+                ) : null}
             </div>
         </div>
     );

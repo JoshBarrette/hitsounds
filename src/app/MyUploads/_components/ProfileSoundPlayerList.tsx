@@ -24,10 +24,9 @@ function ProfileSoundPlayerListHeader() {
 }
 
 export default function ProfileSoundPlayerList(props: {
-    sounds: RouterOutputs["search"]["search"] | undefined;
+    sounds: RouterOutputs["search"]["search"];
     url: string;
 }) {
-    if (props.sounds === undefined) return null;
     const [sounds, setSounds] = useState([...props.sounds]);
     const [isDisabled, setIsDisabled] = useState(false);
     const deleteSound = api.files.delete.useMutation({
