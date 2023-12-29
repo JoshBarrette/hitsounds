@@ -16,7 +16,7 @@ export default function DeleteSoundButton(props: {
                     src={"/delete-svgrepo-com.svg"}
                     width="40"
                     height="1"
-                    alt="Copy link to sound"
+                    alt="Delete sound"
                     className="p-2"
                 />
             </button>

@@ -11,7 +11,7 @@ export default function DownloadButton(props: { url: string }) {
                     src={"/download-svgrepo-com.svg"}
                     width="40"
                     height="1"
-                    alt="Copy link to sound"
+                    alt="Download sound"
                     className="p-2"
                 />
             </a>
