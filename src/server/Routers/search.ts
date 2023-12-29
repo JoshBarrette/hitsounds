@@ -22,6 +22,7 @@ export const searchRouter = createTRPCRouter({
             if (
                 (input?.soundType !== "hit" &&
                     input?.soundType !== "kill" &&
+                    input?.soundType !== "any" &&
                     input?.soundType !== null &&
                     input?.soundType !== undefined) ||
                 (input?.count ?? 1) < 0 ||
@@ -62,6 +63,11 @@ export const searchRouter = createTRPCRouter({
                     };
             }
 
+            let soundType = undefined;
+            if (input?.soundType === "hit" || input?.soundType === "kill") {
+                soundType = input?.soundType;
+            }
+
             return await ctx.db.sound.findMany({
                 select: {
                     id: true,
@@ -75,7 +81,7 @@ export const searchRouter = createTRPCRouter({
                     title: {
                         contains: input?.title ?? undefined,
                     },
-                    soundType: input?.soundType ?? undefined,
+                    soundType: soundType,
                 },
                 orderBy: orderBy,
                 take: input?.count ?? DEFAULT_PAGE_SIZE,
