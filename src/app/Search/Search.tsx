@@ -5,6 +5,7 @@ import SoundPlayer from "../_components/SoundPlayer";
 import { FormEvent, createRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import SoundPlayerHeader from "../_components/SoundPlayerHeader";
+import { DefaultButtonStyles } from "../_components/Constants";
 
 export default function Search(props: { url: string }) {
     const [title, setTitle] = useState<string | undefined>(undefined);
@@ -23,7 +24,8 @@ export default function Search(props: { url: string }) {
     const pager =
         api.search.searchPageCount.useQuery({
             title: title ?? keywordsParam,
-            soundType: typeParam ?? (soundType !== "any" ? soundType : undefined),
+            soundType:
+                typeParam ?? (soundType !== "any" ? soundType : undefined),
         }).data ?? 1;
     const searcher = api.search.search.useQuery({
         title: title ?? keywordsParam,
@@ -82,9 +84,9 @@ export default function Search(props: { url: string }) {
                 <input
                     type="text"
                     ref={inputRef}
-                    placeholder="...search"
+                    placeholder="search"
                     defaultValue={keywordsParam ?? ""}
-                    className="w-96 rounded-sm bg-cyan-500 text-center leading-8 text-black placeholder:text-black"
+                    className="w-96 rounded-sm bg-cyan-900 text-center leading-8 text-white placeholder:text-neutral-200"
                 />
                 <label htmlFor="type" className="ml-2">
                     sound type:
@@ -129,10 +131,7 @@ export default function Search(props: { url: string }) {
                         {"z->a"}
                     </option>
                 </select>
-                <button
-                    type="submit"
-                    className="rounded-md bg-cyan-500 px-3 py-2 text-black transition-all hover:bg-cyan-600 active:bg-cyan-400"
-                >
+                <button type="submit" className={DefaultButtonStyles}>
                     Search
                 </button>
             </form>

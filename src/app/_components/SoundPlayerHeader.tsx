@@ -11,7 +11,7 @@ export default function SoundPlayerHeader() {
                 <p className="ml-5 w-20">type</p>
             </div>
             <div>
-                <p className="ml-5 w-36">options</p>
+                <p className="ml-5 w-28">options</p>
             </div>
         </div>
     );
