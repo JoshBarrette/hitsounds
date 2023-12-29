@@ -1,14 +1,16 @@
 "use client";
 import { RouterOutputs } from "~/trpc/shared";
 import CopyLinkButton from "./CopyLinkButton";
+import Image from "next/image";
+import DownloadButton from "./DownloadButton";
 
 export default function SoundPlayer(props: {
     sound: RouterOutputs["search"]["search"][0];
     url: string;
 }) {
     return (
-        <div className="mb-1 flex bg-neutral-500 p-1">
-            <p className="mx-2 my-auto w-96 break-words text-center font-medium text-lg">
+        <div className="mb-1 flex rounded-sm bg-neutral-500 p-1">
+            <p className="mx-2 my-auto w-96 break-words text-center text-lg font-medium">
                 {props.sound.title}
             </p>
             <audio
@@ -24,12 +26,7 @@ export default function SoundPlayer(props: {
                 {props.sound.soundType}sound
             </p>
             <div className="ml-auto flex">
-                <a
-                    href={props.sound.url}
-                    className="my-auto mr-2 flex h-10 rounded-md bg-cyan-500 px-3 transition-all hover:bg-cyan-600 active:bg-cyan-400"
-                >
-                    <p className="m-auto font-medium">download</p>
-                </a>
+                <DownloadButton url={props.sound.url} />
                 <CopyLinkButton url={props.url} soundID={props.sound.id} />
             </div>
         </div>

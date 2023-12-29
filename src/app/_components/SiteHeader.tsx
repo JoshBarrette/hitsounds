@@ -49,8 +49,8 @@ export default function SiteHeader() {
                         <input
                             type="text"
                             ref={inputRef}
-                            placeholder="...search"
-                            className="my-auto mb-2 w-full rounded-sm bg-cyan-500 text-center leading-8 placeholder:text-black"
+                            placeholder="search"
+                            className="my-auto mb-2 w-full rounded-sm bg-cyan-900 text-center leading-8 text-white placeholder:text-neutral-200"
                             disabled={showSignInWindow}
                         />
                         {/* <button
@@ -64,20 +64,16 @@ export default function SiteHeader() {
                     <div className="my-auto ml-auto w-80">
                         {user.isSignedIn ? (
                             <div className="flex sm:ml-5">
-                                <div className="my-auto ml-auto">
-                                    <Link href="/Upload">
-                                        <p className="rounded-md bg-cyan-500 px-3 py-1 text-2xl transition-all hover:bg-cyan-600 active:bg-cyan-400">
-                                            upload
-                                        </p>
-                                    </Link>
-                                </div>
-                                <div className="my-auto ml-auto">
-                                    <Link href="/MyUploads">
-                                        <p className="rounded-md bg-cyan-500 px-3 py-1 text-2xl transition-all hover:bg-cyan-600 active:bg-cyan-400">
-                                            uploads
-                                        </p>
-                                    </Link>
-                                </div>
+                                <Link href="/Upload">
+                                    <div className="my-auto ml-auto h-full px-3 py-2.5 text-2xl text-white transition-all hover:bg-cyan-500 hover:text-black active:bg-cyan-400">
+                                        <p>upload</p>
+                                    </div>
+                                </Link>
+                                <Link href="/MyUploads">
+                                    <div className="my-auto ml-auto h-full px-3 py-2.5 text-2xl text-white transition-all hover:bg-cyan-500 hover:text-black active:bg-cyan-400">
+                                        <p>uploads</p>
+                                    </div>
+                                </Link>
                                 <div className="my-auto ml-auto">
                                     <UserButton afterSignOutUrl="/" />
                                 </div>
@@ -87,12 +83,10 @@ export default function SiteHeader() {
                             <div className="my-auto flex">
                                 <button
                                     onClick={() => setShowSignInWindow(true)}
-                                    className="ml-auto"
+                                    className="my-auto ml-auto h-full px-3 py-2.5 text-2xl text-white transition-all hover:bg-cyan-500 hover:text-black active:bg-cyan-400"
                                     disabled={showSignInWindow}
                                 >
-                                    <p className="rounded-md bg-cyan-500 px-3 py-1 text-2xl">
-                                        sign in
-                                    </p>
+                                    <p>sign in</p>
                                 </button>
                                 <div className="sm:w-3 xl:w-0" />
                             </div>
