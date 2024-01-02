@@ -2,6 +2,8 @@
 import { useState } from "react";
 import CopyLinkButton from "~/app/_components/CopyLinkButton";
 import { api } from "~/trpc/react";
+import DownloadButton from "~/app/_components/DownloadButton";
+import DeleteSoundButton from "./DeleteSoundButton";
 
 function ProfileSoundPlayerListHeader() {
     return (
@@ -16,7 +18,7 @@ function ProfileSoundPlayerListHeader() {
                 <p className="ml-3.5 w-20">type</p>
             </div>
             <div>
-                <p className="ml-4 w-52">options</p>
+                <p className="ml-4 w-36">options</p>
             </div>
         </div>
     );
@@ -44,7 +46,7 @@ export default function ProfileSoundPlayerList(props: { url: string }) {
             ) : null}
             {soundsQuery.data?.map((sound, key) => (
                 <div
-                    className="mb-1 flex bg-neutral-500 p-1 font-medium"
+                    className="mb-1 flex rounded-sm bg-neutral-500 p-1 font-medium"
                     key={key}
                 >
                     <p className="mx-2 my-auto w-96 break-words text-center text-lg">
@@ -59,20 +61,20 @@ export default function ProfileSoundPlayerList(props: { url: string }) {
                         Your browser does not support the audio element.
                     </audio>
                     <p className="w-18 mx-4 my-auto">{sound.soundType}sound</p>
-                    <a
-                        href={sound.url}
-                        className="my-auto mr-2 flex h-10 rounded-md bg-cyan-500 px-3 transition-all hover:bg-cyan-600 active:bg-cyan-400"
-                    >
-                        <p className="m-auto">download</p>
-                    </a>
+                    <DownloadButton url={sound.url} />
                     <CopyLinkButton url={props.url} soundID={sound.id} />
-                    <button
+                    {/* <button
                         className="my-auto ml-1 mr-2 flex rounded-md bg-red-950 px-3 py-2 text-white transition-all hover:bg-red-800 active:bg-red-900 disabled:bg-red-300 disabled:text-black"
                         onClick={() => handleDelete(sound.id)}
                         disabled={isDisabled}
                     >
                         delete
-                    </button>
+                    </button> */}
+                    <DeleteSoundButton
+                        soundId={sound.id}
+                        isDisabled={isDisabled}
+                        handleDelete={handleDelete}
+                    />
                 </div>
             ))}
         </>
