@@ -3,7 +3,6 @@ import { fileData } from "../page";
 import { useUser } from "@clerk/nextjs";
 import { useFileContext } from "./FilesContext";
 import { MAX_FILE_SIZE, MAX_NAME_SIZE } from "~/app/api/upload/constants";
-import { DefaultButtonStyles } from "~/app/_components/Constants";
 
 export default function Uploader() {
     const { files, setFiles, submitting, setSubmitting } = useFileContext();
@@ -194,7 +193,7 @@ export default function Uploader() {
                 />
                 {files.length > 0 && (
                     <button
-                        className={DefaultButtonStyles + "mx-auto mt-4"}
+                        className="default-button mx-auto mt-4"
                         type="submit"
                         disabled={submitting}
                     >

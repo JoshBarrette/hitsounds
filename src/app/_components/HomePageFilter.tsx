@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { DefaultButtonStyles } from "./Constants";
 
 export default function HomePageFilter() {
     const router = useRouter();
@@ -10,31 +9,31 @@ export default function HomePageFilter() {
         <div className="text-center text-white grid grid-cols-5 space-x-3">
             <button
                 onClick={() => router.push(`/Search`)}
-                className={DefaultButtonStyles}
+                className="default-button"
             >
                 All Sounds
             </button>
             <button
                 onClick={() => router.push(`/Search?type=hit`)}
-                className={DefaultButtonStyles}
+                className="default-button"
             >
                 All Hitsounds
             </button>
             <button
                 onClick={() => router.push(`/Search?type=kill`)}
-                className={DefaultButtonStyles}
+                className="default-button"
             >
                 All Killsounds
             </button>
             <button
                 onClick={() => router.push(`/Search`)}
-                className={DefaultButtonStyles}
+                className="default-button"
             >
                 Newest Sounds
             </button>
             <button
                 onClick={() => router.push(`/Search?sortBy=old`)}
-                className={DefaultButtonStyles}
+                className="default-button"
             >
                 Oldest Sounds
             </button>

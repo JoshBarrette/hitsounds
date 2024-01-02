@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { createRef } from "react";
-import { DefaultButtonStyles } from "./Constants";
 
 export default function HomePageSearchBar() {
     const router = useRouter();
@@ -23,7 +22,7 @@ export default function HomePageSearchBar() {
                     placeholder="search"
                     className="w-3/5 rounded-sm bg-cyan-900 text-center text-xl leading-10 text-white placeholder:text-neutral-200"
                 />
-                <button type="submit" className={DefaultButtonStyles}>
+                <button type="submit" className="default-button">
                     Search
                 </button>
             </form>
