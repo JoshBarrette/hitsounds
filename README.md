@@ -1,4 +1,4 @@
-# ...hitsounds
+# hitsounds
 
 Fullstack app for users to upload and share hitsounds/killsounds for Team Fortress 2 built using Next JS with App Router.
 
@@ -32,12 +32,8 @@ The route will return an array of strings that are the responses for each of the
 
 Note: start counting the nth file from 0 when submitting files to upload.
 
-## tRPC API
-
-All of the tRPC routers can be found in `/src/server/Routers/`. Their definitions are better documentation than I could ever write.
-
 ### TODO
 
--   The site looks way too bland, gotta clean it up.
--   Add filtering to MyUploads page.
--   Allow admins to delete sounds and ban users. Might just make a different site for this.
+-   Add filtering to MyUploads page
+-   Admin page
+-   Add history for recently played sounds

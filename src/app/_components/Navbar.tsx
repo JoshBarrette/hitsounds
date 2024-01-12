@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FormEvent, createRef, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function SiteHeader() {
+export default function Navbar() {
     const user = useUser();
     const [showSignInWindow, setShowSignInWindow] = useState<boolean>(false);
     const inputRef = createRef<HTMLInputElement>();
@@ -37,7 +37,7 @@ export default function SiteHeader() {
                             }`}
                         >
                             <Link href="/">
-                                <h1 className="p-2 text-3xl">...hitsounds</h1>
+                                <h1 className="p-2 text-3xl">hitsounds</h1>
                             </Link>
                         </div>
                     </div>

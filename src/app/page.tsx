@@ -15,7 +15,7 @@ export default async function Home() {
             <div className="mx-auto">
                 <div className="mb-28 mt-64 h-96 flex-col">
                     <h3 className="m-auto text-center text-5xl font-medium text-white">
-                        ...hitsounds
+                        hitsounds
                     </h3>
                     <p className="m-auto text-center text-xl font-medium text-white">
                         Hitsounds and Killsounds for Team Fortress 2

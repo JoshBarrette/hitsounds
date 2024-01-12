@@ -75,6 +75,9 @@ export default function Search(props: { url: string }) {
 
     return (
         <div className="min-h-screen">
+            <p className="my-4 text-center text-4xl font-medium text-white">
+                Search Sounds
+            </p>
             <form
                 onSubmit={handleFormSubmit}
                 className="my-2 text-center text-white"
@@ -129,18 +132,27 @@ export default function Search(props: { url: string }) {
                         {"z->a"}
                     </option>
                 </select>
-                <button type="submit" className="default-button">
+                <br />
+                <button type="submit" className="default-button mt-4">
                     Search
                 </button>
             </form>
-            <div className="flex">
-                <div className="m-auto">
-                    <SoundsTable sounds={searcher} url={props.url} />
-                </div>
-            </div>
-            <div className="mt-2 flex w-full">
-                <PageSelector size={pager} callback={updateURL} />
-            </div>
+            {searcher !== undefined && searcher.length !== 0 ? (
+                <>
+                    <div className="flex">
+                        <div className="m-auto">
+                            <SoundsTable sounds={searcher} url={props.url} />
+                        </div>
+                    </div>
+                    <div className="mt-2 flex w-full">
+                        <PageSelector size={pager} callback={updateURL} />
+                    </div>
+                </>
+            ) : (
+                <p className="text-center text-3xl font-medium text-white">
+                    No Sounds Found
+                </p>
+            )}
         </div>
     );
 }

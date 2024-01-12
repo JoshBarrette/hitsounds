@@ -176,11 +176,8 @@ export default function Uploader() {
                 onDrop={handleDrop}
                 onClick={clickInput}
             >
-                <p className="m-auto text-xl">
-                    Click to browse files or drop sounds
-                    <br />
-                    <br />
-                    👶
+                <p className="m-auto text-2xl font-medium">
+                    Drop sounds or click to browse files
                 </p>
             </div>
             <form className="mx-auto flex" onSubmit={handleFormSubmit}>
