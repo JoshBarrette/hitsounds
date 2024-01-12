@@ -1,11 +1,9 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { api } from "~/trpc/react";
-import SoundPlayer from "../_components/SoundPlayer";
 import { FormEvent, createRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import SoundPlayerHeader from "../_components/SoundPlayerHeader";
-import { DefaultButtonStyles } from "../_components/Constants";
+import SoundsTable from "../_components/SoundsTable";
 
 export default function Search(props: { url: string }) {
     const [title, setTitle] = useState<string | undefined>(undefined);
@@ -131,24 +129,13 @@ export default function Search(props: { url: string }) {
                         {"z->a"}
                     </option>
                 </select>
-                <button type="submit" className={DefaultButtonStyles}>
+                <button type="submit" className="default-button">
                     Search
                 </button>
             </form>
             <div className="flex">
                 <div className="m-auto">
-                    {(searcher?.length as number) > 0 ? (
-                        <SoundPlayerHeader />
-                    ) : null}
-                    {searcher?.map((sound, key) => {
-                        return (
-                            <SoundPlayer
-                                sound={sound}
-                                key={key}
-                                url={props.url}
-                            />
-                        );
-                    })}
+                    <SoundsTable sounds={searcher} url={props.url} />
                 </div>
             </div>
             <div className="mt-2 flex w-full">

@@ -29,7 +29,7 @@ export default function SiteHeader() {
     return (
         <>
             <div className="z-30 flex w-full bg-neutral-800">
-                <nav className=" mx-auto flex w-3/5 sm:w-full xl:w-3/5">
+                <nav className="mx-auto flex w-3/5 sm:w-full xl:w-3/5">
                     <div className="my-auto flex w-80 text-left">
                         <div
                             className={`mr-auto text-white transition-all hover:bg-cyan-500 hover:text-black ${
@@ -53,12 +53,6 @@ export default function SiteHeader() {
                             className="my-auto mb-2 w-full rounded-sm bg-cyan-900 text-center leading-8 text-white placeholder:text-neutral-200"
                             disabled={showSignInWindow}
                         />
-                        {/* <button
-                                type="submit"
-                                className="ml-2 rounded-md bg-red-300 px-3 py-2"
-                            >
-                                Search
-                            </button> */}
                     </form>
 
                     <div className="my-auto ml-auto w-80">
@@ -86,9 +80,8 @@ export default function SiteHeader() {
                                     className="my-auto ml-auto h-full px-3 py-2.5 text-2xl text-white transition-all hover:bg-cyan-500 hover:text-black active:bg-cyan-400"
                                     disabled={showSignInWindow}
                                 >
-                                    <p>sign in</p>
+                                    sign in
                                 </button>
-                                <div className="sm:w-3 xl:w-0" />
                             </div>
                         )}
                     </div>

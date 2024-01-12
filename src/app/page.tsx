@@ -1,9 +1,8 @@
-import { getBaseUrl } from "~/trpc/shared";
-import SoundPlayer from "./_components/SoundPlayer";
 import { api } from "~/trpc/server";
-import SoundPlayerHeader from "./_components/SoundPlayerHeader";
 import HomePageFilter from "./_components/HomePageFilter";
 import HomePageSearchBar from "./_components/HomePageSearchBar";
+import SoundsTable from "./_components/SoundsTable";
+import { getBaseUrl } from "~/trpc/shared";
 
 export default async function Home() {
     const searcher = await api.search.search.query({
@@ -29,16 +28,7 @@ export default async function Home() {
                 <div className="mx-auto mb-2">
                     <HomePageFilter />
                 </div>
-                <SoundPlayerHeader />
-                {searcher.map((sound, key) => {
-                    return (
-                        <SoundPlayer
-                            sound={sound}
-                            key={key}
-                            url={getBaseUrl()}
-                        />
-                    );
-                })}
+                <SoundsTable sounds={searcher} url={getBaseUrl()} />
             </div>
         </div>
     );

@@ -1,7 +1,6 @@
 "use client";
 import { RouterOutputs } from "~/trpc/shared";
 import CopyLinkButton from "./CopyLinkButton";
-import Image from "next/image";
 import DownloadButton from "./DownloadButton";
 
 export default function SoundPlayer(props: {

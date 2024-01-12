@@ -1,5 +1,4 @@
-import SoundPlayer from "~/app/_components/SoundPlayer";
-import SoundPlayerHeader from "~/app/_components/SoundPlayerHeader";
+import SoundsTable from "~/app/_components/SoundsTable";
 import { api } from "~/trpc/server";
 import { getBaseUrl } from "~/trpc/shared";
 
@@ -28,8 +27,7 @@ export default async function SoundLink({
     return (
         <div className="flex">
             <div className="mx-auto mt-10">
-                <SoundPlayerHeader />
-                <SoundPlayer sound={sound} url={getBaseUrl()} />
+                <SoundsTable sounds={[sound]} url={getBaseUrl()} />
             </div>
         </div>
     );
