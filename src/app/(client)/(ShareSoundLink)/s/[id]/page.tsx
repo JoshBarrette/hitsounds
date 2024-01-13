@@ -1,5 +1,5 @@
 import Link from "next/link";
-import SoundsTable from "~/app/_components/SoundsTable";
+import SoundsTable from "../../../_components/SoundsTable";
 import { api } from "~/trpc/server";
 import { getBaseUrl } from "~/trpc/shared";
 

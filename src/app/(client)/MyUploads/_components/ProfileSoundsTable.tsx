@@ -1,6 +1,6 @@
 "use client";
-import CopyLinkButton from "~/app/_components/CopyLinkButton";
-import DownloadButton from "~/app/_components/DownloadButton";
+import CopyLinkButton from "~/app/(client)/_components/CopyLinkButton";
+import DownloadButton from "~/app/(client)/_components/DownloadButton";
 import { api } from "~/trpc/react";
 import { FormEvent, createRef, useState } from "react";
 import DeleteSoundButton from "./DeleteSoundButton";
