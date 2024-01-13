@@ -95,7 +95,7 @@ export default function Search(props: { url: string }) {
                 <select
                     id="type"
                     name="type"
-                    className="text-md mx-2 my-auto w-28 rounded-md bg-cyan-900 p-1 font-sans font-medium"
+                    className="text-md mx-2 my-auto w-28 rounded-sm bg-cyan-900 p-1 font-sans font-medium"
                     ref={typeRef}
                     defaultValue={typeParam ?? "any"}
                 >
@@ -115,7 +115,7 @@ export default function Search(props: { url: string }) {
                 <select
                     id="sortByInput"
                     name="sortByInput"
-                    className="text-md my-auto mr-2 w-24 rounded-md bg-cyan-900 p-1 font-sans font-medium text-white"
+                    className="text-md my-auto mr-2 w-24 rounded-sm bg-cyan-900 p-1 font-sans font-medium text-white"
                     ref={sortRef}
                     defaultValue={sortParam ?? "new"}
                 >

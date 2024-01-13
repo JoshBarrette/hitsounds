@@ -36,6 +36,5 @@ Note: start counting the nth file from 0 when submitting files to upload.
 
 ### TODO
 
--   Add filtering to MyUploads page
 -   Admin page
 -   Add history for recently played sounds

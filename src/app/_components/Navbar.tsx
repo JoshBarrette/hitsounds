@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FormEvent, createRef } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
+import Image from "next/image";
 
 function UserDopDown() {
     const user = useUser();
@@ -22,16 +23,25 @@ function UserDopDown() {
 
     return (
         <div className="group relative my-auto ml-auto h-full px-3 text-lg font-medium text-white hover:text-black">
-            <img src={user.user?.imageUrl} className="h-10 w-10 rounded-full" />
+            <Image
+                src={user.user?.imageUrl ?? ""}
+                className="rounded-full"
+                alt="pfp"
+                width="40"
+                height="1"
+            />
             <div className="absolute right-0 z-40 scale-0 group-hover:scale-100">
                 <div className="mt-2 rounded-md bg-cyan-500 p-2">
                     <Link href={"/MyProfile"}>
                         <div className="flex rounded-md bg-cyan-600 p-2">
-                            <img
-                                src={user.user?.imageUrl}
-                                className="ml-4 h-8 w-8 rounded-full"
+                            <Image
+                                src={user.user?.imageUrl ?? ""}
+                                className="ml-4 rounded-full"
+                                alt="pfp"
+                                width="35"
+                                height="1"
                             />
-                            <p className="my-auto w-44 truncate text-center px-2">
+                            <p className="my-auto w-44 truncate px-2 text-center">
                                 {user.user?.username}
                             </p>
                         </div>
