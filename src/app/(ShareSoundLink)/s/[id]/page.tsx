@@ -1,12 +1,22 @@
+import Link from "next/link";
 import SoundsTable from "~/app/_components/SoundsTable";
 import { api } from "~/trpc/server";
 import { getBaseUrl } from "~/trpc/shared";
 
 function SoundNotFound() {
     return (
-        <div className="mt-10 flex">
+        <div className="mt-10 flex font-semibold text-white text-center">
             <div className="m-auto">
-                <p className="text-2xl font-semibold">Sound Not Found.</p>
+                <p className="text-2xl">
+                    Sound Not Found.
+                </p>
+                <div className="mx-auto mt-10 w-48 rounded-sm transition-all hover:bg-cyan-500 hover:text-black">
+                    <Link href="/">
+                        <h1 className="p-2 text-3xl">
+                            Go home...
+                        </h1>
+                    </Link>
+                </div>
             </div>
         </div>
     );

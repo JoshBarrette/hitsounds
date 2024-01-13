@@ -30,6 +30,8 @@ Takes FormData with the following fields:
 
 The route will return an array of strings that are the responses for each of the sounds uploaded. Note that the nth string in the response array will correspond to the nth sound uploaded.
 
+This route is only accessible through the site as it is protected by Clerk.
+
 Note: start counting the nth file from 0 when submitting files to upload.
 
 ### TODO
