@@ -1,4 +1,16 @@
+import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { db } from "../db";
+
+async function adminCheck(id: string) {
+    const user = await db.user.findUnique({
+        where: { userID: id },
+    });
+
+    if (!user?.isAdmin) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+}
 
 export const adminRouter = createTRPCRouter({
     isAdmin: protectedProcedure.query(async ({ ctx }) => {
@@ -11,5 +23,15 @@ export const adminRouter = createTRPCRouter({
         } else {
             return false;
         }
+    }),
+    getUsers: protectedProcedure.query(async ({ ctx }) => {
+        await adminCheck(ctx.auth.userId);
+
+        return await ctx.db.user.findMany();
+    }),
+    getSounds: protectedProcedure.query(async ({ ctx }) => {
+        await adminCheck(ctx.auth.userId);
+
+        return await ctx.db.sound.findMany();
     }),
 });

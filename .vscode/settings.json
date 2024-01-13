@@ -3,6 +3,7 @@
         "hitsound",
         "killsound",
         "KILLSOUNDS",
-        "nextjs"
+        "nextjs",
+        "uploaders"
     ]
 }
