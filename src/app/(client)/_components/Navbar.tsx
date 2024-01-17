@@ -1,25 +1,34 @@
 "use client";
 import { SignOutButton, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { FormEvent, createRef } from "react";
+import { FormEvent, createRef, forwardRef } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import Image from "next/image";
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    text: string;
+    href?: string;
+}
+const DropDownButton = forwardRef<HTMLButtonElement, ButtonProps>(
+    ({ text, href, ...props }, ref) => (
+        <Link href={href ?? "/#"}>
+            <button
+                ref={ref}
+                className="w-full px-2 py-1 text-left transition-all hover:bg-cyan-600"
+                {...props}
+            >
+                {text}
+            </button>
+        </Link>
+    )
+);
+DropDownButton.displayName = "DropDownButton";
 
 function UserDopDown() {
     const user = useUser();
     const router = useRouter();
     const userIsAdmin = api.admin.isAdmin.useQuery().data;
-
-    function DropDownLink(props: { text: string; href: string }) {
-        return (
-            <Link href={props.href}>
-                <p className="w-full rounded-md px-2 py-1 transition-all hover:bg-cyan-600">
-                    {props.text}
-                </p>
-            </Link>
-        );
-    }
 
     return (
         <div className="group relative my-auto ml-auto h-full px-3 text-lg font-medium text-white hover:text-black">
@@ -31,9 +40,9 @@ function UserDopDown() {
                 height="1"
             />
             <div className="absolute right-0 z-40 scale-0 group-hover:scale-100">
-                <div className="mt-2 rounded-md bg-cyan-500 p-2">
-                    <Link href={"/MyProfile"}>
-                        <div className="flex rounded-md bg-cyan-600 p-2">
+                <div className="mt-2 bg-cyan-500">
+                    <Link href={"/MyProfile"} className="mb-2">
+                        <div className="flex bg-cyan-500 hover:bg-cyan-600 p-2">
                             <Image
                                 src={user.user?.imageUrl ?? ""}
                                 className="ml-4 rounded-full"
@@ -47,23 +56,21 @@ function UserDopDown() {
                         </div>
                     </Link>
 
-                    <DropDownLink text="Upload" href="/Upload" />
-                    <DropDownLink text="My Uploads" href="/MyUploads" />
+                    <DropDownButton text="Upload" href="/Upload" />
+                    <DropDownButton text="My Uploads" href="/MyUploads" />
 
                     {userIsAdmin && (
-                        <DropDownLink
+                        <DropDownButton
                             text="Admin Dashboard"
                             href="/AdminDashboard"
                         />
                     )}
 
                     <SignOutButton>
-                        <p
+                        <DropDownButton
+                            text="Sign Out"
                             onClick={() => router.push("/")}
-                            className="w-full cursor-pointer rounded-md px-2 py-1 transition-all hover:bg-cyan-600"
-                        >
-                            Sign Out
-                        </p>
+                        />
                     </SignOutButton>
                 </div>
             </div>
