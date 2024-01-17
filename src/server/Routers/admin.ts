@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { db } from "../db";
+import { z } from "zod";
 
 async function adminCheck(id: string) {
     const user = await db.user.findUnique({
@@ -34,4 +35,22 @@ export const adminRouter = createTRPCRouter({
 
         return await ctx.db.sound.findMany();
     }),
+    getSingleSound: protectedProcedure
+        .input(z.number())
+        .query(async ({ input, ctx }) => {
+            await adminCheck(ctx.auth.userId);
+
+            if (input === -1) {
+                return await ctx.db.sound.findFirst({
+                    include: { uploader: true },
+                });
+            }
+
+            return await ctx.db.sound.findUnique({
+                where: {
+                    id: input,
+                },
+                include: { uploader: true },
+            });
+        }),
 });

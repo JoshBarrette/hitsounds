@@ -5,20 +5,25 @@ import { FormEvent, createRef, forwardRef } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import Image from "next/image";
+import { NavButton } from "~/app/_components/NavButton";
+import { cn } from "~/utils";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    text: string;
+    children: string;
     href?: string;
 }
 const DropDownButton = forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ text, href, ...props }, ref) => (
-        <Link href={href ?? "/#"}>
+    ({ children, href, className, ...props }, ref) => (
+        <Link href={href ?? ""}>
             <button
                 ref={ref}
-                className="w-full px-2 py-1 text-left transition-all hover:bg-cyan-600"
+                className={cn(
+                    "w-full px-2 py-1 text-left transition-all hover:bg-cyan-600",
+                    className
+                )}
                 {...props}
             >
-                {text}
+                {children}
             </button>
         </Link>
     )
@@ -42,7 +47,7 @@ function UserDopDown() {
             <div className="absolute right-0 z-40 scale-0 group-hover:scale-100">
                 <div className="mt-2 bg-cyan-500">
                     <Link href={"/MyProfile"} className="mb-2">
-                        <div className="flex bg-cyan-500 hover:bg-cyan-600 p-2">
+                        <div className="flex bg-cyan-500 p-2 hover:bg-cyan-600">
                             <Image
                                 src={user.user?.imageUrl ?? ""}
                                 className="ml-4 rounded-full"
@@ -56,21 +61,21 @@ function UserDopDown() {
                         </div>
                     </Link>
 
-                    <DropDownButton text="Upload" href="/Upload" />
-                    <DropDownButton text="My Uploads" href="/MyUploads" />
+                    <DropDownButton href="/Upload">Upload</DropDownButton>
+                    <DropDownButton href="/MyUploads">
+                        My Uploads
+                    </DropDownButton>
 
                     {userIsAdmin && (
-                        <DropDownButton
-                            text="Admin Dashboard"
-                            href="/AdminDashboard"
-                        />
+                        <DropDownButton href="/AdminDashboard">
+                            Admin Dashboard
+                        </DropDownButton>
                     )}
 
                     <SignOutButton>
-                        <DropDownButton
-                            text="Sign Out"
-                            onClick={() => router.push("/")}
-                        />
+                        <DropDownButton onClick={() => router.push("/")}>
+                            Sign Out
+                        </DropDownButton>
                     </SignOutButton>
                 </div>
             </div>
@@ -94,9 +99,7 @@ export default function Navbar() {
                 <nav className="mx-auto flex w-3/5 sm:w-full xl:w-3/5">
                     <div className="my-auto flex w-80 text-left">
                         <div className="mr-auto text-3xl text-white transition-all hover:bg-cyan-500 hover:text-black">
-                            <Link href="/">
-                                <h1 className="p-2">hitsounds</h1>
-                            </Link>
+                            <NavButton href="/">hitsounds</NavButton>
                         </div>
                     </div>
 
@@ -112,23 +115,19 @@ export default function Navbar() {
                         />
                     </form>
 
-                    <div className="my-auto ml-auto w-80">
-                        <SignedIn>
-                            <div className="flex sm:ml-5">
-                                <div className="sm:w-4 xl:w-0" />
-                                <UserDopDown />
-                            </div>
-                        </SignedIn>
+                    <div className="my-auto ml-auto flex w-80">
+                        <div className="ml-auto">
+                            <SignedIn>
+                                <div className="flex sm:ml-5">
+                                    <div className="sm:w-4 xl:w-0" />
+                                    <UserDopDown />
+                                </div>
+                            </SignedIn>
 
-                        <SignedOut>
-                            <div className="my-auto flex">
-                                <Link href="/SignIn" className="ml-auto">
-                                    <button className="my-auto ml-auto h-full px-3 py-2.5 text-2xl text-white transition-all hover:bg-cyan-500 hover:text-black active:bg-cyan-400">
-                                        sign in
-                                    </button>
-                                </Link>
-                            </div>
-                        </SignedOut>
+                            <SignedOut>
+                                <NavButton href="/SignIn">Sign In</NavButton>
+                            </SignedOut>
+                        </div>
                     </div>
                 </nav>
             </div>

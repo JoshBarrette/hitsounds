@@ -1,14 +1,14 @@
 import { RouterOutputs } from "~/trpc/shared";
-import DownloadButton from "~/app/(client)/_components/DownloadButton";
 import CopyLinkButton from "~/app/(client)/_components/CopyLinkButton";
 
 export default function AdminSoundsTable(props: {
     sounds: RouterOutputs["admin"]["getSounds"] | undefined;
     url: string;
+    setCurrentSoundID: (id: number) => void;
 }) {
     return (
         <div className="flex">
-            <table className="mx-auto w-[calc(100vw-160px)] border-separate border-spacing-y-1">
+            <table className="mx-auto w-[calc(100vw/2)] border-separate border-spacing-y-1">
                 <thead>
                     <tr className="text-center text-white">
                         <th>name</th>
@@ -47,11 +47,18 @@ export default function AdminSoundsTable(props: {
                             </td>
                             <td className="ml-auto flex">
                                 <div className="m-auto flex p-1">
-                                    <DownloadButton url={sound.url} />
                                     <CopyLinkButton
                                         url={props.url}
                                         soundID={sound.id}
                                     />
+                                    <button
+                                        className="m-auto rounded-md bg-neutral-500 p-1.5 transition-all hover:bg-neutral-600 active:bg-neutral-400"
+                                        onClick={() =>
+                                            props.setCurrentSoundID(sound.id)
+                                        }
+                                    >
+                                        View Sound
+                                    </button>
                                 </div>
                             </td>
                         </tr>

@@ -23,7 +23,7 @@ export default function CopyLinkButton(props: {
                     className="p-2"
                 />
             </div>
-            <div className="pointer-events-none absolute -ml-16 mt-1 scale-0 rounded-md bg-zinc-600 px-3 py-1 text-white transition-all group-hover:scale-100">
+            <div className="pointer-events-none absolute z-30 -ml-16 mt-1 scale-0 rounded-md bg-zinc-600 px-3 py-1 text-white transition-all group-hover:scale-100">
                 <p>Copy Link to Sound</p>
             </div>
         </div>
