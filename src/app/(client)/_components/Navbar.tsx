@@ -36,7 +36,7 @@ function UserDopDown() {
     const userIsAdmin = api.admin.isAdmin.useQuery().data;
 
     return (
-        <div className="group relative my-auto ml-auto h-full px-3 text-lg font-medium text-white hover:text-black">
+        <div className="group relative my-auto ml-auto h-full px-3 text-lg font-medium hover:text-black">
             <Image
                 src={user.user?.imageUrl ?? ""}
                 className="rounded-full"

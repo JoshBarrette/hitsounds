@@ -36,7 +36,7 @@ export const adminRouter = createTRPCRouter({
         return await ctx.db.sound.findMany();
     }),
     getSingleSound: protectedProcedure
-        .input(z.number())
+        .input(z.number().catch(-1))
         .query(async ({ input, ctx }) => {
             await adminCheck(ctx.auth.userId);
 

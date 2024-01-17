@@ -1,11 +1,15 @@
 "use client";
 import { api } from "~/trpc/react";
 import AdminSoundsTable from "./AdminSoundsTable";
+import SoundViewer from "./SoundViewer";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function SoundsList(props: { url: string }) {
     const s = api.admin.getSounds.useQuery();
-    const [currentSoundID, setCurrentSoundID] = useState(-1);
+    const searchParams = useSearchParams();
+    const soundIDParam = parseInt(searchParams.get("s") ?? "-1");
+    const [currentSoundID, setCurrentSoundID] = useState(soundIDParam);
     const currentSound = api.admin.getSingleSound.useQuery(currentSoundID);
 
     return (
@@ -18,8 +22,10 @@ export default function SoundsList(props: { url: string }) {
                 />
             </div>
 
-            <div className="h-full w-[calc(100vw/2)] bg-neutral-800">
-                {JSON.stringify(currentSound.data)}
+            <div className="h-full w-[calc(100vw/2)]">
+                {currentSound.isSuccess ? (
+                    <SoundViewer sound={currentSound.data} />
+                ) : null}
             </div>
         </div>
     );

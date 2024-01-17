@@ -38,8 +38,6 @@ Note: start counting the nth file from 0 when submitting files to upload.
 
 -   Admin page
     -   Sorting for each of the dashboard tabs.
-    -   Add new delete button and route.
-    -   Add popups for viewing an uploader's information (sounds uploaded and any information that we can get from Clerk).
-    -   Add button for banning users.
+    -   Add support for deleting sounds, banning users, and the like.
 -   Add history for recently played sounds.
 -   Possibly add username to the db from Clerk.

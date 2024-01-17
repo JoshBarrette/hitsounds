@@ -1,11 +1,14 @@
 import { RouterOutputs } from "~/trpc/shared";
-import CopyLinkButton from "~/app/(client)/_components/CopyLinkButton";
 
 export default function AdminSoundsTable(props: {
     sounds: RouterOutputs["admin"]["getSounds"] | undefined;
     url: string;
     setCurrentSoundID: (id: number) => void;
 }) {
+    if (props.sounds === undefined) {
+        return null;
+    }
+
     return (
         <div className="flex">
             <table className="mx-auto w-[calc(100vw/2)] border-separate border-spacing-y-1">
@@ -19,7 +22,7 @@ export default function AdminSoundsTable(props: {
                 </thead>
 
                 <tbody>
-                    {props.sounds?.map((sound, key) => (
+                    {props.sounds.map((sound, key) => (
                         <tr
                             key={key}
                             className="rounded-md bg-neutral-500 text-xl"
@@ -45,21 +48,15 @@ export default function AdminSoundsTable(props: {
                                     </p>
                                 </div>
                             </td>
-                            <td className="ml-auto flex">
-                                <div className="m-auto flex p-1">
-                                    <CopyLinkButton
-                                        url={props.url}
-                                        soundID={sound.id}
-                                    />
-                                    <button
-                                        className="m-auto rounded-md bg-neutral-500 p-1.5 transition-all hover:bg-neutral-600 active:bg-neutral-400"
-                                        onClick={() =>
-                                            props.setCurrentSoundID(sound.id)
-                                        }
-                                    >
-                                        View Sound
-                                    </button>
-                                </div>
+                            <td>
+                                <button
+                                    className="m-auto w-full rounded-md bg-neutral-500 p-1.5 transition-all hover:bg-neutral-600 active:bg-neutral-400"
+                                    onClick={() =>
+                                        props.setCurrentSoundID(sound.id)
+                                    }
+                                >
+                                    View
+                                </button>
                             </td>
                         </tr>
                     ))}
