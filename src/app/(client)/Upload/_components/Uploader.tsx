@@ -2,7 +2,11 @@ import { ChangeEvent, DragEvent, FormEvent, createRef } from "react";
 import { fileData } from "../page";
 import { useUser } from "@clerk/nextjs";
 import { useFileContext } from "./FilesContext";
-import { MAX_FILE_SIZE, MAX_NAME_SIZE } from "~/app/(client)/api/upload/constants";
+import {
+    MAX_FILE_SIZE,
+    MAX_NAME_SIZE,
+} from "~/app/(client)/api/upload/constants";
+import { Button } from "~/app/_components/Button";
 
 export default function Uploader() {
     const { files, setFiles, submitting, setSubmitting } = useFileContext();
@@ -189,13 +193,13 @@ export default function Uploader() {
                     multiple
                 />
                 {files.length > 0 && (
-                    <button
-                        className="default-button mx-auto mt-4"
+                    <Button
+                        className="mx-auto mt-4"
                         type="submit"
                         disabled={submitting}
                     >
                         upload
-                    </button>
+                    </Button>
                 )}
             </form>
         </div>

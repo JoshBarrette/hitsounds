@@ -5,6 +5,7 @@ import { api } from "~/trpc/react";
 import { FormEvent, createRef, useState } from "react";
 import DeleteSoundButton from "./DeleteSoundButton";
 import { RouterOutputs } from "~/trpc/shared";
+import { Button } from "~/app/_components/Button";
 
 function SoundTable(props: {
     soundsQuery: RouterOutputs["search"]["getMySounds"];
@@ -72,7 +73,7 @@ export default function ProfileSoundsTable(props: { url: string }) {
     const [title, setTitle] = useState("");
     const [sortBy, setSortBy] = useState("");
     const [soundType, setSoundType] = useState("");
-    
+
     const inputRef = createRef<HTMLInputElement>();
     const typeRef = createRef<HTMLSelectElement>();
     const sortRef = createRef<HTMLSelectElement>();
@@ -159,9 +160,9 @@ export default function ProfileSoundsTable(props: { url: string }) {
                     </option>
                 </select>
                 <br />
-                <button type="submit" className="default-button mt-4">
+                <Button type="submit" className="mt-4">
                     Search
-                </button>
+                </Button>
             </form>
             {soundsQuery.data?.length ?? -1 > 0 ? (
                 <SoundTable

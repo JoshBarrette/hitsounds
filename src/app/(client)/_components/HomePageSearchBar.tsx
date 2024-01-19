@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { createRef } from "react";
+import { Button } from "~/app/_components/Button";
 
 export default function HomePageSearchBar() {
     const router = useRouter();
@@ -22,9 +23,7 @@ export default function HomePageSearchBar() {
                     placeholder="search"
                     className="w-3/5 rounded-sm bg-cyan-900 text-center text-xl leading-10 text-white placeholder:text-neutral-200"
                 />
-                <button type="submit" className="default-button">
-                    Search
-                </button>
+                <Button type="submit">Search</Button>
             </form>
         </div>
     );

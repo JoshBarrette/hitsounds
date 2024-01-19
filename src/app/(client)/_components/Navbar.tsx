@@ -9,7 +9,7 @@ import { NavButton } from "~/app/_components/NavButton";
 import { cn } from "~/utils";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    children: string;
+    children?: any;
     href?: string;
 }
 const DropDownButton = forwardRef<HTMLButtonElement, ButtonProps>(

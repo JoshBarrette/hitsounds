@@ -4,6 +4,7 @@ import { api } from "~/trpc/react";
 import { FormEvent, createRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import SoundsTable from "../_components/SoundsTable";
+import { Button } from "~/app/_components/Button";
 
 export default function Search(props: { url: string }) {
     const [title, setTitle] = useState<string | undefined>(undefined);
@@ -133,9 +134,9 @@ export default function Search(props: { url: string }) {
                     </option>
                 </select>
                 <br />
-                <button type="submit" className="default-button mt-4">
+                <Button type="submit" className="mt-4">
                     Search
-                </button>
+                </Button>
             </form>
             {searcher !== undefined && searcher.length !== 0 ? (
                 <>

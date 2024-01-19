@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import { cn } from "~/utils";
 
 interface NavButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    children: string;
+    children?: any;
     href?: string;
 }
 
