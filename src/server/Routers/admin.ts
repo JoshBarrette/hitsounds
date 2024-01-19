@@ -1,7 +1,8 @@
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { db } from "../db";
+import { SoundType, db } from "../db";
 import { z } from "zod";
+import { s3Delete } from "~/s3";
 
 async function adminCheck(id: string) {
     const user = await db.user.findUnique({
@@ -52,5 +53,21 @@ export const adminRouter = createTRPCRouter({
                 },
                 include: { uploader: true },
             });
+        }),
+    deleteSound: protectedProcedure
+        .input(z.number())
+        .mutation(async ({ input, ctx }) => {
+            await adminCheck(ctx.auth.userId);
+
+            const sound = await ctx.db.sound.findUnique({
+                where: { id: input },
+            });
+
+            await s3Delete(sound as SoundType).catch((err) => {
+                console.log(err);
+                throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+            });
+
+            return await ctx.db.sound.delete({ where: { id: input } });
         }),
 });

@@ -5,6 +5,7 @@ import { FormEvent, createRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import SoundsTable from "../_components/SoundsTable";
 import { Button } from "~/app/_components/Button";
+import { Select } from "~/app/_components/Select";
 
 export default function Search(props: { url: string }) {
     const [title, setTitle] = useState<string | undefined>(undefined);
@@ -93,10 +94,9 @@ export default function Search(props: { url: string }) {
                 <label htmlFor="type" className="ml-2">
                     sound type:
                 </label>
-                <select
+                <Select
                     id="type"
                     name="type"
-                    className="text-md mx-2 my-auto w-28 rounded-sm bg-cyan-900 p-1 font-sans font-medium"
                     ref={typeRef}
                     defaultValue={typeParam ?? "any"}
                 >
@@ -109,14 +109,13 @@ export default function Search(props: { url: string }) {
                     <option value="kill" className="font-sans font-medium">
                         killsound
                     </option>
-                </select>
+                </Select>
                 <label htmlFor="sortByInput" className="mr-2">
                     sort by:
                 </label>
-                <select
+                <Select
                     id="sortByInput"
                     name="sortByInput"
-                    className="text-md my-auto mr-2 w-24 rounded-sm bg-cyan-900 p-1 font-sans font-medium text-white"
                     ref={sortRef}
                     defaultValue={sortParam ?? "new"}
                 >
@@ -132,7 +131,7 @@ export default function Search(props: { url: string }) {
                     <option value="za" className="font-sans font-medium">
                         {"z->a"}
                     </option>
-                </select>
+                </Select>
                 <br />
                 <Button type="submit" className="mt-4">
                     Search

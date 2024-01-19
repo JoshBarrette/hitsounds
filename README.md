@@ -36,8 +36,10 @@ Note: start counting the nth file from 0 when submitting files to upload.
 
 ### TODO
 
+-   Add double checks for when someone wants to delete something.
 -   Admin page
     -   Sorting for each of the dashboard tabs.
     -   Add support for deleting sounds, banning users, and the like.
 -   Add history for recently played sounds.
 -   Possibly add username to the db from Clerk.
+-   Logging.
