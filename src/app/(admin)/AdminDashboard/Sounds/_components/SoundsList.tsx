@@ -13,19 +13,23 @@ export default function SoundsList(props: { url: string }) {
     const currentSound = api.admin.getSingleSound.useQuery(currentSoundID);
 
     return (
-        <div className="flex h-full">
-            <div>
-                <AdminSoundsTable
-                    url={props.url}
-                    sounds={s.data}
-                    setCurrentSoundID={setCurrentSoundID}
-                />
-            </div>
+        <div className="flex h-full flex-col items-center">
+            <p className="text-white">FILTERING HERE</p>
 
-            <div className="h-full w-[calc(100vw/2)]">
-                {currentSound.isSuccess ? (
-                    <SoundViewer sound={currentSound.data} />
-                ) : null}
+            <div className="flex h-full w-full">
+                <div className="flex-1">
+                    <AdminSoundsTable
+                        url={props.url}
+                        sounds={s.data}
+                        setCurrentSoundID={setCurrentSoundID}
+                    />
+                </div>
+
+                <div className="h-full flex-1 bg-red-400">
+                    {currentSound.isSuccess ? (
+                        <SoundViewer sound={currentSound.data} />
+                    ) : null}
+                </div>
             </div>
         </div>
     );

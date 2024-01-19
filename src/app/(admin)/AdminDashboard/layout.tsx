@@ -6,9 +6,10 @@ export default function AdminLayout({
     children: React.ReactNode;
 }) {
     return (
-        <>
+        <div className="flex h-screen flex-col">
             <NavBar />
-            {children}
-        </>
+
+            <div className="flex-1">{children}</div>
+        </div>
     );
 }
