@@ -140,16 +140,59 @@ export const searchRouter = createTRPCRouter({
             });
         }),
 
-    getMySounds: protectedProcedure.query(async ({ ctx }) => {
-        return await ctx.db.user
-            .findUnique({
-                where: {
-                    userID: ctx.auth.userId,
-                },
-                include: {
-                    uploads: true,
-                },
-            })
-            .then((res) => res?.uploads);
-    }),
+    getMySounds: protectedProcedure
+        .input(
+            z
+                .object({
+                    title: z.string().nullish(),
+                    soundType: z.string().nullish(),
+                    sortBy: z.string().nullish(),
+                })
+        )
+        .query(async ({ input, ctx }) => {
+            let orderBy: Prisma.SoundOrderByWithRelationInput;
+            switch (input.sortBy) {
+                case "az":
+                    orderBy = {
+                        title: "asc",
+                    };
+                    break;
+                case "za":
+                    orderBy = {
+                        title: "desc",
+                    };
+                    break;
+                case "old":
+                    orderBy = {
+                        createdAt: "asc",
+                    };
+                    break;
+                default:
+                    orderBy = {
+                        createdAt: "desc",
+                    };
+            }
+
+            let soundType = undefined;
+            if (input.soundType === "hit" || input.soundType === "kill") {
+                soundType = input?.soundType;
+            }
+
+            return await ctx.db.user
+                .findUnique({
+                    where: {
+                        userID: ctx.auth.userId,
+                    },
+                    include: {
+                        uploads: {
+                            where: {
+                                title: { contains: input.title ?? undefined },
+                                soundType,
+                            },
+                            orderBy,
+                        },
+                    },
+                })
+                .then((res) => res?.uploads);
+        }),
 });
