@@ -47,19 +47,17 @@ function SoundTable(props: {
                             <td className="px-4 font-medium">
                                 {sound.soundType}sound
                             </td>
-                            <td className="ml-auto flex">
-                                <div className="my-auto flex p-1">
-                                    <DownloadButton url={sound.url} />
-                                    <CopyLinkButton
-                                        url={props.url}
-                                        soundID={sound.id}
-                                    />
-                                    <DeleteSoundButton
-                                        soundId={sound.id}
-                                        isDisabled={props.isDisabled}
-                                        handleDelete={props.handleDelete}
-                                    />
-                                </div>
+                            <td className="ml-auto flex space-x-2 p-1">
+                                <DownloadButton url={sound.url} />
+                                <CopyLinkButton
+                                    url={props.url}
+                                    soundID={sound.id}
+                                />
+                                <DeleteSoundButton
+                                    soundId={sound.id}
+                                    isDisabled={props.isDisabled}
+                                    handleDelete={props.handleDelete}
+                                />
                             </td>
                         </tr>
                     ))}

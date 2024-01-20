@@ -37,24 +37,28 @@ function UserDopDown() {
 
     return (
         <div className="group relative my-auto ml-auto h-full px-3 text-lg font-medium hover:text-black">
-            <Image
-                src={user.user?.imageUrl ?? ""}
-                className="rounded-full"
-                alt="pfp"
-                width="40"
-                height="1"
-            />
+            {user.isLoaded && (
+                <Image
+                    src={user.user!.imageUrl}
+                    className="rounded-full"
+                    alt="pfp"
+                    width="40"
+                    height="1"
+                />
+            )}
             <div className="absolute right-0 z-40 scale-0 group-hover:scale-100">
                 <div className="mt-2 bg-cyan-500">
                     <Link href={"/MyProfile"} className="mb-2">
                         <div className="flex bg-cyan-500 p-2 hover:bg-cyan-600">
-                            <Image
-                                src={user.user?.imageUrl ?? ""}
-                                className="ml-4 rounded-full"
-                                alt="pfp"
-                                width="35"
-                                height="1"
-                            />
+                            {user.isLoaded && (
+                                <Image
+                                    src={user.user!.imageUrl}
+                                    className="ml-4 rounded-full"
+                                    alt="pfp"
+                                    width="35"
+                                    height="1"
+                                />
+                            )}
                             <p className="my-auto w-44 truncate px-2 text-center">
                                 {user.user?.username}
                             </p>

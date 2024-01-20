@@ -39,14 +39,12 @@ export default function SoundsTable(props: {
                             <td className="px-4 font-medium">
                                 {sound.soundType}sound
                             </td>
-                            <td className="ml-auto flex">
-                                <div className="my-auto flex p-1">
-                                    <DownloadButton url={sound.url} />
-                                    <CopyLinkButton
-                                        url={props.url}
-                                        soundID={sound.id}
-                                    />
-                                </div>
+                            <td className="ml-auto flex p-1 space-x-2">
+                                <DownloadButton url={sound.url} />
+                                <CopyLinkButton
+                                    url={props.url}
+                                    soundID={sound.id}
+                                />
                             </td>
                         </tr>
                     ))}

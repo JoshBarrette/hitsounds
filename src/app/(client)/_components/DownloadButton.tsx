@@ -5,7 +5,7 @@ export default function DownloadButton(props: { url: string }) {
         <div className="group">
             <a
                 href={props.url}
-                className="my-auto mr-2 flex h-10 rounded-md bg-cyan-500 px-2 transition-all hover:bg-cyan-600 active:bg-cyan-400"
+                className="my-auto flex h-10 rounded-md bg-cyan-500 px-2 transition-all hover:bg-cyan-600 active:bg-cyan-400"
             >
                 <Image
                     src={"/download-svgrepo-com.svg"}
