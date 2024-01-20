@@ -36,7 +36,7 @@ Note: start counting the nth file from 0 when submitting files to upload.
 
 ### TODO
 
--   Add double checks for when someone wants to delete something.
+-   Refine PageSelector.
 -   Admin page
     -   Sorting for each of the dashboard tabs.
     -   Add support for deleting sounds, banning users, and the like.

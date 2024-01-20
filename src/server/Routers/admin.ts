@@ -3,6 +3,9 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { SoundType, db } from "../db";
 import { z } from "zod";
 import { s3Delete } from "~/s3";
+import { Prisma } from "@prisma/client";
+
+const DEFAULT_PAGE_SIZE = 25;
 
 async function adminCheck(id: string) {
     const user = await db.user.findUnique({
@@ -69,5 +72,141 @@ export const adminRouter = createTRPCRouter({
             });
 
             return await ctx.db.sound.delete({ where: { id: input } });
+        }),
+    search: protectedProcedure
+        .input(
+            z.object({
+                title: z.string().nullish(),
+                soundType: z.string().nullish(),
+                count: z.number().nullish(),
+                page: z.number().nullish(),
+                sortBy: z.string(),
+                uploader: z.string().nullish(),
+            })
+        )
+        .query(async ({ input, ctx }) => {
+            await adminCheck(ctx.auth.userId);
+
+            let uploaderId = undefined;
+            if (input?.uploader) {
+                const uploader = await ctx.db.user.findUnique({
+                    where: { userID: input.uploader },
+                });
+
+                if (!uploader) {
+                    return null;
+                } else {
+                    uploaderId = uploader.id;
+                }
+            }
+
+            if (
+                (input?.soundType !== "hit" &&
+                    input?.soundType !== "kill" &&
+                    input?.soundType !== "any" &&
+                    input?.soundType !== null &&
+                    input?.soundType !== undefined) ||
+                (input?.count ?? 1) < 0 ||
+                (input?.page ?? 1) <= 0
+            ) {
+                throw new TRPCError({ code: "BAD_REQUEST" });
+            }
+
+            let page = 0;
+            if (
+                input?.page !== null &&
+                input?.page !== undefined &&
+                !isNaN(input?.page)
+            ) {
+                page = (input?.page as number) - 1;
+            }
+
+            let orderBy: Prisma.SoundOrderByWithRelationInput;
+            switch (input?.sortBy) {
+                case "az":
+                    orderBy = {
+                        title: "asc",
+                    };
+                    break;
+                case "za":
+                    orderBy = {
+                        title: "desc",
+                    };
+                    break;
+                case "old":
+                    orderBy = {
+                        createdAt: "asc",
+                    };
+                    break;
+                default:
+                    orderBy = {
+                        createdAt: "desc",
+                    };
+            }
+
+            let soundType = undefined;
+            if (input?.soundType === "hit" || input?.soundType === "kill") {
+                soundType = input?.soundType;
+            }
+
+            return await ctx.db.sound.findMany({
+                where: {
+                    title: {
+                        contains: input?.title ?? undefined,
+                    },
+                    soundType: soundType,
+                    uploaderId,
+                },
+                orderBy: orderBy,
+                take: input?.count ?? DEFAULT_PAGE_SIZE,
+                skip: page * (input?.count ?? DEFAULT_PAGE_SIZE),
+            });
+        }),
+    searchPageCount: protectedProcedure
+        .input(
+            z
+                .object({
+                    title: z.string().nullish(),
+                    soundType: z.string().nullish(),
+                    count: z.number().nullish(),
+                    uploader: z.string().nullish(),
+                })
+                .optional()
+        )
+        .query(async ({ input, ctx }) => {
+            let uploaderId = undefined;
+            if (input?.uploader) {
+                const uploader = await ctx.db.user.findUnique({
+                    where: { userID: input.uploader },
+                });
+
+                if (!uploader) {
+                    return 0;
+                } else {
+                    uploaderId = uploader.id;
+                }
+            }
+
+            const total = await ctx.db.sound.count({
+                where: {
+                    title: {
+                        contains: input?.title ?? undefined,
+                    },
+                    soundType: input?.soundType ?? undefined,
+                    uploaderId,
+                },
+            });
+
+            const floor = Math.floor(
+                total / (input?.count ?? DEFAULT_PAGE_SIZE)
+            );
+            const mod = total % (input?.count ?? DEFAULT_PAGE_SIZE);
+            if (mod === 0 && floor === 0) {
+                return 1;
+            } else if (total % (input?.count ?? DEFAULT_PAGE_SIZE) === 0) {
+                return floor;
+            } else {
+                return floor + 1;
+            }
         }),
 });

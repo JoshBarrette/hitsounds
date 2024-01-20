@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import SoundsTable from "../_components/SoundsTable";
 import { Button } from "~/app/_components/Button";
 import { Select } from "~/app/_components/Select";
+import PageSelector from "~/app/_components/PageSelector";
 
 export default function Search(props: { url: string }) {
     const [title, setTitle] = useState<string | undefined>(undefined);
@@ -91,7 +92,7 @@ export default function Search(props: { url: string }) {
                     defaultValue={keywordsParam ?? ""}
                     className="w-96 rounded-sm bg-cyan-900 text-center leading-8 text-white placeholder:text-neutral-200"
                 />
-                <label htmlFor="type" className="ml-2">
+                <label htmlFor="type" className="mx-2">
                     sound type:
                 </label>
                 <Select
@@ -153,23 +154,6 @@ export default function Search(props: { url: string }) {
                     No Sounds Found
                 </p>
             )}
-        </div>
-    );
-}
-
-function PageSelector(props: { size: number; callback: (n?: number) => void }) {
-    const thingToMapOver = new Array<number>(props.size).fill(1);
-    return (
-        <div className="m-auto flex">
-            {thingToMapOver.map((_, key) => (
-                <button
-                    className="mx-1 rounded-md bg-cyan-500 px-3 py-1 text-lg transition-all hover:bg-cyan-600 active:bg-cyan-400"
-                    key={key}
-                    onClick={() => props.callback(key + 1)}
-                >
-                    {key + 1}
-                </button>
-            ))}
         </div>
     );
 }

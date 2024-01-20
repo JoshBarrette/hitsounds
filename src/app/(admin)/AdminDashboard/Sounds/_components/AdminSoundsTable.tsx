@@ -1,9 +1,12 @@
+import PageSelector from "~/app/_components/PageSelector";
 import { RouterOutputs } from "~/trpc/shared";
 
 export default function AdminSoundsTable(props: {
     sounds: RouterOutputs["admin"]["getSounds"] | undefined;
     url: string;
     setCurrentSoundID: (id: number) => void;
+    totalPages: number;
+    setPage: (n: number) => void;
 }) {
     if (props.sounds === undefined) {
         return null;
@@ -11,7 +14,7 @@ export default function AdminSoundsTable(props: {
 
     return (
         <div className="flex flex-col items-center">
-            <table className="mx-auto w-full border-separate border-spacing-y-1">
+            <table className="mx-auto mb-4 w-full border-separate border-spacing-y-1">
                 <thead>
                     <tr className="text-center text-white">
                         <th>name</th>
@@ -21,7 +24,7 @@ export default function AdminSoundsTable(props: {
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody className="text-black">
                     <AdminSoundsTableBody
                         sounds={props.sounds}
                         setCurrentSoundID={props.setCurrentSoundID}
@@ -29,7 +32,7 @@ export default function AdminSoundsTable(props: {
                 </tbody>
             </table>
 
-            <p className="text-white">Pages here</p>
+            <PageSelector size={props.totalPages} callback={props.setPage} />
         </div>
     );
 }

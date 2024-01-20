@@ -73,7 +73,7 @@ function OptionsDiv(props: {
     return (
         <div>
             <h1 className="my-4 text-3xl">Options</h1>
-            <div className="flex space-x-4">
+            <div className="ml-3 flex space-x-4">
                 <div>
                     <Button className="text-md px-3 py-1">View Uploader</Button>
                 </div>
