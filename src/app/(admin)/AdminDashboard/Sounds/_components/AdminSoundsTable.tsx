@@ -2,14 +2,14 @@ import PageSelector from "~/app/_components/PageSelector";
 import { RouterOutputs } from "~/trpc/shared";
 
 export default function AdminSoundsTable(props: {
-    sounds: RouterOutputs["admin"]["getSounds"] | undefined;
+    sounds: RouterOutputs["admin"]["searchSounds"] | undefined;
     url: string;
     setCurrentSoundID: (id: number) => void;
     currentPage: number;
     totalPages: number;
     setPage: (n: number) => void;
 }) {
-    if (props.sounds === undefined) {
+    if (!props.sounds) {
         return null;
     }
 

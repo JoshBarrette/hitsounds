@@ -34,12 +34,17 @@ This route is only accessible through the site as it is protected by Clerk.
 
 Note: start counting the nth file from 0 when submitting files to upload.
 
+### Notes
+
+I would not use Clerk if I was to start over. Having the DB with the sounds and uploaders AND using Clerk is just terrible. NextAuth would have been perfect for this site. That being said, Clerk is still awesome.
+
 ### TODO
 
--   PageSelector needs context for setting pages and the like.
+-   There is a lot of reused code in tRPC search endpoints that needs to be factored out.
+-   PageSelector needs its own context. Passing like 4 things down through everything is not it.
 -   Admin page
     -   Sorting for each of the dashboard tabs.
     -   Add support for deleting sounds, banning users, and the like.
 -   Add history for recently played sounds.
--   Possibly add username to the db from Clerk.
+-   Possibly add usernames from Clerk to the PlanetScale db.
 -   Logging.

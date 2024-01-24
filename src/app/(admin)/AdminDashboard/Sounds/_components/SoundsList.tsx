@@ -2,7 +2,7 @@
 import { api } from "~/trpc/react";
 import AdminSoundsTable from "./AdminSoundsTable";
 import SoundViewer from "./SoundViewer";
-import { FormEvent, createRef, useEffect, useState } from "react";
+import { FormEvent, createRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Select } from "~/app/_components/Select";
 import { Button } from "~/app/_components/Button";
@@ -26,14 +26,14 @@ export default function SoundsList(props: { url: string }) {
         uploaderRef.current?.value ?? undefined
     );
     const [page, setPage] = useState<number>(1);
-    const s = api.admin.search.useQuery({
+    const s = api.admin.searchSounds.useQuery({
         title,
         sortBy,
         soundType,
         page,
         uploader,
     });
-    const p = api.admin.searchPageCount.useQuery({
+    const p = api.admin.searchSoundsPageCount.useQuery({
         title,
         soundType,
         uploader,
