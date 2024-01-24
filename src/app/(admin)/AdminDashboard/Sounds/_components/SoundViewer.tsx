@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "~/app/_components/Button";
 import { RouterOutputs } from "~/trpc/shared";
 import { api } from "~/trpc/react";
@@ -9,7 +8,7 @@ export default function SoundViewer(props: {
     sound: RouterOutputs["admin"]["getSingleSound"];
     refreshSounds: () => void;
 }) {
-    if (props.sound === null) {
+    if (!props.sound) {
         return null;
     }
 

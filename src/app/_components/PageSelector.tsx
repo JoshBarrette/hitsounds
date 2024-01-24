@@ -1,5 +1,4 @@
 import { forwardRef } from "react";
-import { cn } from "~/utils";
 import { Button } from "./Button";
 
 interface PageButtonProps
@@ -23,8 +22,9 @@ export default function PageSelector(props: {
             );
         }
     );
+    PageButton.displayName = "PageButton";
 
-    if (props.size === 1) {
+    if (props.size <= 1) {
         return null;
     }
 

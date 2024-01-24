@@ -146,7 +146,7 @@ export default function Search(props: { url: string }) {
                         </div>
                     </div>
                     <div className="mt-2 flex w-full">
-                        <PageSelector size={pager} callback={updateURL} />
+                        <PageSelector size={pager} setPage={updateURL} currentPage={page ?? 1} />
                     </div>
                 </>
             ) : (
