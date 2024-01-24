@@ -5,6 +5,7 @@ export default function AdminSoundsTable(props: {
     sounds: RouterOutputs["admin"]["getSounds"] | undefined;
     url: string;
     setCurrentSoundID: (id: number) => void;
+    currentPage: number;
     totalPages: number;
     setPage: (n: number) => void;
 }) {
@@ -32,7 +33,11 @@ export default function AdminSoundsTable(props: {
                 </tbody>
             </table>
 
-            <PageSelector size={props.totalPages} callback={props.setPage} />
+            <PageSelector
+                size={props.totalPages}
+                currentPage={props.currentPage}
+                setPage={props.setPage}
+            />
         </div>
     );
 }

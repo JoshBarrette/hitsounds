@@ -36,7 +36,7 @@ Note: start counting the nth file from 0 when submitting files to upload.
 
 ### TODO
 
--   Refine PageSelector.
+-   PageSelector needs context for setting pages and the like.
 -   Admin page
     -   Sorting for each of the dashboard tabs.
     -   Add support for deleting sounds, banning users, and the like.

@@ -126,6 +126,7 @@ export default function SoundsList(props: { url: string }) {
                             setCurrentSoundID={setCurrentSoundID}
                             totalPages={p.data ?? 0}
                             setPage={setPage}
+                            currentPage={page}
                         />
                     </div>
 
