@@ -7,6 +7,7 @@ import SoundsTable from "../_components/SoundsTable";
 import { Button } from "~/app/_components/Button";
 import { Select } from "~/app/_components/Select";
 import PageSelector from "~/app/_components/PageSelector";
+import { SoundTypes } from "~/trpc/shared";
 
 export default function Search(props: { url: string }) {
     const [title, setTitle] = useState<string | undefined>(undefined);
@@ -26,11 +27,11 @@ export default function Search(props: { url: string }) {
         api.search.searchPageCount.useQuery({
             title: title ?? keywordsParam,
             soundType:
-                typeParam ?? (soundType !== "any" ? soundType : undefined),
+                (typeParam ?? (soundType !== "any" ? soundType : undefined)) as SoundTypes,
         }).data ?? 1;
     const searcher = api.search.search.useQuery({
         title: title ?? keywordsParam,
-        soundType: typeParam ?? (soundType !== "any" ? soundType : undefined),
+        soundType: (typeParam ?? (soundType !== "any" ? soundType : undefined)) as SoundTypes,
         sortBy: sortBy ?? sortParam ?? "new",
         page: page ?? (pageParam !== null ? parseInt(pageParam) : undefined),
     }).data;
