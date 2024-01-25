@@ -3,7 +3,7 @@ import { createTRPCRouter, adminProcedure, protectedProcedure } from "../trpc";
 import { SoundType } from "../db";
 import { z } from "zod";
 import { s3Delete } from "~/s3";
-import { Prisma } from "@prisma/client";
+import { getPageCount, soundsOrderBy, userOrderBy } from "~/trpc/shared";
 
 const DEFAULT_PAGE_SIZE = 25;
 
@@ -59,9 +59,13 @@ export const adminRouter = createTRPCRouter({
         .input(
             z.object({
                 title: z.string().nullish(),
-                soundType: z.string().nullish(),
+                soundType: z
+                    .literal("hit")
+                    .or(z.literal("kill"))
+                    .or(z.literal("any"))
+                    .nullish(),
                 count: z.number().nullish(),
-                page: z.number().nullish(),
+                page: z.number().min(0).catch(0).nullish(),
                 sortBy: z.string(),
                 uploader: z.string().nullish(),
             })
@@ -80,66 +84,19 @@ export const adminRouter = createTRPCRouter({
                 }
             }
 
-            if (
-                (input?.soundType !== "hit" &&
-                    input?.soundType !== "kill" &&
-                    input?.soundType !== "any" &&
-                    input?.soundType !== null &&
-                    input?.soundType !== undefined) ||
-                (input?.count ?? 1) < 0 ||
-                (input?.page ?? 1) <= 0
-            ) {
-                throw new TRPCError({ code: "BAD_REQUEST" });
-            }
-
-            let page = 0;
-            if (
-                input?.page !== null &&
-                input?.page !== undefined &&
-                !isNaN(input?.page)
-            ) {
-                page = (input?.page as number) - 1;
-            }
-
-            let orderBy: Prisma.SoundOrderByWithRelationInput;
-            switch (input?.sortBy) {
-                case "az":
-                    orderBy = {
-                        title: "asc",
-                    };
-                    break;
-                case "za":
-                    orderBy = {
-                        title: "desc",
-                    };
-                    break;
-                case "old":
-                    orderBy = {
-                        createdAt: "asc",
-                    };
-                    break;
-                default:
-                    orderBy = {
-                        createdAt: "desc",
-                    };
-            }
-
-            let soundType = undefined;
-            if (input?.soundType === "hit" || input?.soundType === "kill") {
-                soundType = input?.soundType;
-            }
+            let orderBy = soundsOrderBy(input?.sortBy);
 
             return await ctx.db.sound.findMany({
                 where: {
                     title: {
                         contains: input?.title ?? undefined,
                     },
-                    soundType: soundType,
+                    soundType: input?.soundType ?? undefined,
                     uploaderId,
                 },
-                orderBy: orderBy,
+                orderBy,
                 take: input?.count ?? DEFAULT_PAGE_SIZE,
-                skip: page * (input?.count ?? DEFAULT_PAGE_SIZE),
+                skip: (input?.page ?? 0) * (input?.count ?? DEFAULT_PAGE_SIZE),
             });
         }),
     searchSoundsPageCount: adminProcedure
@@ -147,7 +104,11 @@ export const adminRouter = createTRPCRouter({
             z
                 .object({
                     title: z.string().nullish(),
-                    soundType: z.string().nullish(),
+                    soundType: z
+                        .literal("hit")
+                        .or(z.literal("kill"))
+                        .or(z.literal("any"))
+                        .nullish(),
                     count: z.number().nullish(),
                     uploader: z.string().nullish(),
                 })
@@ -177,49 +138,19 @@ export const adminRouter = createTRPCRouter({
                 },
             });
 
-            const floor = Math.floor(
-                total / (input?.count ?? DEFAULT_PAGE_SIZE)
-            );
-            const mod = total % (input?.count ?? DEFAULT_PAGE_SIZE);
-            if (mod === 0 && floor === 0) {
-                return 1;
-            } else if (total % (input?.count ?? DEFAULT_PAGE_SIZE) === 0) {
-                return floor;
-            } else {
-                return floor + 1;
-            }
+            return getPageCount(total, input?.count ?? DEFAULT_PAGE_SIZE);
         }),
     searchUsers: adminProcedure
         .input(
             z.object({
                 userID: z.string().nullish(),
                 count: z.number().nullish(),
-                page: z.number().nullish(),
+                page: z.number().min(0).catch(0).nullish(),
                 sortBy: z.string(),
             })
         )
         .query(async ({ input, ctx }) => {
-            let orderBy: Prisma.UserOrderByWithRelationInput;
-            switch (input?.sortBy) {
-                case "old":
-                    orderBy = {
-                        createdAt: "asc",
-                    };
-                    break;
-                default:
-                    orderBy = {
-                        createdAt: "desc",
-                    };
-            }
-
-            let page = 0;
-            if (
-                input?.page !== null &&
-                input?.page !== undefined &&
-                !isNaN(input?.page)
-            ) {
-                page = (input?.page as number) - 1;
-            }
+            const orderBy = userOrderBy(input?.sortBy);
 
             return await ctx.db.user.findMany({
                 where: {
@@ -227,9 +158,9 @@ export const adminRouter = createTRPCRouter({
                         contains: input?.userID ?? undefined,
                     },
                 },
-                orderBy: orderBy,
+                orderBy,
                 take: input?.count ?? DEFAULT_PAGE_SIZE,
-                skip: page * (input?.count ?? DEFAULT_PAGE_SIZE),
+                skip: (input?.page ?? 0) * (input?.count ?? DEFAULT_PAGE_SIZE),
             });
         }),
     searchUsersPageCount: adminProcedure
@@ -250,16 +181,6 @@ export const adminRouter = createTRPCRouter({
                 },
             });
 
-            const floor = Math.floor(
-                total / (input?.count ?? DEFAULT_PAGE_SIZE)
-            );
-            const mod = total % (input?.count ?? DEFAULT_PAGE_SIZE);
-            if (mod === 0 && floor === 0) {
-                return 1;
-            } else if (total % (input?.count ?? DEFAULT_PAGE_SIZE) === 0) {
-                return floor;
-            } else {
-                return floor + 1;
-            }
+            return getPageCount(total, input?.count ?? DEFAULT_PAGE_SIZE);
         }),
 });
