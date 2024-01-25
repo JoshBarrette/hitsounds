@@ -4,7 +4,7 @@ import DownloadButton from "~/app/(client)/_components/DownloadButton";
 import { api } from "~/trpc/react";
 import { FormEvent, createRef, useState } from "react";
 import DeleteSoundButton from "./DeleteSoundButton";
-import { RouterOutputs } from "~/trpc/shared";
+import { RouterOutputs, SoundTypes } from "~/trpc/shared";
 import { Button } from "~/app/_components/Button";
 import { Select } from "~/app/_components/Select";
 
@@ -71,7 +71,7 @@ export default function ProfileSoundsTable(props: { url: string }) {
     const [isDisabled, setIsDisabled] = useState(false);
     const [title, setTitle] = useState("");
     const [sortBy, setSortBy] = useState("");
-    const [soundType, setSoundType] = useState("");
+    const [soundType, setSoundType] = useState<SoundTypes>(undefined);
 
     const inputRef = createRef<HTMLInputElement>();
     const typeRef = createRef<HTMLSelectElement>();
@@ -99,7 +99,7 @@ export default function ProfileSoundsTable(props: { url: string }) {
 
         setTitle(inputRef.current?.value ?? "");
         setSortBy(sortRef.current?.value ?? "");
-        setSoundType(typeRef.current?.value ?? "");
+        setSoundType(typeRef.current?.value as SoundTypes);
     }
 
     return (

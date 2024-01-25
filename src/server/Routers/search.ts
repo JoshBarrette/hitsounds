@@ -16,21 +16,12 @@ export const searchRouter = createTRPCRouter({
                         .or(z.literal("any"))
                         .nullish(),
                     count: z.number().nullish(),
-                    page: z.number().min(0).nullish(),
+                    page: z.number().min(0).catch(0).nullish(),
                     sortBy: z.string(),
                 })
                 .optional()
         )
         .query(async ({ input, ctx }) => {
-            let page = 0;
-            if (
-                input?.page !== null &&
-                input?.page !== undefined &&
-                !isNaN(input?.page)
-            ) {
-                page = (input?.page as number) - 1;
-            }
-
             const orderBy = soundsOrderBy(input?.sortBy);
 
             return await ctx.db.sound.findMany({
@@ -50,7 +41,9 @@ export const searchRouter = createTRPCRouter({
                 },
                 orderBy,
                 take: input?.count ?? DEFAULT_PAGE_SIZE,
-                skip: page * (input?.count ?? DEFAULT_PAGE_SIZE),
+                skip:
+                    ((input?.page ?? 1) - 1) *
+                    (input?.count ?? DEFAULT_PAGE_SIZE),
             });
         }),
 

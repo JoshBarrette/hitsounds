@@ -71,6 +71,7 @@ export const adminRouter = createTRPCRouter({
             })
         )
         .query(async ({ input, ctx }) => {
+            console.log("input: ", input);
             let uploaderId = undefined;
             if (input?.uploader) {
                 const uploader = await ctx.db.user.findUnique({
@@ -96,7 +97,9 @@ export const adminRouter = createTRPCRouter({
                 },
                 orderBy,
                 take: input?.count ?? DEFAULT_PAGE_SIZE,
-                skip: (input?.page ?? 0) * (input?.count ?? DEFAULT_PAGE_SIZE),
+                skip:
+                    ((input?.page ?? 1) - 1) *
+                    (input?.count ?? DEFAULT_PAGE_SIZE),
             });
         }),
     searchSoundsPageCount: adminProcedure
@@ -160,7 +163,9 @@ export const adminRouter = createTRPCRouter({
                 },
                 orderBy,
                 take: input?.count ?? DEFAULT_PAGE_SIZE,
-                skip: (input?.page ?? 0) * (input?.count ?? DEFAULT_PAGE_SIZE),
+                skip:
+                    ((input?.page ?? 1) - 1) *
+                    (input?.count ?? DEFAULT_PAGE_SIZE),
             });
         }),
     searchUsersPageCount: adminProcedure

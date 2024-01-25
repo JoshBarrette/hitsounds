@@ -20,6 +20,8 @@ export function getUrl() {
 export type RouterInputs = inferRouterInputs<AppRouter>;
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
+export type SoundTypes = "hit" | "kill" | "any" | null | undefined;
+
 export function soundsOrderBy(
     s: string | undefined | null
 ): Prisma.SoundOrderByWithRelationInput {

@@ -6,6 +6,7 @@ import { FormEvent, createRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Select } from "~/app/_components/Select";
 import { Button } from "~/app/_components/Button";
+import { SoundTypes } from "~/trpc/shared";
 
 export default function SoundsList(props: { url: string }) {
     const inputRef = createRef<HTMLInputElement>();
@@ -16,8 +17,8 @@ export default function SoundsList(props: { url: string }) {
     const [title, setTitle] = useState<string | undefined>(
         inputRef.current?.value ?? undefined
     );
-    const [soundType, setSoundType] = useState<string | undefined>(
-        typeRef.current?.value ?? undefined
+    const [soundType, setSoundType] = useState<SoundTypes>(
+        typeRef.current?.value as SoundTypes
     );
     const [sortBy, setSortBy] = useState<string>(
         sortRef.current?.value ?? "new"
@@ -48,7 +49,7 @@ export default function SoundsList(props: { url: string }) {
         e.preventDefault();
 
         setTitle(inputRef.current?.value);
-        setSoundType(typeRef.current?.value);
+        setSoundType(typeRef.current?.value as SoundTypes);
         setSortBy(sortRef.current?.value ?? "new");
         setUploader(uploaderRef.current?.value);
     }
