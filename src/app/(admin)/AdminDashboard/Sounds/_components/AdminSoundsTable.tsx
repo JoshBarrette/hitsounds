@@ -1,17 +1,22 @@
+import { Source, Audio } from "~/app/_components/Audio";
+import PageSelector from "~/app/_components/PageSelector";
 import { RouterOutputs } from "~/trpc/shared";
 
 export default function AdminSoundsTable(props: {
-    sounds: RouterOutputs["admin"]["getSounds"] | undefined;
+    sounds: RouterOutputs["admin"]["searchSounds"] | undefined;
     url: string;
     setCurrentSoundID: (id: number) => void;
+    currentPage: number;
+    totalPages: number;
+    setPage: (n: number) => void;
 }) {
-    if (props.sounds === undefined) {
+    if (!props.sounds) {
         return null;
     }
 
     return (
         <div className="flex flex-col items-center">
-            <table className="mx-auto w-full border-separate border-spacing-y-1">
+            <table className="mx-auto mb-4 w-full border-separate border-spacing-y-1">
                 <thead>
                     <tr className="text-center text-white">
                         <th>name</th>
@@ -21,7 +26,7 @@ export default function AdminSoundsTable(props: {
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody className="text-black">
                     <AdminSoundsTableBody
                         sounds={props.sounds}
                         setCurrentSoundID={props.setCurrentSoundID}
@@ -29,7 +34,11 @@ export default function AdminSoundsTable(props: {
                 </tbody>
             </table>
 
-            <p className="text-white">Pages here</p>
+            <PageSelector
+                size={props.totalPages}
+                currentPage={props.currentPage}
+                setPage={props.setPage}
+            />
         </div>
     );
 }
@@ -45,15 +54,12 @@ function AdminSoundsTableBody(props: {
                     <td className="mx-2 w-96 break-words text-center font-medium">
                         {sound.title}
                     </td>
-                    <td className="flex">
-                        <audio
-                            controls
-                            className="m-auto h-10 rounded-lg text-white"
-                            preload="none"
-                        >
-                            <source src={sound.url} type="audio/wav" />
-                            Your browser does not support the audio element.
-                        </audio>
+                    <td>
+                        <div className="h-full">
+                            <Audio>
+                                <Source src={sound.url} />
+                            </Audio>
+                        </div>
                     </td>
                     <td className="font-medium">
                         <div className="flex">
@@ -61,12 +67,16 @@ function AdminSoundsTableBody(props: {
                         </div>
                     </td>
                     <td>
-                        <button
-                            className="m-auto w-full rounded-md bg-neutral-500 p-1.5 transition-all hover:bg-neutral-600 active:bg-neutral-400"
-                            onClick={() => props.setCurrentSoundID(sound.id)}
-                        >
-                            View
-                        </button>
+                        <div className="my-0.5 flex w-full">
+                            <button
+                                className="mx-auto rounded-md bg-neutral-500 p-1.5 transition-all hover:bg-neutral-600 active:bg-neutral-400"
+                                onClick={() =>
+                                    props.setCurrentSoundID(sound.id)
+                                }
+                            >
+                                View
+                            </button>
+                        </div>
                     </td>
                 </tr>
             ))}

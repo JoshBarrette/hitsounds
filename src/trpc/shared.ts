@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
 
@@ -18,3 +19,55 @@ export function getUrl() {
 
 export type RouterInputs = inferRouterInputs<AppRouter>;
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+export type SoundTypes = "hit" | "kill" | "any" | null | undefined;
+
+export function soundsOrderBy(
+    s: string | undefined | null
+): Prisma.SoundOrderByWithRelationInput {
+    switch (s) {
+        case "az":
+            return {
+                title: "asc",
+            };
+        case "za":
+            return {
+                title: "desc",
+            };
+        case "old":
+            return {
+                createdAt: "asc",
+            };
+        default:
+            return {
+                createdAt: "desc",
+            };
+    }
+}
+
+export function userOrderBy(
+    s: string | undefined | null
+): Prisma.UserOrderByWithRelationInput {
+    switch (s) {
+        case "old":
+            return {
+                createdAt: "asc",
+            };
+        default:
+            return {
+                createdAt: "desc",
+            };
+    }
+}
+
+export function getPageCount(total: number, pageSize: number): number {
+    const floor = Math.floor(total / pageSize);
+    const mod = total % pageSize;
+    if (mod === 0 && floor === 0) {
+        return 1;
+    } else if (total % pageSize === 0) {
+        return floor;
+    } else {
+        return floor + 1;
+    }
+}

@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "~/app/_components/Button";
 import { RouterOutputs } from "~/trpc/shared";
 import { api } from "~/trpc/react";
@@ -9,7 +8,7 @@ export default function SoundViewer(props: {
     sound: RouterOutputs["admin"]["getSingleSound"];
     refreshSounds: () => void;
 }) {
-    if (props.sound === null) {
+    if (!props.sound) {
         return null;
     }
 
@@ -73,7 +72,7 @@ function OptionsDiv(props: {
     return (
         <div>
             <h1 className="my-4 text-3xl">Options</h1>
-            <div className="flex space-x-4">
+            <div className="ml-3 flex space-x-4">
                 <div>
                     <Button className="text-md px-3 py-1">View Uploader</Button>
                 </div>
@@ -103,7 +102,7 @@ function AdminDeleteButton(props: { id: number; refreshSounds: () => void }) {
     return (
         <div className="relative text-center">
             <Button
-                className="text-md px-3 py-1"
+                className="text-md px-3 py-1 hover:border-red-600"
                 onClick={() => setShowConfirm(true)}
             >
                 Delete Sound
@@ -111,7 +110,7 @@ function AdminDeleteButton(props: { id: number; refreshSounds: () => void }) {
 
             {showConfirm && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="mt-36 rounded-md bg-zinc-600 p-2">
+                    <div className="mt-36 rounded-md bg-neutral-600 p-2">
                         {del.isLoading ? (
                             <p className="mb-2 whitespace-nowrap">
                                 Deleting Sound...
@@ -125,6 +124,7 @@ function AdminDeleteButton(props: { id: number; refreshSounds: () => void }) {
                             <Button
                                 onClick={() => del.mutate(props.id)}
                                 disabled={del.isLoading}
+                                className="hover:border-red-600"
                             >
                                 Confirm
                             </Button>

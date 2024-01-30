@@ -1,6 +1,7 @@
 import { RouterOutputs } from "~/trpc/shared";
 import DownloadButton from "./DownloadButton";
 import CopyLinkButton from "./CopyLinkButton";
+import { Source, Audio   } from "~/app/_components/Audio";
 
 export default function SoundsTable(props: {
     sounds: RouterOutputs["search"]["search"] | undefined;
@@ -20,33 +21,24 @@ export default function SoundsTable(props: {
 
                 <tbody>
                     {props.sounds?.map((sound, key) => (
-                        <tr key={key} className="rounded-md bg-neutral-500">
-                            <td className="mx-2 w-96 break-words text-center text-lg font-medium">
+                        <tr key={key} className="bg-white font-medium">
+                            <td className="mx-2 w-96 break-words text-center text-lg">
                                 {sound.title}
                             </td>
                             <td>
-                                <audio
-                                    controls
-                                    className="my-auto h-10 rounded-lg text-white"
-                                    preload="none"
-                                >
-                                    <source src={sound.url} type="audio/wav" />
-                                    {/* <source src={url} type="audio/x-pn-wav" /> */}
-                                    Your browser does not support the audio
-                                    element.
-                                </audio>
+                                <Audio>
+                                    <Source src={sound.url} />
+                                </Audio>
                             </td>
-                            <td className="px-4 font-medium">
+                            <td className="px-4">
                                 {sound.soundType}sound
                             </td>
-                            <td className="ml-auto flex">
-                                <div className="my-auto flex p-1">
-                                    <DownloadButton url={sound.url} />
-                                    <CopyLinkButton
-                                        url={props.url}
-                                        soundID={sound.id}
-                                    />
-                                </div>
+                            <td className="ml-auto flex space-x-2 p-1">
+                                <DownloadButton url={sound.url} />
+                                <CopyLinkButton
+                                    url={props.url}
+                                    soundID={sound.id}
+                                />
                             </td>
                         </tr>
                     ))}

@@ -11,7 +11,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         return (
             <button
                 className={cn(
-                    "rounded-md bg-cyan-500 px-3 py-2 font-medium text-black transition-all hover:bg-cyan-600 active:bg-cyan-400 disabled:bg-cyan-950",
+                    "rounded-3xl border px-3 py-2 font-medium text-white transition-all hover:border-neutral-400 active:border-neutral-400 disabled:border-neutral-950",
                     className
                 )}
                 {...props}

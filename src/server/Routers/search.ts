@@ -1,7 +1,6 @@
-import { TRPCError } from "@trpc/server";
 import { publicProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
 import { z } from "zod";
-import { Prisma } from "@prisma/client";
+import { getPageCount, soundsOrderBy } from "~/trpc/shared";
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -11,62 +10,19 @@ export const searchRouter = createTRPCRouter({
             z
                 .object({
                     title: z.string().nullish(),
-                    soundType: z.string().nullish(),
+                    soundType: z
+                        .literal("hit")
+                        .or(z.literal("kill"))
+                        .or(z.literal("any"))
+                        .nullish(),
                     count: z.number().nullish(),
-                    page: z.number().nullish(),
+                    page: z.number().min(0).catch(0).nullish(),
                     sortBy: z.string(),
                 })
                 .optional()
         )
         .query(async ({ input, ctx }) => {
-            if (
-                (input?.soundType !== "hit" &&
-                    input?.soundType !== "kill" &&
-                    input?.soundType !== "any" &&
-                    input?.soundType !== null &&
-                    input?.soundType !== undefined) ||
-                (input?.count ?? 1) < 0 ||
-                (input?.page ?? 1) <= 0
-            ) {
-                throw new TRPCError({ code: "BAD_REQUEST" });
-            }
-
-            let page = 0;
-            if (
-                input?.page !== null &&
-                input?.page !== undefined &&
-                !isNaN(input?.page)
-            ) {
-                page = (input?.page as number) - 1;
-            }
-
-            let orderBy: Prisma.SoundOrderByWithRelationInput;
-            switch (input?.sortBy) {
-                case "az":
-                    orderBy = {
-                        title: "asc",
-                    };
-                    break;
-                case "za":
-                    orderBy = {
-                        title: "desc",
-                    };
-                    break;
-                case "old":
-                    orderBy = {
-                        createdAt: "asc",
-                    };
-                    break;
-                default:
-                    orderBy = {
-                        createdAt: "desc",
-                    };
-            }
-
-            let soundType = undefined;
-            if (input?.soundType === "hit" || input?.soundType === "kill") {
-                soundType = input?.soundType;
-            }
+            const orderBy = soundsOrderBy(input?.sortBy);
 
             return await ctx.db.sound.findMany({
                 select: {
@@ -81,11 +37,13 @@ export const searchRouter = createTRPCRouter({
                     title: {
                         contains: input?.title ?? undefined,
                     },
-                    soundType: soundType,
+                    soundType: input?.soundType ?? undefined,
                 },
-                orderBy: orderBy,
+                orderBy,
                 take: input?.count ?? DEFAULT_PAGE_SIZE,
-                skip: page * (input?.count ?? DEFAULT_PAGE_SIZE),
+                skip:
+                    ((input?.page ?? 1) - 1) *
+                    (input?.count ?? DEFAULT_PAGE_SIZE),
             });
         }),
 
@@ -94,7 +52,11 @@ export const searchRouter = createTRPCRouter({
             z
                 .object({
                     title: z.string().nullish(),
-                    soundType: z.string().nullish(),
+                    soundType: z
+                        .literal("hit")
+                        .or(z.literal("kill"))
+                        .or(z.literal("any"))
+                        .nullish(),
                     count: z.number().nullish(),
                 })
                 .optional()
@@ -109,17 +71,7 @@ export const searchRouter = createTRPCRouter({
                 },
             });
 
-            const floor = Math.floor(
-                total / (input?.count ?? DEFAULT_PAGE_SIZE)
-            );
-            const mod = total % (input?.count ?? DEFAULT_PAGE_SIZE);
-            if (mod === 0 && floor === 0) {
-                return 1;
-            } else if (total % (input?.count ?? DEFAULT_PAGE_SIZE) === 0) {
-                return floor;
-            } else {
-                return floor + 1;
-            }
+            return getPageCount(total, input?.count ?? DEFAULT_PAGE_SIZE);
         }),
 
     getSoundByID: publicProcedure
@@ -142,41 +94,18 @@ export const searchRouter = createTRPCRouter({
 
     getMySounds: protectedProcedure
         .input(
-            z
-                .object({
-                    title: z.string().nullish(),
-                    soundType: z.string().nullish(),
-                    sortBy: z.string().nullish(),
-                })
+            z.object({
+                title: z.string().nullish(),
+                soundType: z
+                    .literal("hit")
+                    .or(z.literal("kill"))
+                    .or(z.literal("any"))
+                    .nullish(),
+                sortBy: z.string().nullish(),
+            })
         )
         .query(async ({ input, ctx }) => {
-            let orderBy: Prisma.SoundOrderByWithRelationInput;
-            switch (input.sortBy) {
-                case "az":
-                    orderBy = {
-                        title: "asc",
-                    };
-                    break;
-                case "za":
-                    orderBy = {
-                        title: "desc",
-                    };
-                    break;
-                case "old":
-                    orderBy = {
-                        createdAt: "asc",
-                    };
-                    break;
-                default:
-                    orderBy = {
-                        createdAt: "desc",
-                    };
-            }
-
-            let soundType = undefined;
-            if (input.soundType === "hit" || input.soundType === "kill") {
-                soundType = input?.soundType;
-            }
+            const orderBy = soundsOrderBy(input?.sortBy);
 
             return await ctx.db.user
                 .findUnique({
@@ -187,7 +116,7 @@ export const searchRouter = createTRPCRouter({
                         uploads: {
                             where: {
                                 title: { contains: input.title ?? undefined },
-                                soundType,
+                                soundType: input?.soundType ?? undefined,
                             },
                             orderBy,
                         },

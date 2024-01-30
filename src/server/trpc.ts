@@ -56,6 +56,26 @@ const isAuthorized = t.middleware(({ next, ctx }) => {
     });
 });
 
+const isAdmin = t.middleware(async ({ next, ctx }) => {
+    if (!ctx.auth.userId) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+    
+    const user = await db.user.findUnique({
+        where: { userID: ctx.auth.userId! },
+    });
+    if (!user || !user.isAdmin) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+
+    return next({
+        ctx: {
+            auth: ctx.auth,
+        },
+    });
+});
+
 export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
-export const protectedProcedure = t.procedure.use(isAuthorized)
+export const protectedProcedure = t.procedure.use(isAuthorized);
+export const adminProcedure = t.procedure.use(isAdmin);

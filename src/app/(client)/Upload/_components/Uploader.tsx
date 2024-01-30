@@ -174,7 +174,7 @@ export default function Uploader() {
     return (
         <div className="w-full">
             <div
-                className="mx-auto mt-5 flex cursor-pointer rounded-lg border-2 border-dashed border-neutral-900 bg-cyan-500 px-48 py-16 text-center transition-all hover:bg-cyan-600 active:bg-cyan-400"
+                className="mx-auto mt-5 flex cursor-pointer rounded-lg border-2 border-dashed border-neutral-900 bg-neutral-500 px-48 py-16 text-center transition-all hover:bg-neutral-400 active:bg-neutral-300"
                 ref={dropZoneRef}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}

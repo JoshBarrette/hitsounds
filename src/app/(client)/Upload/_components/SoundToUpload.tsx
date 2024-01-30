@@ -1,5 +1,7 @@
 import { ChangeEvent, createRef, useEffect } from "react";
 import { useFileContext } from "./FilesContext";
+import { TextInput } from "~/app/_components/TextInput";
+import { Button } from "~/app/_components/Button";
 
 export default function SoundToUpload(props: { index: number }) {
     const { files, setFiles, submitting } = useFileContext();
@@ -37,14 +39,13 @@ export default function SoundToUpload(props: { index: number }) {
     }
 
     return (
-        <div className="flex-box my-2 rounded-md bg-cyan-950 px-3 pt-1">
+        <div className="flex-box my-2 rounded-md bg-neutral-500 px-3 pt-1 font-medium text-black">
             <div className="text-md m-auto mt-1 flex">
                 <label htmlFor={`name-${props.index}`} className="my-auto mr-2">
                     {props.index + 1}:
                 </label>
-                <input
-                    className="w-96 rounded-sm bg-cyan-500 text-center leading-8 text-black placeholder:text-neutral-500"
-                    type="text"
+                <TextInput
+                    className="w-96"
                     id={`name-${props.index}`}
                     defaultValue={file.name}
                     maxLength={120}
@@ -81,13 +82,13 @@ export default function SoundToUpload(props: { index: number }) {
                         killsound
                     </label>
                 </div>
-                <button
-                    className="ml-4 rounded-md bg-red-950 px-3 py-1 text-white transition-all hover:bg-red-800 active:bg-red-900 disabled:bg-red-300 disabled:text-black"
+                <Button
+                    className="ml-4 bg-white px-3 py-2 text-black disabled:bg-transparent"
                     onClick={() => handleSoundRemove(props.index)}
                     disabled={shouldDisable}
                 >
                     remove
-                </button>
+                </Button>
             </div>
 
             {files.at(props.index)?.response !== "" ? (
