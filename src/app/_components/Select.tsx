@@ -1,4 +1,4 @@
-import { SelectHTMLAttributes, forwardRef } from "react";
+import { OptionHTMLAttributes, SelectHTMLAttributes, forwardRef } from "react";
 import { cn } from "~/utils";
 
 export const Select = forwardRef<
@@ -8,7 +8,7 @@ export const Select = forwardRef<
     return (
         <select
             className={cn(
-                "text-md my-auto mr-2 w-24 rounded-sm bg-cyan-900 p-1 font-sans font-medium text-white",
+                "text-md my-auto rounded-sm p-1.5 font-sans font-medium text-black",
                 className
             )}
             {...props}
@@ -17,3 +17,17 @@ export const Select = forwardRef<
     );
 });
 Select.displayName = "Select";
+
+export const Option = forwardRef<
+    HTMLOptionElement,
+    OptionHTMLAttributes<HTMLOptionElement>
+>(({ className, ...props }, ref) => {
+    return (
+        <option
+            className={cn("font-sans font-medium", className)}
+            ref={ref}
+            {...props}
+        />
+    );
+});
+Option.displayName = "Option";

@@ -11,9 +11,9 @@ export default async function Home() {
     });
 
     return (
-        <div className="flex">
-            <div className="mx-auto">
-                <div className="mb-28 mt-64 h-96 flex-col">
+        <div className="flex w-full flex-col">
+            <div className="mx-auto w-full">
+                <div className="w-full flex-col py-72">
                     <h3 className="m-auto text-center text-5xl font-medium text-white">
                         hitsounds
                     </h3>
@@ -25,7 +25,9 @@ export default async function Home() {
                 <p className="w-full p-4 text-center text-3xl font-medium text-white">
                     Most Recent Uploads
                 </p>
-                <div className="mx-auto mb-2">
+            </div>
+            <div className="mx-auto">
+                <div className="mb-2 w-full">
                     <HomePageFilter />
                 </div>
                 <SoundsTable sounds={searcher} url={getBaseUrl()} />

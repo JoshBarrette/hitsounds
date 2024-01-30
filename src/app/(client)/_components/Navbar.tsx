@@ -7,6 +7,7 @@ import { api } from "~/trpc/react";
 import Image from "next/image";
 import { NavButton } from "~/app/_components/NavButton";
 import { cn } from "~/utils";
+import { TextInput } from "~/app/_components/TextInput";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children?: any;
@@ -111,12 +112,7 @@ export default function Navbar() {
                         onSubmit={handleFormSubmit}
                         className="ml-auto mt-2.5 w-2/5 text-center"
                     >
-                        <input
-                            type="text"
-                            ref={inputRef}
-                            placeholder="search"
-                            className="my-auto mb-2 w-full rounded-sm bg-cyan-900 text-center leading-8 text-white placeholder:text-neutral-200"
-                        />
+                        <TextInput ref={inputRef} placeholder="search" />
                     </form>
 
                     <div className="my-auto ml-auto flex w-80">

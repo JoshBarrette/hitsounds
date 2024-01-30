@@ -5,9 +5,10 @@ import { FormEvent, createRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import SoundsTable from "../_components/SoundsTable";
 import { Button } from "~/app/_components/Button";
-import { Select } from "~/app/_components/Select";
+import { Select, Option } from "~/app/_components/Select";
 import PageSelector from "~/app/_components/PageSelector";
 import { SoundTypes } from "~/trpc/shared";
+import { TextInput } from "~/app/_components/TextInput";
 
 export default function Search(props: { url: string }) {
     const [title, setTitle] = useState<string | undefined>(undefined);
@@ -26,12 +27,13 @@ export default function Search(props: { url: string }) {
     const pager =
         api.search.searchPageCount.useQuery({
             title: title ?? keywordsParam,
-            soundType:
-                (typeParam ?? (soundType !== "any" ? soundType : undefined)) as SoundTypes,
+            soundType: (typeParam ??
+                (soundType !== "any" ? soundType : undefined)) as SoundTypes,
         }).data ?? 1;
     const searcher = api.search.search.useQuery({
         title: title ?? keywordsParam,
-        soundType: (typeParam ?? (soundType !== "any" ? soundType : undefined)) as SoundTypes,
+        soundType: (typeParam ??
+            (soundType !== "any" ? soundType : undefined)) as SoundTypes,
         sortBy: sortBy ?? sortParam ?? "new",
         page: page ?? (pageParam !== null ? parseInt(pageParam) : undefined),
     }).data;
@@ -86,12 +88,11 @@ export default function Search(props: { url: string }) {
                 onSubmit={handleFormSubmit}
                 className="my-2 text-center text-white"
             >
-                <input
-                    type="text"
+                <TextInput
                     ref={inputRef}
                     placeholder="search"
                     defaultValue={keywordsParam ?? ""}
-                    className="w-96 rounded-sm bg-cyan-900 text-center leading-8 text-white placeholder:text-neutral-200"
+                    className="w-96 text-black"
                 />
                 <label htmlFor="type" className="mx-2">
                     sound type:
@@ -102,17 +103,11 @@ export default function Search(props: { url: string }) {
                     ref={typeRef}
                     defaultValue={typeParam ?? "any"}
                 >
-                    <option value="any" className="font-sans font-medium">
-                        all sounds
-                    </option>
-                    <option value="hit" className="font-sans font-medium">
-                        hitsound
-                    </option>
-                    <option value="kill" className="font-sans font-medium">
-                        killsound
-                    </option>
+                    <Option value="any">all sounds</Option>
+                    <Option value="hit">hitsound</Option>
+                    <Option value="kill">killsound</Option>
                 </Select>
-                <label htmlFor="sortByInput" className="mr-2">
+                <label htmlFor="sortByInput" className="mx-2">
                     sort by:
                 </label>
                 <Select
@@ -121,18 +116,10 @@ export default function Search(props: { url: string }) {
                     ref={sortRef}
                     defaultValue={sortParam ?? "new"}
                 >
-                    <option value="new" className="font-sans font-medium">
-                        new
-                    </option>
-                    <option value="old" className="font-sans font-medium">
-                        old
-                    </option>
-                    <option value="az" className="font-sans font-medium">
-                        {"a->z"}
-                    </option>
-                    <option value="za" className="font-sans font-medium">
-                        {"z->a"}
-                    </option>
+                    <Option value="new">new</Option>
+                    <Option value="old">old</Option>
+                    <Option value="az">{"a->z"}</Option>
+                    <Option value="za">{"z->a"}</Option>
                 </Select>
                 <br />
                 <Button type="submit" className="mt-4">
@@ -147,7 +134,11 @@ export default function Search(props: { url: string }) {
                         </div>
                     </div>
                     <div className="mt-2 flex w-full">
-                        <PageSelector size={pager} setPage={updateURL} currentPage={page ?? 1} />
+                        <PageSelector
+                            size={pager}
+                            setPage={updateURL}
+                            currentPage={page ?? 1}
+                        />
                     </div>
                 </>
             ) : (

@@ -2,6 +2,7 @@
 import { RouterOutputs } from "~/trpc/shared";
 import CopyLinkButton from "./CopyLinkButton";
 import DownloadButton from "./DownloadButton";
+import { Source, Audio } from "~/app/_components/Audio";
 
 export default function SoundPlayer(props: {
     sound: RouterOutputs["search"]["search"][0];
@@ -12,15 +13,9 @@ export default function SoundPlayer(props: {
             <p className="mx-2 my-auto w-96 break-words text-center text-lg font-medium">
                 {props.sound.title}
             </p>
-            <audio
-                controls
-                className="my-auto h-10 rounded-lg text-white"
-                preload="none"
-            >
-                <source src={props.sound.url} type="audio/wav" />
-                {/* <source src={url} type="audio/x-pn-wav" /> */}
-                Your browser does not support the audio element.
-            </audio>
+            <Audio>
+                <Source src={props.sound.url} />
+            </Audio>
             <p className="my-auto ml-auto font-medium">
                 {props.sound.soundType}sound
             </p>

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { createRef } from "react";
 import { Button } from "~/app/_components/Button";
+import { TextInput } from "~/app/_components/TextInput";
 
 export default function HomePageSearchBar() {
     const router = useRouter();
@@ -17,11 +18,10 @@ export default function HomePageSearchBar() {
                     router.push(`/Search?q=${inputRef.current?.value ?? ""}`);
                 }}
             >
-                <input
-                    type="text"
+                <TextInput
                     ref={inputRef}
                     placeholder="search"
-                    className="w-3/5 rounded-sm bg-cyan-900 text-center text-xl leading-10 text-white placeholder:text-neutral-200"
+                    className="w-1/3 text-xl leading-10"
                 />
                 <Button type="submit">Search</Button>
             </form>

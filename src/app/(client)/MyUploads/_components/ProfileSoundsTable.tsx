@@ -6,7 +6,9 @@ import { FormEvent, createRef, useState } from "react";
 import DeleteSoundButton from "./DeleteSoundButton";
 import { RouterOutputs, SoundTypes } from "~/trpc/shared";
 import { Button } from "~/app/_components/Button";
-import { Select } from "~/app/_components/Select";
+import { Option, Select } from "~/app/_components/Select";
+import { TextInput } from "~/app/_components/TextInput";
+import { Audio, Source } from "~/app/_components/Audio";
 
 function SoundTable(props: {
     soundsQuery: RouterOutputs["search"]["getMySounds"];
@@ -33,16 +35,9 @@ function SoundTable(props: {
                                 {sound.title}
                             </td>
                             <td>
-                                <audio
-                                    controls
-                                    className="my-auto h-10 rounded-lg text-white"
-                                    preload="none"
-                                >
-                                    <source src={sound.url} type="audio/wav" />
-                                    {/* <source src={url} type="audio/x-pn-wav" /> */}
-                                    Your browser does not support the audio
-                                    element.
-                                </audio>
+                                <Audio>
+                                    <Source src={sound.url} />
+                                </Audio>
                             </td>
                             <td className="px-4 font-medium">
                                 {sound.soundType}sound
@@ -108,14 +103,13 @@ export default function ProfileSoundsTable(props: { url: string }) {
                 onSubmit={handleFormSubmit}
                 className="my-2 text-center text-white"
             >
-                <input
-                    type="text"
+                <TextInput
                     ref={inputRef}
                     placeholder="search"
                     defaultValue={""}
-                    className="w-96 rounded-sm bg-cyan-900 text-center leading-8 text-white placeholder:text-neutral-200"
+                    className="w-96"
                 />
-                <label htmlFor="type" className="ml-2">
+                <label htmlFor="type" className="mx-2">
                     sound type:
                 </label>
                 <Select
@@ -124,17 +118,11 @@ export default function ProfileSoundsTable(props: { url: string }) {
                     ref={typeRef}
                     defaultValue={"any"}
                 >
-                    <option value="any" className="font-sans font-medium">
-                        all sounds
-                    </option>
-                    <option value="hit" className="font-sans font-medium">
-                        hitsound
-                    </option>
-                    <option value="kill" className="font-sans font-medium">
-                        killsound
-                    </option>
+                    <Option value="any">all sounds</Option>
+                    <Option value="hit">hitsound</Option>
+                    <Option value="kill">killsound</Option>
                 </Select>
-                <label htmlFor="sortByInput" className="mr-2">
+                <label htmlFor="sortByInput" className="mx-2">
                     sort by:
                 </label>
                 <Select
@@ -143,18 +131,10 @@ export default function ProfileSoundsTable(props: { url: string }) {
                     ref={sortRef}
                     defaultValue={"new"}
                 >
-                    <option value="new" className="font-sans font-medium">
-                        new
-                    </option>
-                    <option value="old" className="font-sans font-medium">
-                        old
-                    </option>
-                    <option value="az" className="font-sans font-medium">
-                        {"a->z"}
-                    </option>
-                    <option value="za" className="font-sans font-medium">
-                        {"z->a"}
-                    </option>
+                    <Option value="new">new</Option>
+                    <Option value="old">old</Option>
+                    <Option value="az">{"a->z"}</Option>
+                    <Option value="za">{"z->a"}</Option>
                 </Select>
                 <br />
                 <Button type="submit" className="mt-4">
