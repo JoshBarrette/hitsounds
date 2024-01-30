@@ -25,7 +25,6 @@ export default function RootLayout({
             <body className={inter.className}>
                 <ClerkProvider
                     appearance={{
-                        baseTheme: dark,
                         signIn: { baseTheme: dark },
                     }}
                 >

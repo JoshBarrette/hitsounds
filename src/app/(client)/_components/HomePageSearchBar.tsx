@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { createRef } from "react";
 import { Button } from "~/app/_components/Button";
+import { SearchButton } from "~/app/_components/SearchButton";
 import { TextInput } from "~/app/_components/TextInput";
 
 export default function HomePageSearchBar() {
@@ -10,20 +11,33 @@ export default function HomePageSearchBar() {
     const inputRef = createRef<HTMLInputElement>();
 
     return (
-        <div className="mx-auto mt-10 w-full">
+        <div className="mx-auto mt-10">
             <form
-                className="mx-auto space-x-3 text-center"
+                className="mx-auto flex text-center"
                 onSubmit={(e) => {
                     e.preventDefault();
+
+                    if (!inputRef.current?.value) {
+                        return;
+                    }
+
                     router.push(`/Search?q=${inputRef.current?.value ?? ""}`);
                 }}
             >
-                <TextInput
-                    ref={inputRef}
-                    placeholder="search"
-                    className="w-1/3 text-xl leading-10"
-                />
-                <Button type="submit">Search</Button>
+                <div className="flex w-full">
+                    <div className="mx-auto flex w-1/3">
+                        <TextInput
+                            ref={inputRef}
+                            placeholder="search"
+                            className="my-auto w-full rounded-l-3xl rounded-r-none text-xl leading-10"
+                        />
+                        <SearchButton
+                            width={34}
+                            type="submit"
+                            className="my-auto rounded-r-3xl"
+                        />
+                    </div>
+                </div>
             </form>
         </div>
     );

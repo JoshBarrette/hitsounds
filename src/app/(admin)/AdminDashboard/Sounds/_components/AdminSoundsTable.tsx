@@ -1,3 +1,4 @@
+import { Source, Audio } from "~/app/_components/Audio";
 import PageSelector from "~/app/_components/PageSelector";
 import { RouterOutputs } from "~/trpc/shared";
 
@@ -53,15 +54,12 @@ function AdminSoundsTableBody(props: {
                     <td className="mx-2 w-96 break-words text-center font-medium">
                         {sound.title}
                     </td>
-                    <td className="flex">
-                        <audio
-                            controls
-                            className="m-auto h-10 rounded-lg text-white"
-                            preload="none"
-                        >
-                            <source src={sound.url} type="audio/wav" />
-                            Your browser does not support the audio element.
-                        </audio>
+                    <td>
+                        <div className="h-full">
+                            <Audio>
+                                <Source src={sound.url} />
+                            </Audio>
+                        </div>
                     </td>
                     <td className="font-medium">
                         <div className="flex">
@@ -69,12 +67,16 @@ function AdminSoundsTableBody(props: {
                         </div>
                     </td>
                     <td>
-                        <button
-                            className="m-auto w-full rounded-md bg-neutral-500 p-1.5 transition-all hover:bg-neutral-600 active:bg-neutral-400"
-                            onClick={() => props.setCurrentSoundID(sound.id)}
-                        >
-                            View
-                        </button>
+                        <div className="my-0.5 flex w-full">
+                            <button
+                                className="mx-auto rounded-md bg-neutral-500 p-1.5 transition-all hover:bg-neutral-600 active:bg-neutral-400"
+                                onClick={() =>
+                                    props.setCurrentSoundID(sound.id)
+                                }
+                            >
+                                View
+                            </button>
+                        </div>
                     </td>
                 </tr>
             ))}

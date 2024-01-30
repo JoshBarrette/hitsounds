@@ -29,8 +29,8 @@ function SoundTable(props: {
                 </thead>
 
                 <tbody>
-                    {props.soundsQuery?.map((sound: any, key: any) => (
-                        <tr key={key} className="rounded-md bg-neutral-500">
+                    {props.soundsQuery?.map((sound: any) => (
+                        <tr key={sound.title} className="rounded-md bg-white">
                             <td className="mx-2 w-96 break-words text-center text-lg font-medium">
                                 {sound.title}
                             </td>

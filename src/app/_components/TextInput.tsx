@@ -9,7 +9,7 @@ export const TextInput = forwardRef<
         <input
             type="text"
             className={cn(
-                "my-auto w-full rounded-sm text-center leading-8 text-black placeholder:text-neutral-500",
+                "my-auto w-full rounded-lg text-center leading-8 text-black placeholder:text-neutral-500",
                 className
             )}
             ref={ref}

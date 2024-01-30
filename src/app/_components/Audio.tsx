@@ -8,7 +8,7 @@ export const Audio = forwardRef<
     return (
         <audio
             controls
-            className={cn("my-auto h-10 rounded-lg text-white", className)}
+            className={cn("m-auto h-10 rounded-lg text-white", className)}
             ref={ref}
             {...props}
         />

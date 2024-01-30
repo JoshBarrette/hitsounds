@@ -8,6 +8,7 @@ import Image from "next/image";
 import { NavButton } from "~/app/_components/NavButton";
 import { cn } from "~/utils";
 import { TextInput } from "~/app/_components/TextInput";
+import { SearchButton } from "~/app/_components/SearchButton";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children?: any;
@@ -19,7 +20,7 @@ const DropDownButton = forwardRef<HTMLButtonElement, ButtonProps>(
             <button
                 ref={ref}
                 className={cn(
-                    "w-full px-2 py-1 text-left transition-all hover:bg-neutral-600",
+                    "w-full px-2 py-1 text-left transition-all hover:bg-neutral-400",
                     className
                 )}
                 {...props}
@@ -41,7 +42,7 @@ function UserDopDown() {
     return (
         <div className="group relative my-auto ml-auto h-full text-lg font-medium hover:text-black">
             {user.isLoaded && (
-                <div className="p-1.5 group-hover:bg-neutral-500">
+                <div className="p-1.5 group-hover:bg-neutral-400">
                     <Image
                         src={user.user!.imageUrl}
                         className="rounded-full"
@@ -51,52 +52,48 @@ function UserDopDown() {
                     />
                 </div>
             )}
-            <div className="absolute right-0 z-40 scale-0 group-hover:scale-100">
-                <div className="rounded-b bg-neutral-500 shadow-lg">
-                    <Link href={"/MyProfile"} className="mb-2">
-                        <div className="flex bg-neutral-500 p-2 hover:bg-neutral-600">
-                            {user.isLoaded && (
-                                <Image
-                                    src={user.user!.imageUrl}
-                                    className="ml-4 rounded-full"
-                                    alt="pfp"
-                                    width="35"
-                                    height="1"
-                                />
-                            )}
-                            <p className="my-auto w-44 truncate px-2 text-center">
-                                {user.user?.username}
-                            </p>
-                        </div>
-                    </Link>
+            <div className="absolute right-0 z-40 scale-0 rounded-b bg-white shadow-lg group-hover:scale-100">
+                <Link href={"/MyProfile"} className="mb-2">
+                    <div className="flex p-2 hover:bg-neutral-400">
+                        {user.isLoaded && (
+                            <Image
+                                src={user.user!.imageUrl}
+                                className="ml-4 rounded-full"
+                                alt="pfp"
+                                width="35"
+                                height="1"
+                            />
+                        )}
+                        <p className="my-auto w-44 truncate px-2 text-center">
+                            {user.user?.username}
+                        </p>
+                    </div>
+                </Link>
 
-                    <Spacer />
+                <Spacer />
 
-                    <DropDownButton href="/Upload">Upload</DropDownButton>
-                    <DropDownButton href="/MyUploads">
-                        My Uploads
-                    </DropDownButton>
+                <DropDownButton href="/Upload">Upload</DropDownButton>
+                <DropDownButton href="/MyUploads">My Uploads</DropDownButton>
 
-                    {userIsAdmin && (
-                        <>
-                            <Spacer />
-                            <DropDownButton href="/AdminDashboard">
-                                Admin Dashboard
-                            </DropDownButton>
-                        </>
-                    )}
-
-                    <Spacer />
-
-                    <SignOutButton>
-                        <DropDownButton
-                            onClick={() => router.push("/")}
-                            className="rounded-b"
-                        >
-                            Sign Out
+                {userIsAdmin && (
+                    <>
+                        <Spacer />
+                        <DropDownButton href="/AdminDashboard">
+                            Admin Dashboard
                         </DropDownButton>
-                    </SignOutButton>
-                </div>
+                    </>
+                )}
+
+                <Spacer />
+
+                <SignOutButton>
+                    <DropDownButton
+                        onClick={() => router.push("/")}
+                        className="rounded-b"
+                    >
+                        Sign Out
+                    </DropDownButton>
+                </SignOutButton>
             </div>
         </div>
     );
@@ -108,6 +105,11 @@ export default function Navbar() {
 
     function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
+        if (!inputRef.current?.value) {
+            return;
+        }
+
         router.push(`/Search?k=${inputRef.current?.value}`);
         router.refresh();
     }
@@ -117,16 +119,21 @@ export default function Navbar() {
             <div className="z-30 flex w-full bg-neutral-800">
                 <nav className="mx-auto flex w-3/5 sm:w-full xl:w-3/5">
                     <div className="my-auto flex w-80 text-left">
-                        <div className="mr-auto text-3xl text-white transition-all hover:bg-cyan-500 hover:text-black">
+                        <div className="mr-auto text-3xl transition-all">
                             <NavButton href="/">hitsounds</NavButton>
                         </div>
                     </div>
 
                     <form
                         onSubmit={handleFormSubmit}
-                        className="ml-auto mt-2.5 w-2/5 text-center"
+                        className="my-auto ml-auto flex w-2/5 text-center"
                     >
-                        <TextInput ref={inputRef} placeholder="search" />
+                        <TextInput
+                            ref={inputRef}
+                            placeholder="search"
+                            className="rounded-r-none"
+                        />
+                        <SearchButton width={25} type="submit" />
                     </form>
 
                     <div className="my-auto ml-auto flex w-80">

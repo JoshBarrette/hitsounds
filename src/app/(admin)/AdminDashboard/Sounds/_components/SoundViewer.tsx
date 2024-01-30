@@ -110,7 +110,7 @@ function AdminDeleteButton(props: { id: number; refreshSounds: () => void }) {
 
             {showConfirm && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="mt-36 rounded-md bg-zinc-600 p-2">
+                    <div className="mt-36 rounded-md bg-neutral-600 p-2">
                         {del.isLoading ? (
                             <p className="mb-2 whitespace-nowrap">
                                 Deleting Sound...

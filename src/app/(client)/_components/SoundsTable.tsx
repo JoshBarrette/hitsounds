@@ -21,7 +21,7 @@ export default function SoundsTable(props: {
 
                 <tbody>
                     {props.sounds?.map((sound, key) => (
-                        <tr key={key} className="bg-neutral-500 font-medium">
+                        <tr key={key} className="bg-white font-medium">
                             <td className="mx-2 w-96 break-words text-center text-lg">
                                 {sound.title}
                             </td>

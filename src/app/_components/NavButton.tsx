@@ -13,7 +13,7 @@ export const NavButton = forwardRef<HTMLButtonElement, NavButtonProps>(
             <Link href={href ?? ""}>
                 <button
                     className={cn(
-                        "p-2 text-3xl text-white transition-all hover:bg-cyan-500 hover:text-black",
+                        "bg-white p-2 text-3xl text-black transition-all",
                         className
                     )}
                     {...props}

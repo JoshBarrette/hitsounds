@@ -8,7 +8,7 @@ export default function DeleteSoundButton(props: {
     return (
         <div className="group">
             <button
-                className="my-auto flex h-10 rounded-md bg-red-950 text-white transition-all hover:bg-red-800 active:bg-red-900 disabled:bg-red-300 disabled:text-black"
+                className="my-auto flex h-10 rounded-md bg-red-600 text-white transition-all disabled:bg-red-950 disabled:text-black"
                 onClick={() => props.handleDelete(props.soundId)}
                 disabled={props.isDisabled}
             >

@@ -1,6 +1,7 @@
 import { ChangeEvent, createRef, useEffect } from "react";
 import { useFileContext } from "./FilesContext";
 import { TextInput } from "~/app/_components/TextInput";
+import { Button } from "~/app/_components/Button";
 
 export default function SoundToUpload(props: { index: number }) {
     const { files, setFiles, submitting } = useFileContext();
@@ -81,13 +82,13 @@ export default function SoundToUpload(props: { index: number }) {
                         killsound
                     </label>
                 </div>
-                <button
-                    className="ml-4 rounded-md border border-black px-3 py-1 transition-all hover:border-red-600 active:border-red-400 disabled:border-red-950 disabled:text-red-950"
+                <Button
+                    className="ml-4 bg-white px-3 py-2 text-black disabled:bg-transparent"
                     onClick={() => handleSoundRemove(props.index)}
                     disabled={shouldDisable}
                 >
                     remove
-                </button>
+                </Button>
             </div>
 
             {files.at(props.index)?.response !== "" ? (
