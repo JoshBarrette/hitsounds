@@ -2,7 +2,8 @@
 import { useSearchParams } from "next/navigation";
 import { FormEvent, createRef, useState } from "react";
 import { Button } from "~/app/_components/Button";
-import { Select } from "~/app/_components/Select";
+import { Option, Select } from "~/app/_components/Select";
+import { TextInput } from "~/app/_components/TextInput";
 import { api } from "~/trpc/react";
 
 export default function UsersList(props: { url: string }) {
@@ -40,11 +41,11 @@ export default function UsersList(props: { url: string }) {
     return (
         <div className="flex h-full flex-col items-center text-white">
             <form onSubmit={handleFormSubmit} className="my-2 text-center">
-                <input
+                <TextInput
                     type="text"
                     ref={inputRef}
                     placeholder="userID"
-                    className="mr-2 w-96 rounded-sm bg-cyan-900 text-center leading-8 placeholder:text-neutral-200"
+                    className="mr-2 w-96"
                 />
                 <label htmlFor="sortByInput" className="mr-2">
                     sort by:
@@ -55,12 +56,8 @@ export default function UsersList(props: { url: string }) {
                     ref={sortRef}
                     defaultValue={"new"}
                 >
-                    <option value="new" className="font-sans font-medium">
-                        new
-                    </option>
-                    <option value="old" className="font-sans font-medium">
-                        old
-                    </option>
+                    <Option value="new">new</Option>
+                    <Option value="old">old</Option>
                 </Select>
                 <br />
                 <Button type="submit" className="mt-2">

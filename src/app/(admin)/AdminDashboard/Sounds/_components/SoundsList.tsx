@@ -4,9 +4,10 @@ import AdminSoundsTable from "./AdminSoundsTable";
 import SoundViewer from "./SoundViewer";
 import { FormEvent, createRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Select } from "~/app/_components/Select";
+import { Option, Select } from "~/app/_components/Select";
 import { Button } from "~/app/_components/Button";
 import { SoundTypes } from "~/trpc/shared";
+import { TextInput } from "~/app/_components/TextInput";
 
 export default function SoundsList(props: { url: string }) {
     const inputRef = createRef<HTMLInputElement>();
@@ -58,17 +59,15 @@ export default function SoundsList(props: { url: string }) {
         <div className="flex h-full flex-col items-center text-white">
             <form onSubmit={handleFormSubmit} className="my-2 text-center">
                 <div className="mb-2 flex space-x-2">
-                    <input
-                        type="text"
+                    <TextInput
                         ref={inputRef}
                         placeholder="title"
-                        className="w-96 rounded-sm bg-cyan-900 text-center leading-8 placeholder:text-neutral-200"
+                        className="w-96"
                     />
-                    <input
-                        type="text"
+                    <TextInput
                         ref={uploaderRef}
                         placeholder="userID"
-                        className="w-96 rounded-sm bg-cyan-900 text-center leading-8 placeholder:text-neutral-200"
+                        className="w-96"
                     />
                 </div>
                 <label htmlFor="type" className="mr-2">
@@ -80,15 +79,9 @@ export default function SoundsList(props: { url: string }) {
                     ref={typeRef}
                     defaultValue={"any"}
                 >
-                    <option value="any" className="font-sans font-medium">
-                        all sounds
-                    </option>
-                    <option value="hit" className="font-sans font-medium">
-                        hitsound
-                    </option>
-                    <option value="kill" className="font-sans font-medium">
-                        killsound
-                    </option>
+                    <Option value="any">all sounds</Option>
+                    <Option value="hit">hitsound</Option>
+                    <Option value="kill">killsound</Option>
                 </Select>
                 <label htmlFor="sortByInput" className="mr-2">
                     sort by:
@@ -99,18 +92,10 @@ export default function SoundsList(props: { url: string }) {
                     ref={sortRef}
                     defaultValue={"new"}
                 >
-                    <option value="new" className="font-sans font-medium">
-                        new
-                    </option>
-                    <option value="old" className="font-sans font-medium">
-                        old
-                    </option>
-                    <option value="az" className="font-sans font-medium">
-                        {"a->z"}
-                    </option>
-                    <option value="za" className="font-sans font-medium">
-                        {"z->a"}
-                    </option>
+                    <Option value="new">new</Option>
+                    <Option value="old">old</Option>
+                    <Option value="az">{"a->z"}</Option>
+                    <Option value="za">{"z->a"}</Option>
                 </Select>
                 <br />
                 <Button type="submit" className="mt-2">

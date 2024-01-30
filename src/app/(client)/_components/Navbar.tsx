@@ -19,7 +19,7 @@ const DropDownButton = forwardRef<HTMLButtonElement, ButtonProps>(
             <button
                 ref={ref}
                 className={cn(
-                    "w-full px-2 py-1 text-left transition-all hover:bg-cyan-600",
+                    "w-full px-2 py-1 text-left transition-all hover:bg-neutral-600",
                     className
                 )}
                 {...props}
@@ -36,21 +36,25 @@ function UserDopDown() {
     const router = useRouter();
     const userIsAdmin = api.admin.isAdmin.useQuery().data;
 
+    const Spacer = () => <hr className="my-2 border-t border-black" />;
+
     return (
-        <div className="group relative my-auto ml-auto h-full px-3 text-lg font-medium hover:text-black">
+        <div className="group relative my-auto ml-auto h-full text-lg font-medium hover:text-black">
             {user.isLoaded && (
-                <Image
-                    src={user.user!.imageUrl}
-                    className="rounded-full"
-                    alt="pfp"
-                    width="40"
-                    height="1"
-                />
+                <div className="p-1.5 group-hover:bg-neutral-500">
+                    <Image
+                        src={user.user!.imageUrl}
+                        className="rounded-full"
+                        alt="pfp"
+                        width="40"
+                        height="1"
+                    />
+                </div>
             )}
             <div className="absolute right-0 z-40 scale-0 group-hover:scale-100">
-                <div className="mt-2 bg-cyan-500">
+                <div className="rounded-b bg-neutral-500 shadow-lg">
                     <Link href={"/MyProfile"} className="mb-2">
-                        <div className="flex bg-cyan-500 p-2 hover:bg-cyan-600">
+                        <div className="flex bg-neutral-500 p-2 hover:bg-neutral-600">
                             {user.isLoaded && (
                                 <Image
                                     src={user.user!.imageUrl}
@@ -66,19 +70,29 @@ function UserDopDown() {
                         </div>
                     </Link>
 
+                    <Spacer />
+
                     <DropDownButton href="/Upload">Upload</DropDownButton>
                     <DropDownButton href="/MyUploads">
                         My Uploads
                     </DropDownButton>
 
                     {userIsAdmin && (
-                        <DropDownButton href="/AdminDashboard">
-                            Admin Dashboard
-                        </DropDownButton>
+                        <>
+                            <Spacer />
+                            <DropDownButton href="/AdminDashboard">
+                                Admin Dashboard
+                            </DropDownButton>
+                        </>
                     )}
 
+                    <Spacer />
+
                     <SignOutButton>
-                        <DropDownButton onClick={() => router.push("/")}>
+                        <DropDownButton
+                            onClick={() => router.push("/")}
+                            className="rounded-b"
+                        >
                             Sign Out
                         </DropDownButton>
                     </SignOutButton>

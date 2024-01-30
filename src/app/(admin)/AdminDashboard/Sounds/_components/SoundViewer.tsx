@@ -102,7 +102,7 @@ function AdminDeleteButton(props: { id: number; refreshSounds: () => void }) {
     return (
         <div className="relative text-center">
             <Button
-                className="text-md px-3 py-1"
+                className="text-md px-3 py-1 hover:border-red-600"
                 onClick={() => setShowConfirm(true)}
             >
                 Delete Sound
@@ -124,6 +124,7 @@ function AdminDeleteButton(props: { id: number; refreshSounds: () => void }) {
                             <Button
                                 onClick={() => del.mutate(props.id)}
                                 disabled={del.isLoading}
+                                className="hover:border-red-600"
                             >
                                 Confirm
                             </Button>
