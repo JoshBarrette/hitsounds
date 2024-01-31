@@ -1,17 +1,19 @@
 "use client";
 import Image from "next/image";
+import useURL from "~/app/_components/URLContext";
 
 export default function CopyLinkButton(props: {
-    url: string;
     soundID: number;
 }) {
+    const url = useURL();
+    
     return (
         <div className="group">
             <div
                 className="rounded-md transition-all hover:cursor-pointer bg-neutral-400"
                 onClick={() =>
                     navigator.clipboard.writeText(
-                        `${props.url}/s/${props.soundID}`
+                        `${url}/s/${props.soundID}`
                     )
                 }
             >

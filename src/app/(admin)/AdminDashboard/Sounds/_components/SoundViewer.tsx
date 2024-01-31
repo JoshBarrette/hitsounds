@@ -4,11 +4,11 @@ import { RouterOutputs } from "~/trpc/shared";
 import { api } from "~/trpc/react";
 import { useState } from "react";
 import Link from "next/link";
+import useURL from "~/app/_components/URLContext";
 
 export default function SoundViewer(props: {
     sound: RouterOutputs["admin"]["getSingleSound"];
     refreshSounds: () => void;
-    url: string;
 }) {
     if (!props.sound) {
         return null;
@@ -20,7 +20,6 @@ export default function SoundViewer(props: {
             <OptionsDiv
                 sound={props.sound}
                 refreshSounds={props.refreshSounds}
-                url={props.url}
             />
         </div>
     );
@@ -71,15 +70,16 @@ function DataDiv(props: { sound: RouterOutputs["admin"]["getSingleSound"] }) {
 function OptionsDiv(props: {
     sound: RouterOutputs["admin"]["getSingleSound"];
     refreshSounds: () => void;
-    url: string;
 }) {
+    const url = useURL();
+
     return (
         <div>
             <h1 className="my-4 text-3xl">Options</h1>
             <div className="ml-3 flex space-x-4">
                 <div>
                     <Link
-                        href={`${props.url}/AdminDashboard/Users?u=${props.sound?.uploader?.userID}`}
+                        href={`${url}/AdminDashboard/Users?u=${props.sound?.uploader?.userID}`}
                     >
                         <Button className="text-md px-3 py-1">
                             View Uploader

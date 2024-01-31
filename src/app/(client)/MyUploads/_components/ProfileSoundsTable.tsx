@@ -12,7 +12,6 @@ import { Audio, Source } from "~/app/_components/Audio";
 
 function SoundTable(props: {
     soundsQuery: RouterOutputs["search"]["getMySounds"];
-    url: string;
     isDisabled: boolean;
     handleDelete: (id: number) => void;
 }) {
@@ -45,7 +44,6 @@ function SoundTable(props: {
                             <td className="ml-auto flex space-x-2 p-1">
                                 <DownloadButton url={sound.url} />
                                 <CopyLinkButton
-                                    url={props.url}
                                     soundID={sound.id}
                                 />
                                 <DeleteSoundButton
@@ -62,7 +60,7 @@ function SoundTable(props: {
     );
 }
 
-export default function ProfileSoundsTable(props: { url: string }) {
+export default function ProfileSoundsTable() {
     const [isDisabled, setIsDisabled] = useState(false);
     const [title, setTitle] = useState("");
     const [sortBy, setSortBy] = useState("");
@@ -143,7 +141,6 @@ export default function ProfileSoundsTable(props: { url: string }) {
             </form>
             {soundsQuery.data?.length ?? -1 > 0 ? (
                 <SoundTable
-                    url={props.url}
                     soundsQuery={soundsQuery.data}
                     isDisabled={isDisabled}
                     handleDelete={handleDelete}

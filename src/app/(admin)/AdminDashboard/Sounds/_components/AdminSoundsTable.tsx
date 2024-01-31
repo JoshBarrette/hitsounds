@@ -4,7 +4,6 @@ import { RouterOutputs } from "~/trpc/shared";
 
 export default function AdminSoundsTable(props: {
     sounds: RouterOutputs["admin"]["searchSounds"] | undefined;
-    url: string;
     setCurrentSoundID: (id: number) => void;
     currentPage: number;
     totalPages: number;

@@ -6,10 +6,11 @@ import { Button } from "~/app/_components/Button";
 import PageSelector from "~/app/_components/PageSelector";
 import { Option, Select } from "~/app/_components/Select";
 import { TextInput } from "~/app/_components/TextInput";
+import useURL from "~/app/_components/URLContext";
 import { api } from "~/trpc/react";
 import { RouterOutputs } from "~/trpc/shared";
 
-export default function UsersList(props: { url: string }) {
+export default function UsersList() {
     const inputRef = createRef<HTMLInputElement>();
     const sortRef = createRef<HTMLSelectElement>();
 
@@ -72,7 +73,7 @@ export default function UsersList(props: { url: string }) {
 
             <div className="space-y-2">
                 {s.data?.map((d, k) => (
-                    <UserAccordion data={d} url={props.url} key={k} />
+                    <UserAccordion data={d} key={k} />
                 ))}
             </div>
 
@@ -87,7 +88,6 @@ export default function UsersList(props: { url: string }) {
 
 function UserAccordion(props: {
     data: RouterOutputs["admin"]["searchUsers"][0];
-    url: string;
 }) {
     const [isOpen, setIsOpen] = useState(false);
     const contentRef = useRef<HTMLDivElement | null>(null);
@@ -117,7 +117,7 @@ function UserAccordion(props: {
             >
                 <div className="px-4 py-2">
                     <UserInfoTable data={props.data} />
-                    <OptionButtons data={props.data} url={props.url} />
+                    <OptionButtons data={props.data} />
                 </div>
             </div>
         </div>
@@ -167,9 +167,9 @@ function UserInfoTable(props: {
 
 function OptionButtons(props: {
     data: RouterOutputs["admin"]["searchUsers"][0];
-    url: string;
 }) {
     const [isBanning, setIsBanning] = useState(false);
+    const url = useURL();
     const ban = api.admin.banUser.useMutation({
         onSuccess: () => {
             alert("User Successfully Banned");
@@ -192,7 +192,7 @@ function OptionButtons(props: {
     return (
         <div className="my-2 flex space-x-4">
             <Link
-                href={`${props.url}/AdminDashboard/Sounds?u=${props.data.userID}`}
+                href={`${url}/AdminDashboard/Sounds?u=${props.data.userID}`}
             >
                 <Button className="border-neutral-400 text-black hover:border-black">
                     View Uploaded Sounds

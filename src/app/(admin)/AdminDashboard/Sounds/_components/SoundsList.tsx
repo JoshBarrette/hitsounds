@@ -9,7 +9,7 @@ import { Button } from "~/app/_components/Button";
 import { SoundTypes } from "~/trpc/shared";
 import { TextInput } from "~/app/_components/TextInput";
 
-export default function SoundsList(props: { url: string }) {
+export default function SoundsList() {
     const inputRef = createRef<HTMLInputElement>();
     const uploaderRef = createRef<HTMLInputElement>();
     const typeRef = createRef<HTMLSelectElement>();
@@ -115,7 +115,6 @@ export default function SoundsList(props: { url: string }) {
                 <div className="flex h-full w-full">
                     <div className="flex-1">
                         <AdminSoundsTable
-                            url={props.url}
                             sounds={s.data}
                             setCurrentSoundID={setCurrentSoundID}
                             totalPages={p.data ?? 0}
@@ -132,7 +131,6 @@ export default function SoundsList(props: { url: string }) {
                                     s.refetch();
                                     setCurrentSoundID(s.data![0].id);
                                 }}
-                                url={props.url}
                             />
                         ) : null}
                     </div>

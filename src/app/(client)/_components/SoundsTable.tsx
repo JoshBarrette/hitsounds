@@ -5,9 +5,7 @@ import { Source, Audio   } from "~/app/_components/Audio";
 
 export default function SoundsTable(props: {
     sounds: RouterOutputs["search"]["search"] | undefined;
-    url: string;
-}) {
-    return (
+}) {    return (
         <div className="flex">
             <table className="mx-auto border-separate border-spacing-y-1">
                 <thead>
@@ -36,7 +34,6 @@ export default function SoundsTable(props: {
                             <td className="ml-auto flex space-x-2 p-1">
                                 <DownloadButton url={sound.url} />
                                 <CopyLinkButton
-                                    url={props.url}
                                     soundID={sound.id}
                                 />
                             </td>

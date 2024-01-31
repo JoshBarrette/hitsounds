@@ -1,12 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button } from "~/app/_components/Button";
 
 export default function HomePageFilter() {
-    const router = useRouter();
-
     return (
         <div className="grid grid-cols-5 space-x-3 text-center text-white">
             <Link href="/Search">
