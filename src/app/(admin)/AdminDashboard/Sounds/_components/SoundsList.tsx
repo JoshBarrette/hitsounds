@@ -24,10 +24,13 @@ export default function SoundsList(props: { url: string }) {
     const [sortBy, setSortBy] = useState<string>(
         sortRef.current?.value ?? "new"
     );
+    const searchParams = useSearchParams();
+    const uploaderIDParam = searchParams.get("u");
     const [uploader, setUploader] = useState<string | undefined>(
-        uploaderRef.current?.value ?? undefined
+        uploaderIDParam ?? undefined
     );
     const [page, setPage] = useState<number>(1);
+
     const s = api.admin.searchSounds.useQuery({
         title,
         sortBy,
@@ -41,18 +44,22 @@ export default function SoundsList(props: { url: string }) {
         uploader,
     });
 
-    const searchParams = useSearchParams();
-    const soundIDParam = parseInt(searchParams.get("s") ?? "-1");
-    const [currentSoundID, setCurrentSoundID] = useState(soundIDParam);
+    const [currentSoundID, setCurrentSoundID] = useState(-1);
     const currentSound = api.admin.getSingleSound.useQuery(currentSoundID);
 
     function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        setTitle(inputRef.current?.value);
+        setTitle(
+            inputRef.current?.value !== "" ? inputRef.current?.value : undefined
+        );
         setSoundType(typeRef.current?.value as SoundTypes);
         setSortBy(sortRef.current?.value ?? "new");
-        setUploader(uploaderRef.current?.value);
+        setUploader(
+            uploaderRef.current?.value !== ""
+                ? uploaderRef.current?.value
+                : undefined
+        );
     }
 
     return (
@@ -68,9 +75,10 @@ export default function SoundsList(props: { url: string }) {
                         ref={uploaderRef}
                         placeholder="userID"
                         className="w-96"
+                        defaultValue={uploaderIDParam ?? ""}
                     />
                 </div>
-                <label htmlFor="type" className="mr-2">
+                <label htmlFor="type" className="mx-2">
                     sound type:
                 </label>
                 <Select
@@ -83,7 +91,7 @@ export default function SoundsList(props: { url: string }) {
                     <Option value="hit">hitsound</Option>
                     <Option value="kill">killsound</Option>
                 </Select>
-                <label htmlFor="sortByInput" className="mr-2">
+                <label htmlFor="sortByInput" className="mx-2">
                     sort by:
                 </label>
                 <Select
@@ -124,6 +132,7 @@ export default function SoundsList(props: { url: string }) {
                                     s.refetch();
                                     setCurrentSoundID(s.data![0].id);
                                 }}
+                                url={props.url}
                             />
                         ) : null}
                     </div>

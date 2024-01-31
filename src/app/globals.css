@@ -6,6 +6,13 @@ body {
     @apply bg-neutral-900;
 }
 
-.default-button {
-    @apply rounded-md bg-cyan-500 px-3 py-2 font-medium text-black transition-all hover:bg-cyan-600 active:bg-cyan-400;
+.accordion-header {
+    transition-delay: 150ms;
+    transition-property: border-radius;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+}
+
+.accordion-body {
+    transition: height 250ms ease-in-out;
 }

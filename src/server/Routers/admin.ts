@@ -72,14 +72,14 @@ export const adminRouter = createTRPCRouter({
         )
         .query(async ({ input, ctx }) => {
             console.log("input: ", input);
-            let uploaderId = undefined;
-            if (input?.uploader) {
+            let uploaderId: number | undefined = undefined;
+            if (input?.uploader && input?.uploader !== "") {
                 const uploader = await ctx.db.user.findUnique({
                     where: { userID: input.uploader },
                 });
 
                 if (!uploader) {
-                    return null;
+                    uploaderId = undefined;
                 } else {
                     uploaderId = uploader.id;
                 }
@@ -92,7 +92,10 @@ export const adminRouter = createTRPCRouter({
                     title: {
                         contains: input?.title ?? undefined,
                     },
-                    soundType: input?.soundType ?? undefined,
+                    soundType:
+                        input?.soundType === "any"
+                            ? undefined
+                            : (input?.soundType as string),
                     uploaderId,
                 },
                 orderBy,
@@ -125,7 +128,7 @@ export const adminRouter = createTRPCRouter({
                 });
 
                 if (!uploader) {
-                    return 0;
+                    uploaderId = undefined;
                 } else {
                     uploaderId = uploader.id;
                 }
@@ -136,7 +139,10 @@ export const adminRouter = createTRPCRouter({
                     title: {
                         contains: input?.title ?? undefined,
                     },
-                    soundType: input?.soundType ?? undefined,
+                    soundType:
+                        input?.soundType === "any"
+                            ? undefined
+                            : (input?.soundType as string),
                     uploaderId,
                 },
             });
@@ -156,6 +162,9 @@ export const adminRouter = createTRPCRouter({
             const orderBy = userOrderBy(input?.sortBy);
 
             return await ctx.db.user.findMany({
+                include: {
+                    _count: true,
+                },
                 where: {
                     userID: {
                         contains: input?.userID ?? undefined,
@@ -187,5 +196,33 @@ export const adminRouter = createTRPCRouter({
             });
 
             return getPageCount(total, input?.count ?? DEFAULT_PAGE_SIZE);
+        }),
+    banUser: adminProcedure
+        .input(z.number())
+        .mutation(async ({ input, ctx }) => {
+            const user = await ctx.db.user.findUnique({ where: { id: input } });
+
+            if (!user || user.isAdmin) {
+                throw new TRPCError({ code: "BAD_REQUEST" });
+            }
+
+            return await ctx.db.user.update({
+                where: { id: input },
+                data: { isBanned: true },
+            });
+        }),
+    unBanUser: adminProcedure
+        .input(z.number())
+        .mutation(async ({ input, ctx }) => {
+            const user = await ctx.db.user.findUnique({ where: { id: input } });
+
+            if (!user || user.isAdmin) {
+                throw new TRPCError({ code: "BAD_REQUEST" });
+            }
+
+            return await ctx.db.user.update({
+                where: { id: input },
+                data: { isBanned: false },
+            });
         }),
 });

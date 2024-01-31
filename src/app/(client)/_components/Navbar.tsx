@@ -52,7 +52,7 @@ function UserDopDown() {
                     />
                 </div>
             )}
-            <div className="absolute right-0 z-40 scale-0 rounded-b bg-white shadow-lg group-hover:scale-100">
+            <div className="absolute right-0 z-40 scale-0 bg-white py-2 shadow-lg group-hover:scale-100">
                 <Link href={"/MyProfile"} className="mb-2">
                     <div className="flex p-2 hover:bg-neutral-400">
                         {user.isLoaded && (
@@ -87,10 +87,7 @@ function UserDopDown() {
                 <Spacer />
 
                 <SignOutButton>
-                    <DropDownButton
-                        onClick={() => router.push("/")}
-                        className="rounded-b"
-                    >
+                    <DropDownButton onClick={() => router.push("/")}>
                         Sign Out
                     </DropDownButton>
                 </SignOutButton>

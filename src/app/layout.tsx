@@ -23,11 +23,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <ClerkProvider
-                    appearance={{
-                        signIn: { baseTheme: dark },
-                    }}
-                >
+                <ClerkProvider>
                     <TRPCReactProvider cookies={cookies().toString()}>
                         {children}
                     </TRPCReactProvider>
