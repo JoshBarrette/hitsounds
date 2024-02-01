@@ -2,10 +2,10 @@ import Image from "next/image";
 
 export default function DownloadButton(props: { url: string }) {
     return (
-        <div className="group">
+        <div className="group relative whitespace-nowrap">
             <a
                 href={props.url}
-                className="my-auto flex h-10 rounded-md px-2 transition-all bg-neutral-400"
+                className="my-auto flex h-10 rounded-md bg-neutral-400 px-2 transition-all"
             >
                 <Image
                     src={"/download-svgrepo-com.svg"}
@@ -15,7 +15,7 @@ export default function DownloadButton(props: { url: string }) {
                     className="p-2"
                 />
             </a>
-            <div className="pointer-events-none absolute -ml-12 mt-1 scale-0 rounded-md bg-zinc-600 px-3 py-1 text-white transition-all group-hover:scale-100">
+            <div className="pointer-events-none absolute right-1/2 z-30 mt-1 translate-x-1/2 scale-0 rounded-md bg-zinc-600 px-3 py-1 text-white transition-all group-hover:scale-100">
                 <p>Download Sound</p>
             </div>
         </div>
