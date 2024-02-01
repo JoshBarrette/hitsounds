@@ -1,11 +1,14 @@
+"use client";
 import { RouterOutputs } from "~/trpc/shared";
 import DownloadButton from "./DownloadButton";
 import CopyLinkButton from "./CopyLinkButton";
-import { Source, Audio   } from "~/app/_components/Audio";
+import { Source, Audio } from "~/app/_components/Audio";
+import { updateHistory } from "../_actions/playHistory";
 
 export default function SoundsTable(props: {
     sounds: RouterOutputs["search"]["search"] | undefined;
-}) {    return (
+}) {
+    return (
         <div className="flex">
             <table className="mx-auto border-separate border-spacing-y-1">
                 <thead>
@@ -24,18 +27,21 @@ export default function SoundsTable(props: {
                                 {sound.title}
                             </td>
                             <td>
-                                <Audio>
+                                <Audio
+                                    onPlay={async () =>
+                                        updateHistory({
+                                            title: sound.title,
+                                            id: sound.id,
+                                        })
+                                    }
+                                >
                                     <Source src={sound.url} />
                                 </Audio>
                             </td>
-                            <td className="px-4">
-                                {sound.soundType}sound
-                            </td>
+                            <td className="px-4">{sound.soundType}sound</td>
                             <td className="ml-auto flex space-x-2 p-1">
                                 <DownloadButton url={sound.url} />
-                                <CopyLinkButton
-                                    soundID={sound.id}
-                                />
+                                <CopyLinkButton soundID={sound.id} />
                             </td>
                         </tr>
                     ))}
