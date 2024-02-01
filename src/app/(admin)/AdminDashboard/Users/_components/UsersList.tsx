@@ -71,11 +71,15 @@ export default function UsersList() {
                 </Button>
             </form>
 
-            <div className="space-y-2">
-                {s.data?.map((d, k) => (
-                    <UserAccordion data={d} key={k} />
-                ))}
-            </div>
+            {s.isLoading ? (
+                <p className="text-3xl font-medium">
+                    {s.isLoading ? "Loading..." : "No Sounds Found"}
+                </p>
+            ) : (
+                <div className="space-y-2">
+                    {s.data?.map((d, k) => <UserAccordion data={d} key={k} />)}
+                </div>
+            )}
 
             <PageSelector
                 size={p.data ?? 1}
@@ -99,11 +103,12 @@ function UserAccordion(props: {
     return (
         <div className="overflow-hidden text-xl text-black">
             <button
-                className={`flex space-x-6 px-4 py-2 ${titleDivColoring} ${titleDivRounding}`}
+                className={`space-x-6 px-4 py-2 ${titleDivColoring} ${titleDivRounding}`}
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <p>dbID: {props.data.id}</p>
-                <p>userID: {props.data.userID}</p>
+                <p>
+                    dbID: {props.data.id} - userID: {props.data.userID}
+                </p>
             </button>
 
             <div
@@ -191,9 +196,7 @@ function OptionButtons(props: {
 
     return (
         <div className="my-2 flex space-x-4">
-            <Link
-                href={`${url}/AdminDashboard/Sounds?u=${props.data.userID}`}
-            >
+            <Link href={`${url}/AdminDashboard/Sounds?u=${props.data.userID}`}>
                 <Button className="border-neutral-400 text-black hover:border-black">
                     View Uploaded Sounds
                 </Button>
@@ -208,12 +211,14 @@ function OptionButtons(props: {
                                 ? unBan.mutate(props.data.id)
                                 : ban.mutate(props.data.id);
                         }}
+                        disabled={ban.isLoading || unBan.isLoading}
                     >
                         Confirm
                     </Button>
                     <Button
                         className="border-neutral-400 text-black hover:border-black"
                         onClick={() => setIsBanning(false)}
+                        disabled={ban.isLoading || unBan.isLoading}
                     >
                         Cancel
                     </Button>

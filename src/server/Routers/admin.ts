@@ -98,6 +98,13 @@ export const adminRouter = createTRPCRouter({
                             : (input?.soundType as string),
                     uploaderId,
                 },
+                include: {
+                    uploader: {
+                        select: {
+                            userID: true,
+                        },
+                    },
+                },
                 orderBy,
                 take: input?.count ?? DEFAULT_PAGE_SIZE,
                 skip:
