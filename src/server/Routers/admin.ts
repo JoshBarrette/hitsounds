@@ -232,4 +232,10 @@ export const adminRouter = createTRPCRouter({
                 data: { isBanned: false },
             });
         }),
+    totalSounds: adminProcedure.query(async ({ ctx }) => {
+        return await ctx.db.sound.count();
+    }),
+    totalUsers: adminProcedure.query(async ({ ctx }) => {
+        return await ctx.db.user.count();
+    }),
 });

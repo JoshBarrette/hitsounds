@@ -38,5 +38,4 @@ Note: start counting the nth file from 0 when submitting files to upload.
 
 -   Make a generic accordion. There is too much copied code on the admin dashboard.
 -   PageSelector needs its own context. Passing like 4 things down through everything is not it.
--   Add history for recently played sounds.
 -   Logging.
