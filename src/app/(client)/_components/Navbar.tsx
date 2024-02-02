@@ -130,7 +130,7 @@ export default function Navbar() {
                             placeholder="search"
                             className="rounded-r-none"
                         />
-                        <SearchButton width={25} type="submit" />
+                        <SearchButton className="h-8" width={25} type="submit" />
                     </form>
 
                     <div className="my-auto ml-auto flex w-80">

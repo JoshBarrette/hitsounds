@@ -6,18 +6,28 @@ export type RecentlyPlayedSound = {
     id: number;
 };
 
+function setHistory(arr: RecentlyPlayedSound[]) {
+    const sevenDays = 7 * 24 * 60 * 60 * 1000;
+
+    cookies().set("history", JSON.stringify(arr), {
+        expires: Date.now() + sevenDays,
+    });
+}
+
 export async function updateHistory(sound: RecentlyPlayedSound) {
     const cookieStore = cookies();
     const historyCookie = cookieStore.get("history");
 
     if (!historyCookie) {
-        cookieStore.set(
-            "history",
-            JSON.stringify([{ title: sound.title, id: sound.id }])
-        );
+        setHistory([{ title: sound.title, id: sound.id }]);
         return;
     }
-    const history = JSON.parse(historyCookie.value) as RecentlyPlayedSound[];
+
+    let history = JSON.parse(historyCookie.value) as RecentlyPlayedSound[];
+    if (history[0].id === sound.id) {
+        return;
+    }
+    history = history.filter((s, i) => s.id !== sound.id);
 
     let newHistory: RecentlyPlayedSound[];
     if (history.length === 5) {
@@ -29,5 +39,5 @@ export async function updateHistory(sound: RecentlyPlayedSound) {
         newHistory = [{ title: sound.title, id: sound.id }, ...history];
     }
 
-    cookieStore.set("history", JSON.stringify(newHistory));
+    setHistory(newHistory);
 }
