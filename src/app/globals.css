@@ -5,14 +5,3 @@
 body {
     @apply bg-neutral-900;
 }
-
-.accordion-header {
-    transition-delay: 150ms;
-    transition-property: border-radius;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 250ms;
-}
-
-.accordion-body {
-    transition: height 250ms ease-in-out;
-}

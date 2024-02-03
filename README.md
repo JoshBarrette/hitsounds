@@ -36,7 +36,6 @@ Note: start counting the nth file from 0 when submitting files to upload.
 
 ### TODO
 
--   Make a generic accordion. There is too much copied code on the admin dashboard.
 -   Custom Select component.
 -   Add Button variants.
 -   PageSelector needs its own context. Passing like 4 things down through everything is not it.
