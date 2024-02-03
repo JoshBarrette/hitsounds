@@ -2,7 +2,6 @@ import { api } from "~/trpc/server";
 import HomePageFilter from "./_components/HomePageFilter";
 import HomePageSearchBar from "./_components/HomePageSearchBar";
 import SoundsTable from "./_components/SoundsTable";
-import { getBaseUrl } from "~/trpc/shared";
 
 export default async function Home() {
     const searcher = await api.search.search.query({
@@ -30,7 +29,7 @@ export default async function Home() {
                 <div className="mb-2 w-full">
                     <HomePageFilter />
                 </div>
-                <SoundsTable sounds={searcher} url={getBaseUrl()} />
+                <SoundsTable sounds={searcher} />
             </div>
         </div>
     );

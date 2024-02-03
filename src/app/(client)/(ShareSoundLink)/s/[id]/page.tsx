@@ -67,7 +67,7 @@ export default async function SoundLink({ params }: PageProps) {
     return (
         <div className="flex">
             <div className="mx-auto mt-10">
-                <SoundsTable sounds={[sound]} url={getBaseUrl()} />
+                <SoundsTable sounds={[sound]} />
             </div>
         </div>
     );

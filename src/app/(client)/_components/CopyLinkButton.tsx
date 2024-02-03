@@ -1,18 +1,16 @@
 "use client";
 import Image from "next/image";
+import useURL from "~/app/_components/URLContext";
 
-export default function CopyLinkButton(props: {
-    url: string;
-    soundID: number;
-}) {
+export default function CopyLinkButton(props: { soundID: number }) {
+    const url = useURL();
+
     return (
-        <div className="group">
+        <div className="group relative whitespace-nowrap">
             <div
-                className="rounded-md transition-all hover:cursor-pointer bg-neutral-400"
+                className="rounded-md bg-neutral-400 transition-all hover:cursor-pointer"
                 onClick={() =>
-                    navigator.clipboard.writeText(
-                        `${props.url}/s/${props.soundID}`
-                    )
+                    navigator.clipboard.writeText(`${url}/s/${props.soundID}`)
                 }
             >
                 <Image
@@ -23,7 +21,7 @@ export default function CopyLinkButton(props: {
                     className="p-2"
                 />
             </div>
-            <div className="pointer-events-none absolute z-30 -ml-16 mt-1 scale-0 rounded-md bg-zinc-600 px-3 py-1 text-white transition-all group-hover:scale-100">
+            <div className="pointer-events-none absolute right-1/2 z-30 mt-1 translate-x-1/2 scale-0 rounded-md bg-zinc-600 px-3 py-1 text-white transition-all group-hover:scale-100">
                 <p>Copy Link to Sound</p>
             </div>
         </div>

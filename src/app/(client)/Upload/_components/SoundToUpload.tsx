@@ -83,7 +83,7 @@ export default function SoundToUpload(props: { index: number }) {
                     </label>
                 </div>
                 <Button
-                    className="ml-4 bg-white px-3 py-2 text-black disabled:bg-transparent"
+                    className="ml-4 border-none bg-red-600 text-black hover:border-none disabled:bg-red-950"
                     onClick={() => handleSoundRemove(props.index)}
                     disabled={shouldDisable}
                 >

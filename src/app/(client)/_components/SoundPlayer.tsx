@@ -6,7 +6,6 @@ import { Source, Audio } from "~/app/_components/Audio";
 
 export default function SoundPlayer(props: {
     sound: RouterOutputs["search"]["search"][0];
-    url: string;
 }) {
     return (
         <div className="mb-1 flex rounded-sm bg-neutral-500 p-1">
@@ -21,7 +20,7 @@ export default function SoundPlayer(props: {
             </p>
             <div className="ml-auto flex">
                 <DownloadButton url={props.sound.url} />
-                <CopyLinkButton url={props.url} soundID={props.sound.id} />
+                <CopyLinkButton soundID={props.sound.id} />
             </div>
         </div>
     );

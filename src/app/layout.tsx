@@ -6,6 +6,8 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { cookies } from "next/headers";
+import { URLProvider } from "./_components/URLContext";
+import { getBaseUrl } from "~/trpc/shared";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,13 +25,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <ClerkProvider
-                    appearance={{
-                        signIn: { baseTheme: dark },
-                    }}
-                >
+                <ClerkProvider>
                     <TRPCReactProvider cookies={cookies().toString()}>
-                        {children}
+                        <URLProvider url={getBaseUrl()}>{children}</URLProvider>
                     </TRPCReactProvider>
                 </ClerkProvider>
             </body>

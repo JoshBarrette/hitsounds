@@ -9,8 +9,10 @@ import { Select, Option } from "~/app/_components/Select";
 import PageSelector from "~/app/_components/PageSelector";
 import { SoundTypes } from "~/trpc/shared";
 import { TextInput } from "~/app/_components/TextInput";
+import useURL from "~/app/_components/URLContext";
 
-export default function Search(props: { url: string }) {
+export default function Search() {
+    const url = useURL();
     const [title, setTitle] = useState<string | undefined>(undefined);
     const [soundType, setSoundType] = useState<string | undefined>(undefined);
     const [sortBy, setSortBy] = useState<string | undefined>(undefined);
@@ -130,7 +132,7 @@ export default function Search(props: { url: string }) {
                 <>
                     <div className="flex">
                         <div className="m-auto">
-                            <SoundsTable sounds={searcher} url={props.url} />
+                            <SoundsTable sounds={searcher} />
                         </div>
                     </div>
                     <div className="mt-2 flex w-full">

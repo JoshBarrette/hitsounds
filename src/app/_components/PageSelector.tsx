@@ -4,6 +4,7 @@ import { Button } from "./Button";
 interface PageButtonProps
     extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     pageNum: number;
+    isCurrentPage?: boolean;
     setPage: (n: number) => void;
 }
 
@@ -16,9 +17,16 @@ export default function PageSelector(props: {
     const hasRightPages = props.currentPage < props.size;
 
     const PageButton = forwardRef<HTMLButtonElement, PageButtonProps>(
-        ({ setPage, pageNum, ...props }, ref) => {
+        ({ setPage, pageNum, isCurrentPage, ...props }, ref) => {
             return (
-                <Button onClick={() => setPage(pageNum)} ref={ref} {...props} />
+                <Button
+                    className={`rounded-md px-3 py-1 ${
+                        isCurrentPage ? "text-cyan-500" : ""
+                    }`}
+                    onClick={() => setPage(pageNum)}
+                    ref={ref}
+                    {...props}
+                />
             );
         }
     );
@@ -44,7 +52,7 @@ export default function PageSelector(props: {
                 </>
             )}
 
-            <PageButton setPage={props.setPage} pageNum={props.currentPage}>
+            <PageButton setPage={props.setPage} isCurrentPage pageNum={props.currentPage}>
                 {props.currentPage}
             </PageButton>
 
@@ -56,10 +64,7 @@ export default function PageSelector(props: {
                     >
                         {props.currentPage + 1}
                     </PageButton>
-                    <PageButton
-                        setPage={props.setPage}
-                        pageNum={props.size}
-                    >
+                    <PageButton setPage={props.setPage} pageNum={props.size}>
                         {">>"}
                     </PageButton>
                 </>
