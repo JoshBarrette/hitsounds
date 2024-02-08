@@ -16,22 +16,6 @@ export default function PageSelector(props: {
     const hasLeftPages = props.currentPage > 1;
     const hasRightPages = props.currentPage < props.size;
 
-    const PageButton = forwardRef<HTMLButtonElement, PageButtonProps>(
-        ({ setPage, pageNum, isCurrentPage, ...props }, ref) => {
-            return (
-                <Button
-                    className={`rounded-md px-3 py-1 ${
-                        isCurrentPage ? "text-cyan-500" : ""
-                    }`}
-                    onClick={() => setPage(pageNum)}
-                    ref={ref}
-                    {...props}
-                />
-            );
-        }
-    );
-    PageButton.displayName = "PageButton";
-
     if (props.size <= 1) {
         return null;
     }
@@ -72,3 +56,19 @@ export default function PageSelector(props: {
         </div>
     );
 }
+
+const PageButton = forwardRef<HTMLButtonElement, PageButtonProps>(
+    ({ setPage, pageNum, isCurrentPage, ...props }, ref) => {
+        return (
+            <Button
+                className={`rounded-md px-3 py-1 ${
+                    isCurrentPage ? "text-cyan-500" : ""
+                }`}
+                onClick={() => setPage(pageNum)}
+                ref={ref}
+                {...props}
+            />
+        );
+    }
+);
+PageButton.displayName = "PageButton";

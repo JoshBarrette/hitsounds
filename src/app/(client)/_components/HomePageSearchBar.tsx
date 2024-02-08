@@ -1,5 +1,4 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import { createRef } from "react";
 import { SearchButton } from "~/app/_components/SearchButton";

@@ -25,7 +25,9 @@ const AccordionContext = createContext<AccordionContextState | undefined>(
 function useAccordionContext() {
     const context = useContext(AccordionContext);
     if (!context) {
-        throw new Error("Used Accordion Header/Body elements outside of Accordion.");
+        throw new Error(
+            "Used Accordion Header/Body elements outside of Accordion."
+        );
     }
     return context;
 }
@@ -62,7 +64,7 @@ export const AccordionHeader = forwardRef<
     HTMLAttributes<HTMLButtonElement>
 >(({ className, ...props }) => {
     const { headerRef, isOpen, setIsOpen } = useAccordionContext();
-    let titleDivRounding = isOpen ? "rounded-t" : "rounded";
+    const titleDivRounding = isOpen ? "rounded-t" : "rounded";
 
     return (
         <button
@@ -95,18 +97,23 @@ export const AccordionBody = forwardRef<
 >(({ className, ...props }) => {
     const { contentRef, isOpen } = useAccordionContext();
 
+    const transition = {
+        transition: "height 250ms ease-in-out",
+    };
+    const openHeight = isOpen
+        ? {
+              height: contentRef.current?.scrollHeight,
+          }
+        : { height: "0px" };
+
     return (
         <div
             ref={contentRef}
             className={cn("accordion-body rounded-b bg-neutral-200", className)}
-            style={
-                isOpen
-                    ? {
-                          height: contentRef.current?.scrollHeight,
-                          transition: "height 250ms ease-in-out",
-                      }
-                    : { height: "0px", transition: "height 250ms ease-in-out" }
-            }
+            style={{
+                ...transition,
+                ...openHeight,
+            }}
             {...props}
         />
     );
