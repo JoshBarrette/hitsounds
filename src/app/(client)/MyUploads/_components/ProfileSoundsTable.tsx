@@ -10,56 +10,6 @@ import { Option, Select } from "~/app/_components/Select";
 import { TextInput } from "~/app/_components/TextInput";
 import { Audio, Source } from "~/app/_components/Audio";
 
-function SoundTable(props: {
-    soundsQuery: RouterOutputs["search"]["getMySounds"];
-    isDisabled: boolean;
-    handleDelete: (id: number) => void;
-}) {
-    return (
-        <div className="flex">
-            <table className="mx-auto border-separate border-spacing-y-1">
-                <thead>
-                    <tr className="text-center text-white">
-                        <th>name</th>
-                        <th>preview</th>
-                        <th>type</th>
-                        <th>options</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {props.soundsQuery?.map((sound: any) => (
-                        <tr key={sound.title} className="rounded-md bg-white">
-                            <td className="mx-2 w-96 break-words text-center text-lg font-medium">
-                                {sound.title}
-                            </td>
-                            <td>
-                                <Audio>
-                                    <Source src={sound.url} />
-                                </Audio>
-                            </td>
-                            <td className="px-4 font-medium">
-                                {sound.soundType}sound
-                            </td>
-                            <td className="ml-auto flex space-x-2 p-1">
-                                <DownloadButton url={sound.url} />
-                                <CopyLinkButton
-                                    soundID={sound.id}
-                                />
-                                <DeleteSoundButton
-                                    soundId={sound.id}
-                                    isDisabled={props.isDisabled}
-                                    handleDelete={props.handleDelete}
-                                />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
-}
-
 export default function ProfileSoundsTable() {
     const [isDisabled, setIsDisabled] = useState(false);
     const [title, setTitle] = useState("");
@@ -150,6 +100,56 @@ export default function ProfileSoundsTable() {
                     No Sounds Found
                 </p>
             )}
+        </div>
+    );
+}
+
+function SoundTable(props: {
+    soundsQuery: RouterOutputs["search"]["getMySounds"];
+    isDisabled: boolean;
+    handleDelete: (id: number) => void;
+}) {
+    return (
+        <div className="flex">
+            <table className="mx-auto border-separate border-spacing-y-1">
+                <thead>
+                    <tr className="text-center text-white">
+                        <th>name</th>
+                        <th>preview</th>
+                        <th>type</th>
+                        <th>options</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {props.soundsQuery?.map((sound: any) => (
+                        <tr key={sound.title} className="rounded-md bg-white">
+                            <td className="mx-2 w-96 break-words text-center text-lg font-medium">
+                                {sound.title}
+                            </td>
+                            <td>
+                                <Audio>
+                                    <Source src={sound.url} />
+                                </Audio>
+                            </td>
+                            <td className="px-4 font-medium">
+                                {sound.soundType}sound
+                            </td>
+                            <td className="ml-auto flex space-x-2 p-1">
+                                <DownloadButton url={sound.url} />
+                                <CopyLinkButton
+                                    soundID={sound.id}
+                                />
+                                <DeleteSoundButton
+                                    soundId={sound.id}
+                                    isDisabled={props.isDisabled}
+                                    handleDelete={props.handleDelete}
+                                />
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }

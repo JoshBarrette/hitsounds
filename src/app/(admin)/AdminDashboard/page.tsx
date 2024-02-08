@@ -13,12 +13,12 @@ export default function AdminPage() {
                 <DataCard
                     type={"Users"}
                     data={userCount.data ?? 0}
-                    href={"/AdminDashboard/Sounds"}
+                    href={"/AdminDashboard/Users"}
                 />
                 <DataCard
                     type={"Sounds"}
                     data={soundCount.data ?? 0}
-                    href={"/AdminDashboard/Users"}
+                    href={"/AdminDashboard/Sounds"}
                 />
             </div>
         </div>

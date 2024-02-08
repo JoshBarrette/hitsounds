@@ -1,6 +1,6 @@
 "use client";
 import { api } from "~/trpc/react";
-import { FormEvent, createRef, useRef, useState } from "react";
+import { FormEvent, createRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Option, Select } from "~/app/_components/Select";
 import { Button } from "~/app/_components/Button";
@@ -8,6 +8,11 @@ import { RouterOutputs, SoundTypes } from "~/trpc/shared";
 import { TextInput } from "~/app/_components/TextInput";
 import Link from "next/link";
 import useURL from "~/app/_components/URLContext";
+import {
+    Accordion,
+    AccordionBody,
+    AccordionHeader,
+} from "~/app/_components/Accordion";
 
 export default function SoundsList() {
     const inputRef = createRef<HTMLInputElement>();
@@ -116,7 +121,7 @@ export default function SoundsList() {
                     {s.data.map((sound, k) => {
                         return (
                             <SoundAccordion
-                                data={sound}
+                                sound={sound}
                                 refreshSounds={() => {
                                     s.refetch();
                                     setCurrentSoundID(s.data![0].id);
@@ -135,43 +140,27 @@ export default function SoundsList() {
     );
 }
 
-function SoundAccordion(props: {
-    data: RouterOutputs["admin"]["searchSounds"][0];
+function SoundAccordion({
+    sound,
+    refreshSounds,
+}: {
+    sound: RouterOutputs["admin"]["searchSounds"][0];
     refreshSounds: () => void;
 }) {
-    const [isOpen, setIsOpen] = useState(false);
-    const contentRef = useRef<HTMLDivElement | null>(null);
-    let titleDivRounding = isOpen ? "rounded-t" : "accordion-header rounded";
-
     return (
-        <div className="overflow-hidden text-xl text-black">
-            <button
-                className={`h-full w-full bg-white px-4 py-2 ${titleDivRounding}`}
-                onClick={() => setIsOpen(!isOpen)}
-            >
+        <Accordion>
+            <AccordionHeader className="space-x-6">
                 <p>
-                    {props.data.title} - dbID: {props.data.id}
+                    {sound.title} - dbID: {sound.id}
                 </p>
-            </button>
-
-            <div
-                ref={contentRef}
-                className="accordion-body rounded-b bg-neutral-200"
-                style={
-                    isOpen
-                        ? { height: contentRef.current?.scrollHeight }
-                        : { height: "0px" }
-                }
-            >
+            </AccordionHeader>
+            <AccordionBody>
                 <div className="px-4 py-2">
-                    <DataDiv sound={props.data} />
-                    <OptionsDiv
-                        sound={props.data}
-                        refreshSounds={props.refreshSounds}
-                    />
+                    <DataDiv sound={sound} />
+                    <OptionsDiv sound={sound} refreshSounds={refreshSounds} />
                 </div>
-            </div>
-        </div>
+            </AccordionBody>
+        </Accordion>
     );
 }
 

@@ -1,7 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { FormEvent, createRef, useRef, useState } from "react";
+import { FormEvent, createRef, useState } from "react";
+import {
+    Accordion,
+    AccordionBody,
+    AccordionHeader,
+} from "~/app/_components/Accordion";
 import { Button } from "~/app/_components/Button";
 import PageSelector from "~/app/_components/PageSelector";
 import { Option, Select } from "~/app/_components/Select";
@@ -77,7 +82,7 @@ export default function UsersList() {
                 </p>
             ) : (
                 <div className="space-y-2">
-                    {s.data?.map((d, k) => <UserAccordion data={d} key={k} />)}
+                    {s.data?.map((d, k) => <UserAccordion d={d} key={k} />)}
                 </div>
             )}
 
@@ -90,42 +95,21 @@ export default function UsersList() {
     );
 }
 
-function UserAccordion(props: {
-    data: RouterOutputs["admin"]["searchUsers"][0];
-}) {
-    const [isOpen, setIsOpen] = useState(false);
-    const contentRef = useRef<HTMLDivElement | null>(null);
-    let titleDivRounding = isOpen ? "rounded-t" : "accordion-header rounded";
-    let titleDivColoring = props.data.isBanned
-        ? "bg-red-600 text-white"
-        : "bg-white";
-
+function UserAccordion({ d }: { d: RouterOutputs["admin"]["searchUsers"][0] }) {
     return (
-        <div className="overflow-hidden text-xl text-black">
-            <button
-                className={`space-x-6 px-4 py-2 ${titleDivColoring} ${titleDivRounding}`}
-                onClick={() => setIsOpen(!isOpen)}
-            >
+        <Accordion>
+            <AccordionHeader className="space-x-6">
                 <p>
-                    dbID: {props.data.id} - userID: {props.data.userID}
+                    dbID: {d.id} - userID: {d.userID}
                 </p>
-            </button>
-
-            <div
-                ref={contentRef}
-                className="accordion-body rounded-b bg-neutral-200"
-                style={
-                    isOpen
-                        ? { height: contentRef.current?.scrollHeight }
-                        : { height: "0px" }
-                }
-            >
+            </AccordionHeader>
+            <AccordionBody>
                 <div className="px-4 py-2">
-                    <UserInfoTable data={props.data} />
-                    <OptionButtons data={props.data} />
+                    <UserInfoTable data={d} />
+                    <OptionButtons data={d} />
                 </div>
-            </div>
-        </div>
+            </AccordionBody>
+        </Accordion>
     );
 }
 
