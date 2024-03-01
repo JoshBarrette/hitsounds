@@ -8,7 +8,7 @@ export const Select = forwardRef<
     return (
         <select
             className={cn(
-                "text-md my-auto rounded-sm p-1.5 font-sans font-medium text-black bg-white",
+                "text-md my-auto rounded-sm bg-white p-1.5 font-sans font-medium text-black ring-0 ring-neutral-400 transition-all focus:ring",
                 className
             )}
             {...props}

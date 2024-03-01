@@ -1,20 +1,32 @@
 import { InputHTMLAttributes, forwardRef } from "react";
 import { cn } from "~/utils";
 
-export const TextInput = forwardRef<
-    HTMLInputElement,
-    InputHTMLAttributes<HTMLInputElement>
->(({ className, ...props }, ref) => {
-    return (
-        <input
-            type="text"
-            className={cn(
-                "my-auto w-full rounded-lg text-center leading-8 text-black placeholder:text-neutral-500 focus:outline-none",
-                className
-            )}
-            ref={ref}
-            {...props}
-        />
-    );
-});
+interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+    useShortcut?: boolean;
+    shortcutText?: string;
+}
+
+export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
+    ({ className, useShortcut = false, shortcutText, ...props }, ref) => {
+        return (
+            <div className="relative flex w-full items-center justify-center">
+                <input
+                    type="text"
+                    className={cn(
+                        "my-auto w-full rounded-sm text-center leading-8 text-black ring-0 ring-neutral-400 transition-all placeholder:text-neutral-500 focus:outline-none focus:ring",
+                        className
+                    )}
+                    ref={ref}
+                    {...props}
+                />
+
+                {useShortcut && (
+                    <div className="absolute right-1 rounded border border-neutral-700 bg-neutral-300 px-1.5 py-0.5 text-sm text-neutral-800">
+                        {shortcutText}
+                    </div>
+                )}
+            </div>
+        );
+    }
+);
 TextInput.displayName = "TextInput";

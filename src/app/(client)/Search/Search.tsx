@@ -86,7 +86,7 @@ export default function Search() {
             </p>
             <form
                 onSubmit={handleFormSubmit}
-                className="my-2 text-center text-white"
+                className="my-2 space-y-2 text-center text-white"
             >
                 <TextInput
                     ref={inputRef}

@@ -15,7 +15,7 @@ export default function UserDopDown() {
     return (
         <div className="group relative my-auto ml-auto h-full text-lg font-medium hover:text-black">
             {user.isLoaded && (
-                <div className="p-1.5 group-hover:bg-neutral-400">
+                <div className="p-1.5 group-hover:bg-white">
                     <Image
                         src={user.user!.imageUrl}
                         className="rounded-full"
@@ -25,7 +25,7 @@ export default function UserDopDown() {
                     />
                 </div>
             )}
-            <div className="absolute right-0 z-40 scale-0 bg-white py-2 shadow-lg group-hover:scale-100">
+            <div className="absolute right-0 z-40 rounded-b-sm rounded-tl-sm scale-0 bg-white py-2 shadow-lg group-hover:scale-100">
                 <Link href={"/MyProfile"} className="mb-2">
                     <div className="flex p-2 hover:bg-neutral-400">
                         {user.isLoaded && (

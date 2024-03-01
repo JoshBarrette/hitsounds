@@ -4,12 +4,11 @@ import { Inter } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
 import { cookies } from "next/headers";
 import { URLProvider } from "./_components/URLContext";
 import { getBaseUrl } from "~/trpc/shared";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin-ext"] });
 
 export const metadata: Metadata = {
     title: "hitsounds",
