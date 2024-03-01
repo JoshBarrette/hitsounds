@@ -43,18 +43,19 @@ export default function ProfileSoundsTable() {
         setTitle(inputRef.current?.value ?? "");
         setSortBy(sortRef.current?.value ?? "");
         setSoundType(typeRef.current?.value as SoundTypes);
+        soundsQuery.refetch();
     }
 
     return (
         <div>
             <form
                 onSubmit={handleFormSubmit}
-                className="my-2 text-center text-white"
+                className="my-2 space-y-2 text-center text-white"
             >
                 <TextInput
                     ref={inputRef}
                     placeholder="search"
-                    defaultValue={""}
+                    defaultValue={"any"}
                     className="w-96"
                 />
                 <label htmlFor="type" className="mx-2">
@@ -95,10 +96,16 @@ export default function ProfileSoundsTable() {
                     isDisabled={isDisabled}
                     handleDelete={handleDelete}
                 />
-            ) : (
+            ) : soundsQuery.isLoading ? (
                 <p className="mt-8 text-center text-3xl font-medium text-white">
-                    No Sounds Found
+                    Loading...
                 </p>
+            ) : (
+                soundsQuery.isFetched && (
+                    <p className="mt-8 text-center text-3xl font-medium text-white">
+                        No Sounds Found
+                    </p>
+                )
             )}
         </div>
     );
@@ -137,9 +144,7 @@ function SoundTable(props: {
                             </td>
                             <td className="ml-auto flex space-x-2 p-1">
                                 <DownloadButton url={sound.url} />
-                                <CopyLinkButton
-                                    soundID={sound.id}
-                                />
+                                <CopyLinkButton soundID={sound.id} />
                                 <DeleteSoundButton
                                     soundId={sound.id}
                                     isDisabled={props.isDisabled}
