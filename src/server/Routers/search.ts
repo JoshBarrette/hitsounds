@@ -1,6 +1,7 @@
 import { publicProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
 import { z } from "zod";
 import { getPageCount, soundsOrderBy } from "~/trpc/shared";
+import { getSoundType } from "./utils";
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -37,7 +38,7 @@ export const searchRouter = createTRPCRouter({
                     title: {
                         contains: input?.title ?? undefined,
                     },
-                    soundType: input?.soundType ?? undefined,
+                    soundType: getSoundType(input?.soundType),
                 },
                 orderBy,
                 take: input?.count ?? DEFAULT_PAGE_SIZE,
@@ -67,7 +68,7 @@ export const searchRouter = createTRPCRouter({
                     title: {
                         contains: input?.title ?? undefined,
                     },
-                    soundType: input?.soundType ?? undefined,
+                    soundType: getSoundType(input?.soundType),
                 },
             });
 
@@ -116,7 +117,7 @@ export const searchRouter = createTRPCRouter({
                         uploads: {
                             where: {
                                 title: { contains: input.title ?? undefined },
-                                soundType: input?.soundType ?? undefined,
+                                soundType: getSoundType(input.soundType),
                             },
                             orderBy,
                         },

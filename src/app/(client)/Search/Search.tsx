@@ -27,16 +27,14 @@ export default function Search() {
     const pager =
         api.search.searchPageCount.useQuery({
             title: title ?? keywordsParam,
-            soundType: (typeParam ??
-                (soundType !== "any" ? soundType : undefined)) as SoundTypes,
+            soundType: (typeParam ?? soundType) as SoundTypes,
         }).data ?? 1;
-    const searcher = api.search.search.useQuery({
+    const { data, isLoading, isFetched } = api.search.search.useQuery({
         title: title ?? keywordsParam,
-        soundType: (typeParam ??
-            (soundType !== "any" ? soundType : undefined)) as SoundTypes,
+        soundType: (typeParam ?? soundType) as SoundTypes,
         sortBy: sortBy ?? sortParam ?? "new",
         page: page ?? (pageParam !== null ? parseInt(pageParam) : undefined),
-    }).data;
+    });
 
     function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -126,11 +124,11 @@ export default function Search() {
                     Search
                 </Button>
             </form>
-            {searcher !== undefined && searcher.length !== 0 ? (
+            {data !== undefined && data.length !== 0 ? (
                 <>
                     <div className="flex">
                         <div className="m-auto">
-                            <SoundsTable sounds={searcher} />
+                            <SoundsTable sounds={data} />
                         </div>
                     </div>
                     <div className="mt-2 flex w-full">
@@ -141,10 +139,16 @@ export default function Search() {
                         />
                     </div>
                 </>
-            ) : (
+            ) : isLoading ? (
                 <p className="text-center text-3xl font-medium text-white">
-                    No Sounds Found
+                    Loading...
                 </p>
+            ) : (
+                isFetched && (
+                    <p className="text-center text-3xl font-medium text-white">
+                        No Sounds Found...
+                    </p>
+                )
             )}
         </div>
     );

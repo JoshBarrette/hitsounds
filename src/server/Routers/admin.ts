@@ -4,6 +4,7 @@ import { SoundType } from "../db";
 import { z } from "zod";
 import { s3Delete } from "~/s3";
 import { getPageCount, soundsOrderBy, userOrderBy } from "~/trpc/shared";
+import { getSoundType } from "./utils";
 
 const DEFAULT_PAGE_SIZE = 25;
 
@@ -92,10 +93,7 @@ export const adminRouter = createTRPCRouter({
                     title: {
                         contains: input?.title ?? undefined,
                     },
-                    soundType:
-                        input?.soundType === "any"
-                            ? undefined
-                            : (input?.soundType as string),
+                    soundType: getSoundType(input.soundType),
                     uploaderId,
                 },
                 include: {
@@ -146,10 +144,7 @@ export const adminRouter = createTRPCRouter({
                     title: {
                         contains: input?.title ?? undefined,
                     },
-                    soundType:
-                        input?.soundType === "any"
-                            ? undefined
-                            : (input?.soundType as string),
+                    soundType: getSoundType(input?.soundType),
                     uploaderId,
                 },
             });
