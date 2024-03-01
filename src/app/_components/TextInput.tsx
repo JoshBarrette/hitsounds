@@ -3,7 +3,7 @@ import { cn } from "~/utils";
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
     useShortcut?: boolean;
-    shortcutText: string;
+    shortcutText?: string;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
