@@ -11,7 +11,6 @@ type PageProps = {
 export async function generateMetadata({
     params,
 }: PageProps): Promise<Metadata> {
-    console.log(params);
     const sound = await api.search.getSoundByID.query(
         parseInt(params.id as string)
     );

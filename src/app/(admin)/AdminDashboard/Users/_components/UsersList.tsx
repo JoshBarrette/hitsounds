@@ -51,7 +51,7 @@ export default function UsersList() {
 
     return (
         <div className="flex h-full flex-col items-center text-white">
-            <form onSubmit={handleFormSubmit} className="my-2 text-center">
+            <form onSubmit={handleFormSubmit} className="my-2 text-center space-y-2">
                 <TextInput
                     type="text"
                     ref={inputRef}

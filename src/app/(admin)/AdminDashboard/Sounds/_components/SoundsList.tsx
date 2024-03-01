@@ -49,9 +49,6 @@ export default function SoundsList() {
         uploader,
     });
 
-    const [currentSoundID, setCurrentSoundID] = useState(-1);
-    const currentSound = api.admin.getSingleSound.useQuery(currentSoundID);
-
     function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
@@ -69,7 +66,10 @@ export default function SoundsList() {
 
     return (
         <div className="flex h-full flex-col items-center text-white">
-            <form onSubmit={handleFormSubmit} className="my-2 text-center">
+            <form
+                onSubmit={handleFormSubmit}
+                className="my-2 space-y-2 text-center"
+            >
                 <div className="mb-2 flex space-x-2">
                     <TextInput
                         ref={inputRef}
@@ -111,7 +111,7 @@ export default function SoundsList() {
                     <Option value="za">{"z->a"}</Option>
                 </Select>
                 <br />
-                <Button type="submit" className="mt-2">
+                <Button type="submit">
                     Filter
                 </Button>
             </form>
@@ -124,7 +124,6 @@ export default function SoundsList() {
                                 sound={sound}
                                 refreshSounds={() => {
                                     s.refetch();
-                                    setCurrentSoundID(s.data![0].id);
                                 }}
                                 key={k}
                             />

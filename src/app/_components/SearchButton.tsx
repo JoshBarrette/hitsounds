@@ -12,7 +12,7 @@ export const SearchButton = forwardRef<HTMLButtonElement, SearchButtonProps>(
         return (
             <button
                 className={cn(
-                    "rounded-r-lg border-l border-black bg-neutral-400 p-1 h-10",
+                    "h-10 rounded-r-lg border-l border-black bg-neutral-400 p-1",
                     className
                 )}
                 {...props}

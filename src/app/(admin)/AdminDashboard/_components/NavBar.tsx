@@ -1,5 +1,5 @@
 "use client";
-import { redirect, usePathname, useRouter } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { NavButton } from "~/app/_components/NavButton";
 import { api } from "~/trpc/react";
 
@@ -12,21 +12,28 @@ export default function NavBar() {
     }
 
     return (
-        <nav className="flex bg-neutral-800 text-center">
-            <NavButton href="/AdminDashboard">Admin Dashboard</NavButton>
+        <div className="flex w-full justify-center bg-neutral-800">
+            <nav className="container flex text-center ">
+                <div className="flex flex-grow">
+                    <NavButton href="/AdminDashboard">
+                        Admin Dashboard
+                    </NavButton>
+                    <NavButton
+                        active={path === "Users"}
+                        href="/AdminDashboard/Users"
+                    >
+                        Uploaders
+                    </NavButton>
+                    <NavButton
+                        active={path === "Sounds"}
+                        href="/AdminDashboard/Sounds"
+                    >
+                        Sounds
+                    </NavButton>
+                </div>
 
-            <NavButton inactive={path !== "Users"} href="/AdminDashboard/Users">
-                Uploaders
-            </NavButton>
-            <NavButton
-                inactive={path !== "Sounds"}
-                href="/AdminDashboard/Sounds"
-            >
-                Sounds
-            </NavButton>
-            <NavButton href="/" className="absolute right-0">
-                Back to Home
-            </NavButton>
-        </nav>
+                <NavButton href="/">Back to Home</NavButton>
+            </nav>
+        </div>
     );
 }
