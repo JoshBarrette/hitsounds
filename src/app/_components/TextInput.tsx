@@ -3,10 +3,11 @@ import { cn } from "~/utils";
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
     useShortcut?: boolean;
+    shortcutText: string;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-    ({ className, useShortcut = false, ...props }, ref) => {
+    ({ className, useShortcut = false, shortcutText, ...props }, ref) => {
         return (
             <div className="relative flex w-full items-center justify-center">
                 <input
@@ -21,7 +22,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
 
                 {useShortcut && (
                     <div className="absolute right-1 rounded border border-neutral-700 bg-neutral-300 px-1.5 py-0.5 text-sm text-neutral-800">
-                        CtrlK
+                        {shortcutText}
                     </div>
                 )}
             </div>

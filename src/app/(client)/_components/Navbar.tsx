@@ -55,6 +55,7 @@ export default function Navbar() {
                         placeholder="search"
                         className="rounded-sm rounded-r-none"
                         useShortcut
+                        shortcutText="CtrlK"
                     />
                     <SearchButton
                         className="h-8 rounded-r-sm"
